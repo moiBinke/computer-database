@@ -76,9 +76,10 @@ public class Programme{
 //        LocalDateTime formatLocalDateTime = LocalDateTime.parse(dateString, formatter);
 //        Timestamp timeStamp = Timestamp.valueOf(formatLocalDateTime.toLocalDate().atStartOfDay());
         
-        String sDate1="31-12-1998";  
-        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);  
+//        String sDate1="31-12-1998";  
+        Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(dateString);  
         Timestamp timeStamp=new Timestamp(date1.getTime()); 
+        System.out.println(timeStamp);
 	    return timeStamp;
 	}
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
@@ -97,12 +98,12 @@ public class Programme{
 				newComputer.setName(lecteur.next());
 				System.out.println("Enter le id du company");
 				newComputer.setCompany_id(lecteur.nextLong());
-//			    System.out.println("Enter la date introduced");
-//			    String dateStringIntroduced=lecteur.next();
-//			    newComputer.setIntroduced(convertToTimeStamp(dateStringIntroduced));
-//			    System.out.println("Enter la date discontinued");
-//			    String dateStringDiscontinued=lecteur.next();
-//			    newComputer.setDiscontinued(convertToTimeStamp(dateStringDiscontinued));
+			    System.out.println("Enter la date introduced");
+			    String dateStringIntroduced=lecteur.next();
+			    newComputer.setIntroduced(convertToTimeStamp(dateStringIntroduced));
+			    System.out.println("Enter la date discontinued");
+			    String dateStringDiscontinued=lecteur.next();
+			    newComputer.setDiscontinued(convertToTimeStamp(dateStringDiscontinued));
 			    System.out.println(computerDAO.addCommputer(newComputer));
 			    System.out.println("Taper sur n'importe quel chiffre puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
