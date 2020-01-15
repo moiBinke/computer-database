@@ -8,4 +8,6 @@ public interface CompanyDAO {
 
 	public ArrayList<Company>getCompanyList();
 	public Company getCompanyById(Long idCompany);
+	
+	
 }
