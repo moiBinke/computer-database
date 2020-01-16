@@ -35,7 +35,7 @@ public class Programme{
          	
             System.out.println("\n**************************************************************Computer Data Base**********************************************************************************\n\n");
 
-            System.out.println("\n               ****************************************************COULIBALY*************************************************************************\n");
+            System.out.println("\n               *************************************************COULIBALY ISSA*************************************************************************\n");
             System.out.println("\n                                       *********************Stage-Excilys-janvier 2020*************************\n");
             System.out.println("                                                  *************************************");
             System.out.println("                                                  *                                   *");
@@ -48,13 +48,14 @@ public class Programme{
             System.out.println("\n                                                      23- Update Computer discontinued date");
             System.out.println("\n                                                      24- Update Computer company_id");
             System.out.println("\n                                                      3-  Select a computer By Id");
-            System.out.println("\n                                                      41-  Display all computers");
-            System.out.println("\n                                                      42-  Display all computers by page");
+            System.out.println("\n                                                      41- Display all computers");
+            System.out.println("\n                                                      42- Display all computers by page");
+            System.out.println("\n                                                      43- paginer");
             System.out.println("\n                                                      5-  Delete computer");
             System.out.println("\n                                                      6-  Display all companies ");
             System.out.println("\n                                                      7-  Select a company by id ");
             System.out.println("\n                                                      8-  Quitter\n");
-            System.out.println("\n\n\n\n\n\nSaisissez votre Choix :");
+            System.out.println("\n\n\n\nSaisissez votre Choix :");
             System.out.print( "Enter votre choix en tapant le numéro correspondant: \n" );
             Scanner lecteur = new Scanner( System.in );
             Choix=lecteur.nextInt();
@@ -189,6 +190,29 @@ public class Programme{
 				System.out.println(listComputerPage);
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
+				break;
+			case 43:
+				Pages computerPaginer=new Pages(computerDAO);
+				ArrayList<Computer>page=new ArrayList<Computer>();
+				System.out.println("entre la taille des page");
+				computerPaginer.setTaillePage(lecteur.nextInt());
+				String controle;
+				while(!computerPaginer.getStop()) {
+		            System.out.println("                                         Pour manipuler cette liste il faut utiliser les symboles suivants                                                \n");
+					System.out.println("                                                                     '<':Previous                                                                                                          \n");
+					System.out.println("                                                                     '>':Next                                                                                                         \n");
+					System.out.println("                                                                     '!':Stop                                                                                                          \n");
+					controle=lecteur.next();
+					if(controle.equals("!")) {
+						computerPaginer.setStop(true);
+					}
+					else {
+						page=computerPaginer.pagination(controle);
+					    System.out.println("\n               ****************************************************Page "+computerPaginer.getIteration()+"*************************************************************************               \n");
+					    System.out.println("                                                                     < Page"+computerPaginer.getIteration()+" >                                                                                                          \n");
+						System.out.println(page);
+					}
+				}
 				break;
 			case 5:
 				Long computerToDeleteId;
