@@ -13,6 +13,12 @@ import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
 
+/**
+ *DAO: implementation de CompanyDAO.
+ *@author COULIBALY Issa
+ *@version 1.0
+ *@since   2020-01-14 
+ */
 public class CompanyDAOImpl implements CompanyDAO {
 
 	private DaoFactory daoFactory;
@@ -40,7 +46,9 @@ public class CompanyDAOImpl implements CompanyDAO {
 			}
 		}
 	}
-	/* fermeture du resultset */
+	/**
+	 *  fermeture du resultset
+	 *   */
 	public static void fermetureStatement(Statement statement) {
 		if(statement!=null) {
 			try {
@@ -50,7 +58,9 @@ public class CompanyDAOImpl implements CompanyDAO {
 			}
 		}
 	}
-	/* fermeture de connexion */
+	/**
+	 *  fermeture de connexion 
+	 *  */
 	public static void fermetureConnection(Connection connection) {
 		if(connection!=null) {
 			try {
@@ -60,15 +70,16 @@ public class CompanyDAOImpl implements CompanyDAO {
 			}
 		}
 	}
-	/* fermeture de tous */
+	/**
+	 *  fermeture de tous 
+	 *  */
 	public static void fermeture(ResultSet resultset,Statement statement,Connection connection) {
 		fermetureResultset( resultset);
 		fermetureStatement( statement);
 		fermetureConnection( connection);
 	}
 	
-	
-	/*
+	/**
 	 * Initialise la requête préparée basée sur la connexion passée en argument,
 	 * avec la requête SQL et les objets donnés.
 	 */
@@ -80,7 +91,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	    return preparedStatement;
 	}
 
-	/*
+	/**
 	 * Les méthodes implémentées
 	 */
 	
@@ -93,7 +104,9 @@ public class CompanyDAOImpl implements CompanyDAO {
 	    ArrayList<Company>listeCompany=new ArrayList<Company>(); 
 		Company company;
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
+	        /**
+	         *  Récupération d'une connexion depuis la Factory 
+	         *  */
 	        connexion = daoFactory.getConnexion();
 	        preparedStatement = initialiserRequetePreparee( connexion, DAORequetes.GET_List_COMPANY, false);
 	        resultSet = preparedStatement.executeQuery();
@@ -119,7 +132,9 @@ public class CompanyDAOImpl implements CompanyDAO {
 	    Company company = null;
 
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
+	        /**
+	         *  Récupération d'une connexion depuis la Factory 
+	         *  */
 	        connexion = daoFactory.getConnexion();
 	        preparedStatement = initialiserRequetePreparee( connexion, DAORequetes.GET_COMPANY_BY_ID, false, idCompany );
 	        resultSet = preparedStatement.executeQuery();

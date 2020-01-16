@@ -6,12 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.excilys.computerDatabase.exceptions.DAOExceptions;
 import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.model.Computer;
-
+/**
+ *DAO: implementation de ComputerDAO.
+ *@author COULIBALY Issa
+ *@version 1.0
+ *@since   2020-01-16 
+ */
 public class ComputerDAOImpl implements ComputerDAO {
 	private DaoFactory daoFactory;
 	
@@ -29,6 +35,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	 * Fonctions de connection
 	 */
 	/* fermeture du resultset */
+	
 	public static void fermetureResultset(ResultSet resultset) {
 		if(resultset!=null) {
 			try {
@@ -199,9 +206,156 @@ public class ComputerDAOImpl implements ComputerDAO {
 		return null;
 	}
 	@Override
-	public Computer updateComputer(Object... object) {
-		// TODO Auto-generated method stub
+	public Computer updateComputerName(Long idComputer,String name) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Computer computer = null;
+	    int estMisAjour=0;
+		try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnexion();
+	        preparedStatement = initialiserRequetePreparee( connexion, DAORequetes.UPDATE_COMPUTER_NAME, false,name, idComputer  );
+	        estMisAjour=preparedStatement.executeUpdate();
+	       System.out.println(estMisAjour);
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        if (estMisAjour!=0) {
+				computer = getComputer(idComputer);
+				
+		        
+	        }
+	    } catch ( SQLException e ) {
+	    	e.printStackTrace();
+	     
+	    } finally {
+	        fermeture( resultSet, preparedStatement, connexion );
+	    }
+		if(estMisAjour!=0) {
+			return computer;
+		}
 		return null;
+	}
+
+	@Override
+	public Computer updateComputerIntroducedDate(Long computerToUpdateIntroducedDateId, Timestamp newIntroducedDate) {
+		Computer computer = getComputer(computerToUpdateIntroducedDateId);
+		computer.setIntroduced(newIntroducedDate);
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    int estMisAjour=0;
+		try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnexion();
+	        preparedStatement = initialiserRequetePreparee( connexion, DAORequetes.UPDATE_COMPUTER_INTRODUCED_DATE, false,computer.getIntroduced(), computer.getId()  );
+	        estMisAjour=preparedStatement.executeUpdate();
+	       System.out.println(estMisAjour);
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        if (estMisAjour!=0) {
+				computer = getComputer(computerToUpdateIntroducedDateId);
+				
+		        
+	        }
+	    } catch ( SQLException e ) {
+	    	e.printStackTrace();
+	     
+	    } finally {
+	        fermeture( resultSet, preparedStatement, connexion );
+	    }
+		if(estMisAjour!=0) {
+			return computer;
+		}
+		return null;
+	}
+
+	@Override
+	public Computer updateComputerDiscontinuedDate(Long computerToUpdateDiscontinuedDateId,
+		Timestamp newDiscontinuedDate) {
+		Computer computer = getComputer(computerToUpdateDiscontinuedDateId);
+		computer.setDiscontinued(newDiscontinuedDate);
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    int estMisAjour=0;
+		try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnexion();
+	        preparedStatement = initialiserRequetePreparee( connexion, DAORequetes.UPDATE_COMPUTER_DISCONTINUED_DATE, false,computer.getDiscontinued(), computer.getId()  );
+	        estMisAjour=preparedStatement.executeUpdate();
+	       System.out.println(estMisAjour);
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        if (estMisAjour!=0) {
+				computer = getComputer(computerToUpdateDiscontinuedDateId);
+				
+		        
+	        }
+	    } catch ( SQLException e ) {
+	    	e.printStackTrace();
+	     
+	    } finally {
+	        fermeture( resultSet, preparedStatement, connexion );
+	    }
+		if(estMisAjour!=0) {
+			return computer;
+		}
+		return null;
+	}
+
+	@Override
+	public Computer updateComputerCompany(Long computerToUpdateCompanyId, Long newCompanyId) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Computer computer = null;
+	    int estMisAjour=0;
+		try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnexion();
+	        preparedStatement = initialiserRequetePreparee( connexion, DAORequetes.UPDATE_COMPUTER_COMPANY_ID, false,newCompanyId, computerToUpdateCompanyId  );
+	        estMisAjour=preparedStatement.executeUpdate();
+	       System.out.println(estMisAjour);
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        if (estMisAjour!=0) {
+				computer = getComputer(computerToUpdateCompanyId);
+				
+		        
+	        }
+	    } catch ( SQLException e ) {
+	    	e.printStackTrace();
+	     
+	    } finally {
+	        fermeture( resultSet, preparedStatement, connexion );
+	    }
+		if(estMisAjour!=0) {
+			return computer;
+		}
+		return null;
+	}
+
+	@Override
+	public ArrayList<Computer> getComputerListPage(int ligneDebut, int  taillePage ) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    ArrayList<Computer>listeComputer=new ArrayList<Computer>(); 
+		Computer computer;
+		try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnexion();
+	        preparedStatement = initialiserRequetePreparee( connexion, DAORequetes.GET_PAGE_COMPUTER,false,ligneDebut,taillePage);
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+				computer = ComputerMapper.mapComputer(resultSet);
+				listeComputer.add(computer);
+	        }
+	    } catch ( SQLException e ) {
+	       e.printStackTrace();
+	    } finally {
+	        fermeture( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listeComputer;
 	}
 
 	

@@ -2,7 +2,7 @@ package com.excilys.computerDatabase.model;
 
 import  java.sql.Timestamp;
 
-/*
+/**
  * model Computer .
  *@author COULIBALY Issa
  *@version 1.0
@@ -68,11 +68,17 @@ public class Computer {
 				if(this.discontinued.after(introduced)) {
 					this.introduced = introduced;
 				}
+				else {
+					System.out.println("discontinued doit etre superieur à introduced");
+				}
 			}
 			else {
 				this.introduced = introduced;
 			}
 			
+		}
+		else {
+			this.introduced = introduced;
 		}
 	}
 	public Timestamp getDiscontinued() {
@@ -81,14 +87,20 @@ public class Computer {
 	public void setDiscontinued(Timestamp discontinued) {
 		if(discontinued!=null) {
 			if(this.introduced!=null) {
-				if(discontinued.after(this.introduced)) {
+				if(this.introduced.before(discontinued)) {
 					this.discontinued = discontinued;
+				}
+				else {
+					System.out.println("discontinued doit etre superieur à introduced");
 				}
 			}
 			else {
 				this.discontinued = discontinued;
 			}
 			
+		}
+		else {
+			this.discontinued=discontinued;
 		}
 		
 	}

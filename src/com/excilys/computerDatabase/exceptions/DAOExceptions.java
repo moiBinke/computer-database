@@ -1,24 +1,22 @@
 package com.excilys.computerDatabase.exceptions;
-/*
+/**
  * Classe pour traiter les exceptions liées au jdbc à sql.
  *@author COULIBALY Issa
  *@version 1.0
  *@since   2020-01-14 
+ *@see RuntimeException
  */
 public class DAOExceptions extends RuntimeException{
 
 	/**
 	   * Constructeur sans argument
-	   * @exception IOException On input error.
-	   * @see IOException
+	   * 
 	   */
 	public DAOExceptions() {
 		super();
 	}
 	/**
 	   * Constructeur avec  argument et l'erreur 
-	   * @param args Unused.
-	   * @return Nothing.
 	   */
 	public DAOExceptions(String message, Throwable cause) {
 		super(message, cause);
@@ -32,7 +30,7 @@ public class DAOExceptions extends RuntimeException{
 	}
 	/**
 	   * Constructeur avec une erreur en argument
-	   * @param message qui est le message à envoyer en cas d'exception liée à sql ou au jdbc
+	   * @param cause: erreur levéee
 	   */
 	public DAOExceptions(Throwable cause) {
 		super(cause);

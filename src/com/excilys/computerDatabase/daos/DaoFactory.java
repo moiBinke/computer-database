@@ -83,10 +83,6 @@ public class DaoFactory {
 	public Connection getConnexion() throws SQLException{
 		return DriverManager.getConnection(url,nomUtilisateur,motDePasse);
 	}
-	/*
-	public CompanyDAO getCompanyDao() {
-		return new CompanyDAOImpl(this);
-	}*/
 	public ComputerDAO getCompanyDao() {
 		return new ComputerDAOImpl(this);
 	}

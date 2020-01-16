@@ -1,6 +1,6 @@
 package com.excilys.computerDatabase.model;
 
-/*
+/**
  * model Company .
  *@author COULIBALY Issa
  *@version 1.0
