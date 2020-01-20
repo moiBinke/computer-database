@@ -15,7 +15,7 @@ import com.excilys.computerDatabase.exceptions.DAOConfigurationException;
  */
 public class DaoFactory {
 
-	public static final String FICHIER_PROPERTIES="com/excilys/computerDatabase/daos/dao.properties";
+	public static final String FICHIER_PROPERTIES="resources/dao.properties";
 	public static final String PROPERTY_URL="url";
 	public static final String PROPERTY_DRIVER="driver";
 	public static final String PROPERTY_NOM_UTILISATEUR="nomUtilisateur";
@@ -83,7 +83,10 @@ public class DaoFactory {
 	public Connection getConnexion() throws SQLException{
 		return DriverManager.getConnection(url,nomUtilisateur,motDePasse);
 	}
-	public ComputerDAO getCompanyDao() {
-		return new ComputerDAOImpl(this);
+	public ComputerDAO getComputerDao() {
+		return ComputerDAO.getInstance(this);
+	}
+	public CompanyDAO getCompanyDao() {
+		return CompanyDAO.getInstance(this);
 	}
 }

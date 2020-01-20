@@ -1,6 +1,6 @@
 package com.excilys.computerDatabase.model;
 
-import  java.sql.Timestamp;
+import java.time.LocalDate;
 
 /**
  * model Computer .
@@ -11,40 +11,16 @@ import  java.sql.Timestamp;
 public class Computer {
 	private Long id;
 	private String name;
-	private Timestamp introduced;
-	private Timestamp discontinued;
-	private Long company_id;
-	public Computer() {
-		super();
-	}
-	public Computer(String name) {
-		super();
-		this.name = name;
-	}
+	private LocalDate introduced;
+	private LocalDate discontinued;
+	private Company company;
 	
-	public Computer( String name, Timestamp introduced) {
-		super();
-		this.name = name;
-		this.introduced = introduced;
-	}
-	
-	public Computer( String name, Timestamp introduced, Timestamp discontinued, Long company_id) {
-		
-		super();
-		this.name = name;
-		if(discontinued.after(introduced)) {
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		}
-		this.company_id = company_id;
-	}
-	public Computer( String name, Timestamp introduced, Timestamp discontinued) {
-		super();
-		this.name = name;
-		if(discontinued.after(introduced)) {
-			this.introduced = introduced;
-			this.discontinued = discontinued;
-			}
+	private Computer(ComputerBuilder computerBuilder) {
+		this.id=computerBuilder.id;
+		this.name=computerBuilder.name;
+		this.introduced=computerBuilder.introduced;
+		this.discontinued=computerBuilder.discontinued;
+		this.company=computerBuilder.company;
 	}
 	public Long getId() {
 		return id;
@@ -59,13 +35,13 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Timestamp getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(Timestamp introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		if(introduced!=null) {
 			if(this.getDiscontinued()!=null) {
-				if(this.discontinued.after(introduced)) {
+				if(this.discontinued.isAfter(introduced)) {
 					this.introduced = introduced;
 				}
 				else {
@@ -81,13 +57,13 @@ public class Computer {
 			this.introduced = introduced;
 		}
 	}
-	public Timestamp getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(Timestamp discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		if(discontinued!=null) {
 			if(this.introduced!=null) {
-				if(this.introduced.before(discontinued)) {
+				if(this.introduced.isBefore(discontinued)) {
 					this.discontinued = discontinued;
 				}
 				else {
@@ -104,17 +80,56 @@ public class Computer {
 		}
 		
 	}
-	public Long getCompany_id() {
-		return company_id;
+	public Company getCompany() {
+		return company;
 	}
-	public void setCompany_id(Long company_id) {
-		this.company_id = company_id;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 	@Override
 	public String toString() {
 		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company_id=" + company_id + "]"+"\n";
+				+ ", company=" + company.toString() + "]" + "\n";
 	}
 	
 	
+	/**
+	 * La classe Builder
+	 */
+	public static class ComputerBuilder{
+		private Long id;
+		private String name;
+		private LocalDate introduced;
+		private LocalDate discontinued;
+		private Company company;
+		
+		public ComputerBuilder(String name) {
+			this.name=name;
+		}
+		
+		public ComputerBuilder initializeWithId(Long id) {
+			this.id=id;
+			return this;
+		}
+		
+		public ComputerBuilder initializeWithIntroducedDate(LocalDate introduced) {
+			this.introduced=introduced;
+			return this;
+		}
+		
+		public ComputerBuilder initializeWithDiscontinuedDate(LocalDate discontinued) {
+			this.discontinued=discontinued;
+			return this;
+	    }
+		
+		public ComputerBuilder initializeWithCompany(Company company) {
+			this.company=company;
+			return this;
+		}
+		public Computer build() {
+			Computer computer = new Computer(this);
+			//Validators();
+			return computer;
+		}
+	}
 }

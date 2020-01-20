@@ -15,10 +15,16 @@ public class Company {
 		super();
 	}
 
-	public Company( String name) {
+	public Company( Long id ,String name) {
 		super();
 		this.id = id;
 		this.name = name;
+	}
+	
+
+	public Company(Long id) {
+		// TODO Auto-generated constructor stub
+		this.id=id;
 	}
 
 	public Long getId() {

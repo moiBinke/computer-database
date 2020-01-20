@@ -2,18 +2,19 @@ package com.excilys.computerDatabase;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Scanner;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.excilys.computerDatabase.daos.CompanyDAO;
-import com.excilys.computerDatabase.daos.CompanyDAOImpl;
+import com.excilys.computerDatabase.daos.CompanyDAO;
 import com.excilys.computerDatabase.daos.ComputerDAO;
-import com.excilys.computerDatabase.daos.ComputerDAOImpl;
 import com.excilys.computerDatabase.daos.DaoFactory;
 import com.excilys.computerDatabase.exceptions.DAOConfigurationException;
 import com.excilys.computerDatabase.model.Company;
@@ -68,11 +69,16 @@ public class Programme{
 	 * @return timestamp qui  est de type Timestamp
 	 * @exception ParseException
 	 */
+	@Deprecated
 	public static Timestamp convertToTimeStamp(String dateString) throws ParseException {
         Date date1=new SimpleDateFormat("dd-MM-yyyy").parse(dateString);  
         Timestamp timeStamp=new Timestamp(date1.getTime()); 
         System.out.println(timeStamp);
 	    return timeStamp;
+	}
+	public static LocalDate convertToLocalDateViaSqlDate(String dateString) throws ParseException {
+        Date dateToConvert=new SimpleDateFormat("dd-MM-yyyy").parse(dateString);  
+	    return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
 	}
 	/**
 	 * La methode de conversion d'un string en date TimeStamp
@@ -90,10 +96,13 @@ public class Programme{
 	 * @return pas de retour.
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
+		/**
+		 * Appel des 3 singletons:
+		 */
 		DaoFactory daoFactory=DaoFactory.getInstance();
-		ComputerDAO computerDAO=new ComputerDAOImpl(daoFactory);
-
-		CompanyDAO companyDAO=new CompanyDAOImpl(daoFactory);
+		ComputerDAO computerDAO=ComputerDAO.getInstance(daoFactory);
+		CompanyDAO companyDAO=CompanyDAO.getInstance(daoFactory);
+		
 		Scanner lecteur = new Scanner( System.in );
 		int choix=0;
 		
@@ -101,17 +110,20 @@ public class Programme{
 			choix=menu();
 			switch(choix) {
 			case 1:
-				Computer newComputer=new Computer();
 				System.out.println("Entrer le nom du nouveau ordinateur");
-				newComputer.setName(lecteur.next());
+				String computerName=lecteur.next();
 				System.out.println("Enter le id du company");
-				newComputer.setCompany_id(lecteur.nextLong());
+				Long idCompany=lecteur.nextLong();
 			    System.out.println("Enter la date introduced sous le format: dd-MM-yyyy");
 			    String IntroducedDateString=lecteur.next();
-			    newComputer.setIntroduced(convertToTimeStamp(IntroducedDateString));
 			    System.out.println("Enter la date discontinued sous le format: dd-MM-yyyy");
-			    String dateStringDiscontinued=lecteur.next();
-			    newComputer.setDiscontinued(convertToTimeStamp(dateStringDiscontinued));
+			    String discontinuedDateString=lecteur.next();
+			    Company company=new Company(idCompany);
+			    Computer newComputer=new Computer.ComputerBuilder(computerName)
+			    						.initializeWithIntroducedDate(convertToLocalDateViaSqlDate(IntroducedDateString))
+			    						.initializeWithDiscontinuedDate(convertToLocalDateViaSqlDate(discontinuedDateString))
+			    						.initializeWithCompany(company)
+			    						.build();
 			    System.out.println(computerDAO.addCommputer(newComputer));
 			    System.out.println("Taper sur n'importe quel chiffre puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
@@ -122,7 +134,7 @@ public class Programme{
 				computerToUpdateNameId=lecteur.nextLong();
 				System.out.println("Entrer le nouveau nom du computer");
 				String name=lecteur.next();
-				Computer ComputerUpdated=computerDAO.updateComputerName(computerToUpdateNameId, name);
+				Optional<Computer> ComputerUpdated=computerDAO.updateComputerName(computerToUpdateNameId, name);
 				System.out.println(ComputerUpdated);
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
@@ -133,8 +145,8 @@ public class Programme{
 				computerToUpdateIntroducedDateId=lecteur.nextLong();
 				System.out.println("Enter la nouvelle date introduced sous le format: dd-MM-yyyy");
 				String newIntroducedDateString=lecteur.next();
-			    Timestamp newIntroducedDate= convertToTimeStamp(newIntroducedDateString);
-				Computer computerToUpdateIntroducedDate=computerDAO.updateComputerIntroducedDate(computerToUpdateIntroducedDateId,newIntroducedDate);
+			    LocalDate newIntroducedDate= convertToLocalDateViaSqlDate(newIntroducedDateString);
+				Optional<Computer> computerToUpdateIntroducedDate=computerDAO.updateComputerIntroducedDate(computerToUpdateIntroducedDateId,newIntroducedDate);
 				System.out.println(computerToUpdateIntroducedDate);
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
@@ -145,8 +157,8 @@ public class Programme{
 				computerToUpdateDiscontinuedDateId=lecteur.nextLong();
 				System.out.println("Entrer la nouvelle date discontinued sous le format: dd-MM-yyyy");
 				String newDiscontinuedDateString=lecteur.next();
-			    Timestamp newDiscontinuedDate= convertToTimeStamp(newDiscontinuedDateString);
-				Computer computerToDiscontinuedDate=computerDAO.updateComputerDiscontinuedDate(computerToUpdateDiscontinuedDateId,newDiscontinuedDate);
+			    LocalDate newDiscontinuedDate= convertToLocalDateViaSqlDate(newDiscontinuedDateString);
+				Optional<Computer> computerToDiscontinuedDate=computerDAO.updateComputerDiscontinuedDate(computerToUpdateDiscontinuedDateId,newDiscontinuedDate);
 				System.out.println(computerToDiscontinuedDate);
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
@@ -158,7 +170,7 @@ public class Programme{
 				computerToUpdateCompanyId=lecteur.nextLong();
 				System.out.println("Entrer l'id de la nouvelle company ");
 				 newCompanyId=lecteur.nextLong();
-				Computer computerUpdatedCompany=computerDAO.updateComputerCompany(computerToUpdateCompanyId,newCompanyId);
+				Optional<Computer> computerUpdatedCompany=computerDAO.updateComputerCompany(computerToUpdateCompanyId,newCompanyId);
 				System.out.println(computerUpdatedCompany);
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
@@ -166,7 +178,7 @@ public class Programme{
 				Long computerId;
 				System.out.println("Entrer id du computer");
 				computerId=lecteur.nextLong();
-				Computer Lookcomputer=computerDAO.getComputer(computerId);
+				Optional<Computer> Lookcomputer=computerDAO.getComputer(computerId);
 				System.out.println(Lookcomputer);
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
@@ -218,7 +230,7 @@ public class Programme{
 				Long computerToDeleteId;
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				computerToDeleteId=lecteur.nextLong();
-				Computer computerDeleted=computerDAO.deleteComputer(computerToDeleteId);
+				Optional<Computer> computerDeleted=computerDAO.deleteComputer(computerToDeleteId);
 				System.out.println(computerDeleted);
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
@@ -234,7 +246,7 @@ public class Programme{
 				Long companyId;
 				System.out.println("Entrer id du company");
 				companyId=lecteur.nextLong();
-				Company Lookcompany=companyDAO.getCompanyById(companyId);
+				Optional<Company> Lookcompany=companyDAO.getCompanyById(companyId);
 				System.out.println(Lookcompany);
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
