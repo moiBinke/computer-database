@@ -7,15 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 
 import com.excilys.computerDatabase.exceptions.DAOConfigurationException;
 import com.excilys.computerDatabase.mappers.CompanyMapper;
-import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.model.Company;
-import com.excilys.computerDatabase.model.Computer;
+import com.excilys.computerDatabase.exceptions.Logging;;
 
 /**
  *DAO: implementation de CompanyDAO.
@@ -68,8 +65,10 @@ public class CompanyDAO  {
 		if(resultset!=null) {
 			try {
 				resultset.close();
+				Logging.afficherMessage("ResultSet fermé avec succès");
 			}catch(SQLException sqlExcept) {
-				System.out.println("Echec de fermeture du resulset: "+sqlExcept.getMessage());
+				Logging.afficherMessage("Error when closing ResultSet object");
+				
 			}
 		}
 	}
@@ -80,8 +79,9 @@ public class CompanyDAO  {
 		if(statement!=null) {
 			try {
 				statement.close();
+				Logging.afficherMessage("Error when closing Statement object");
 			}catch(SQLException sqlExcept) {
-				System.out.println("Echec de fermeture du statement: "+sqlExcept.getMessage());
+				Logging.afficherMessage("Error when closing Statement object");
 			}
 		}
 	}
@@ -93,7 +93,7 @@ public class CompanyDAO  {
 			try {
 				connection.close();
 			}catch(SQLException sqlExcept) {
-				System.out.println("Echec de fermeture de connection: "+sqlExcept.getMessage());
+				Logging.afficherMessage("Error when closing Connection object");
 			}
 		}
 	}
@@ -141,10 +141,10 @@ public class CompanyDAO  {
 	        while ( resultSet.next() ) {
 				company = CompanyMapper.mapCompany(resultSet);
 				listeCompany.add(company);
-				System.out.println("hahaaha");
 	        }
 	    } catch ( SQLException e ) {
 	       e.printStackTrace();
+		Logging.afficherMessage("Error when trying to get Company list");
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }
@@ -174,6 +174,7 @@ public class CompanyDAO  {
 	        }
 	    } catch ( SQLException e ) {
 	       e.printStackTrace();
+	       Logging.afficherMessage("Error when trying to get Company by Id");
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }

@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import com.excilys.computerDatabase.exceptions.DAOConfigurationException;
 import com.excilys.computerDatabase.exceptions.DAOExceptions;
+import com.excilys.computerDatabase.exceptions.Logging;
 import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.model.Computer;
 /**
@@ -85,7 +86,7 @@ public class ComputerDAO {
 			try {
 				resultset.close();
 			}catch(SQLException sqlExcept) {
-				System.out.println("Echec de fermeture du resulset: "+sqlExcept.getMessage());
+				Logging.afficherMessage("Error when trying to close ResultSet Object");
 			}
 		}
 	}
@@ -95,7 +96,7 @@ public class ComputerDAO {
 			try {
 				statement.close();
 			}catch(SQLException sqlExcept) {
-				System.out.println("Echec de fermeture du statement: "+sqlExcept.getMessage());
+				Logging.afficherMessage("Error when trying to close Statement Object");
 			}
 		}
 	}
@@ -105,7 +106,7 @@ public class ComputerDAO {
 			try {
 				connection.close();
 			}catch(SQLException sqlExcept) {
-				System.out.println("Echec de fermeture de connection: "+sqlExcept.getMessage());
+				Logging.afficherMessage("Error when trying to close Connection Object");
 			}
 		}
 	}
@@ -176,9 +177,11 @@ public class ComputerDAO {
 	            /* Puis initialisation de la propriété id du l'objet computer */
 	            computer.setId(valeursAutoGenerees.getLong( 1 ) );
 	        } else {
-	            throw new DAOExceptions( "Échec de la création de l'utilisateur en base, aucun ID auto-généré retourné." );
+	        	Logging.afficherMessage("Error when trying to add new Computer Object");
+	            throw new DAOExceptions( );
 	        }
 	    } catch ( SQLException e ) {
+	    	Logging.afficherMessage("Error when trying to add new Computer Object");
 	        throw new DAOExceptions( e );
 	    } finally {
 	        fermeture( valeursAutoGenerees, preparedStatement, connexion );
@@ -204,7 +207,9 @@ public class ComputerDAO {
 				computer = ComputerMapper.mapComputer(resultSet);
 				listeComputer.add(computer);
 	        }
+        	Logging.afficherMessage("Resquest of all Computer list is succed");
 	    } catch ( SQLException e ) {
+        	Logging.afficherMessage("Error when trying to select all Computer Object in database");
 	       e.printStackTrace();
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );
@@ -228,11 +233,13 @@ public class ComputerDAO {
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if ( resultSet.next() ) {
 				computer = Optional.ofNullable(ComputerMapper.mapComputer(resultSet));
+	        	Logging.afficherMessage("a computer is selected from database");
 	        }
 	        else {
 	        	System.out.println("ce computer n'existe pas!");
 	        }
 	    } catch ( SQLException e ) {
+        	Logging.afficherMessage("Error when trying to get Computer by its Id");
 	       e.printStackTrace();
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );
@@ -266,6 +273,7 @@ public class ComputerDAO {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }
 		if(estSupprime) {
+        	Logging.afficherMessage("A computer with id= "+computerId+" is deleted");
 			return Optional.of(computer);
 		}
 		return   Optional.empty();
@@ -296,8 +304,10 @@ public class ComputerDAO {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }
 		if(estMisAjour!=0) {
+			Logging.afficherMessage("A computer with id= "+idComputer+" come to be updated");
 			return computer;
 		}
+		Logging.afficherMessage("error when updating computer with id= "+idComputer);
 		return Optional.empty();
 	}
 
