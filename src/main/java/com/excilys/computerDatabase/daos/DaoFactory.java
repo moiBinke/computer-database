@@ -29,6 +29,8 @@ public class DaoFactory {
 	private String url;
 	private String nomUtilisateur;
 	private String motDePasse;
+	
+	private static DaoFactory  instanceDAO ;
 	private DaoFactory() {}
 	/**
 	   * Constructeur privé: POur permettre à ce qu'on ne crée pas une instance sans pourtant effectuer les traitements dans la methode getInstance
@@ -53,36 +55,38 @@ public class DaoFactory {
 	   */
 	
 	public static DaoFactory getInstance() throws DAOConfigurationException {
-		DaoFactory instanceDao = null;
-		Properties properties=new Properties();
-		String driver;
-		String url;
-		String nomUtilisateur; 
-		String motDePasse;
-		ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
-		InputStream fichierProperties=classLoader.getResourceAsStream(FICHIER_PROPERTIES);
-		if(fichierProperties==null) {
-			throw new DAOConfigurationException("1-le fichier dao.properties qui contient les paramètres de connection est introuvable");
-		}
-		try {
-			properties.load(fichierProperties);
-			url=properties.getProperty(PROPERTY_URL);
-			driver=properties.getProperty(PROPERTY_DRIVER);
-			nomUtilisateur=properties.getProperty(PROPERTY_NOM_UTILISATEUR);
-			motDePasse=properties.getProperty(PROPERTY_MOT_DE_PASSE);
-			try {
-				Class.forName(driver);
-			    instanceDao =new DaoFactory(url,nomUtilisateur,motDePasse);
-			}catch(ClassNotFoundException classNotFoundException){
-				throw new DAOConfigurationException("le classpath n'a pas trouvé le driver");
+		if(instanceDAO==null) {
+			Properties properties=new Properties();
+			String driver;
+			String url;
+			String nomUtilisateur; 
+			String motDePasse;
+			ClassLoader classLoader=Thread.currentThread().getContextClassLoader();
+			InputStream fichierProperties=classLoader.getResourceAsStream(FICHIER_PROPERTIES);
+			if(fichierProperties==null) {
+				throw new DAOConfigurationException("1-le fichier dao.properties qui contient les paramètres de connection est introuvable");
 			}
-			
-		}catch(IOException ioException) {
-			throw new DAOConfigurationException("le fichier dao.properties qui contient les paramètres de connection est introuvable");
+			try {
+				properties.load(fichierProperties);
+				url=properties.getProperty(PROPERTY_URL);
+				driver=properties.getProperty(PROPERTY_DRIVER);
+				nomUtilisateur=properties.getProperty(PROPERTY_NOM_UTILISATEUR);
+				motDePasse=properties.getProperty(PROPERTY_MOT_DE_PASSE);
+				try {
+					Class.forName(driver);
+					instanceDAO =new DaoFactory(url,nomUtilisateur,motDePasse);
+				}catch(ClassNotFoundException classNotFoundException){
+					throw new DAOConfigurationException("le classpath n'a pas trouvé le driver");
+				}
+				
+			}catch(IOException ioException) {
+				throw new DAOConfigurationException("le fichier dao.properties qui contient les paramètres de connection est introuvable");
+			}
+			finally {
+				return instanceDAO;
+			}
 		}
-		finally {
-			return instanceDao;
-		}
+		return instanceDAO;
 		
 	}
 	

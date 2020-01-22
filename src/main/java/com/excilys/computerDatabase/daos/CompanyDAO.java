@@ -29,12 +29,6 @@ public class CompanyDAO  {
 	public static final String GET_COMPANY_BY_ID="SELECT name, id FROM company where id=? ";
 
 	/**
-	 * Variables pour les fichiers de creations des bases de données tests
-	 */
-	public static  String fichierCreationTableTesT="src/test/resources/schema-creation.sql" ;
-	public static  String fichierInsertTable="src/test/resources/initialisation-table.sql" ;	
-	
-	/**
 	 * Construction du singleton:
 	 */
 	private DaoFactory daoFactory;
@@ -182,72 +176,6 @@ public class CompanyDAO  {
 	}
 	
 	
-	/**
-	 * Lire le fichier de creation et d'initialisation
-	 * @param file
-	 * @return
-	 * @throws IOException
-	 */
-	public static String readFile(File file) throws IOException {
-		StringBuilder sb = new StringBuilder();
-		InputStream in = new FileInputStream(file);
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-		String line;
-		while ((line = br.readLine()) != null) {
-			sb.append(line + System.lineSeparator());
-		}
-
-		return sb.toString();
-	}
-	public Optional<String> lireRequeteTestH2(String fichier) {
-		Optional<String> requeteCreation;
-		File file = new File(fichier);
-		try {
-			requeteCreation =Optional.ofNullable(readFile(file));
-		}catch(IOException ioException) {
-			throw new DAOConfigurationException("le fichier creations de la base SQL. qui contient les paramètres de connection est introuvable");
-		}
-
-		return requeteCreation;
-	}
 	
-	
-	
-	public void createTestDatabase(){
-		Connection connexion = null;
-	    PreparedStatement preparedStatement = null;
-	    try {
-	        /**
-	         *  Récupération d'une connexion depuis la Factory 
-	         *  */
-	        connexion = daoFactory.getConnexion();
-	        preparedStatement = initialiserRequetePreparee( connexion, lireRequeteTestH2(fichierCreationTableTesT).orElse(null) , false );
-	        preparedStatement.executeUpdate();
-	    } catch ( SQLException e ) {
-	       e.printStackTrace();
-	    } finally {
-	        fermetureStatement(preparedStatement );
-	        fermetureConnection(connexion );
-	    }
-	}
-	
-	public void insertInTestDatabase(){
-		Connection connexion = null;
-	    PreparedStatement preparedStatement = null;
-	    try {
-	        /**
-	         *  Récupération d'une connexion depuis la Factory 
-	         *  */
-	        connexion = daoFactory.getConnexion();
-	        preparedStatement = initialiserRequetePreparee( connexion, lireRequeteTestH2(fichierInsertTable).orElse(null) , false );
-	        preparedStatement.executeUpdate();
-	    } catch ( SQLException e ) {
-	       e.printStackTrace();
-	    } finally {
-	    	 fermetureStatement(preparedStatement );
-		     fermetureConnection(connexion );
-	    }
-	}
 
 }

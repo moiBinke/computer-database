@@ -2,9 +2,12 @@ package com.excilys.computerDatabase.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
+import com.excilys.computerDatabase.dto.ComputerDTO;
 import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.model.Computer.ComputerBuilder;
@@ -22,7 +25,11 @@ public class ComputerMapper {
 			return null;
 	    return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
 	}
-
+	
+	public static LocalDate convertStringToLocalDateViaSqlDate(String dateString) throws ParseException {
+        Date dateToConvert=new SimpleDateFormat("dd-MM-yyyy").parse(dateString);  
+	    return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
+	}
 	/**
 	 *Le Mapping SQL==>Java Bean: permet de convertir une ligne SQL en Computer Bean 
 	 *@param resultSet de type ResultSet(ligne  SQL)
@@ -42,4 +49,22 @@ public class ComputerMapper {
 		return computer;
 	}
 	
+	public static ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
+		ComputerDTO computerDto= new ComputerDTO();
+		computerDto.setId(computer.getId());
+		computerDto.setIntroduced(computer.getIntroduced().toString());
+		computerDto.setDiscontinued(computer.getDiscontinued().toString());
+		computerDto.setName(computer.getName());
+		computerDto.setCompany(CompanyMapper.mapFromCompanyToCompanyDto(computer.getCompany()));
+		return computerDto;
+	}
+	
+	public static Computer convertFromComputerDtoToComputer(ComputerDTO computerDto) throws ParseException {
+		Computer computer=new Computer.ComputerBuilder(computerDto.getName())
+									  .initializeWithId(computerDto.getId())
+									  .initializeWithIntroducedDate(convertStringToLocalDateViaSqlDate(computerDto.getIntroduced()))
+									  .initializeWithCompany(CompanyMapper.mapFromCompanyDtoToCompany(computerDto.getCompany()))
+									  .build();
+		return computer;
+	}
 }

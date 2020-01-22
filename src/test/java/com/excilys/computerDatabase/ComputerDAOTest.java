@@ -24,8 +24,8 @@ public class ComputerDAOTest {
 	public void setUp() throws Exception {
 		daoFactory=DaoFactory.getInstanceH2();
 		computerDAO=computerDAO.getInstance(daoFactory);
-		computerDAO.createTestDatabase();
-		computerDAO.insertInTestDatabase();
+		//computerDAO.createTestDatabase();
+		//computerDAO.insertInTestDatabase();
 	}
 
 	@After
@@ -44,7 +44,7 @@ public class ComputerDAOTest {
 	}
 	@Test
 	public void testGetComputerById(){
-		assertTrue(computerDAO.getComputer(1L)!=null);
+		assertNotNull(computerDAO.getComputer(1L)!=null);
 	}
 	@Test
 	public void testGetListComputer() {
@@ -52,7 +52,7 @@ public class ComputerDAOTest {
 	}
 	@Test
 	public void testDeleteComputer() {
-		assertTrue(computerDAO.deleteComputer(1L)!=null);
+		assertNotNull(computerDAO.deleteComputer(1L));
 	}
 
 	

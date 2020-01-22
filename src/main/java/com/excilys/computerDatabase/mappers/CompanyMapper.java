@@ -3,6 +3,7 @@ package com.excilys.computerDatabase.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.excilys.computerDatabase.dto.CompanyDTO;
 import com.excilys.computerDatabase.model.Company;
 
 /**
@@ -11,7 +12,7 @@ import com.excilys.computerDatabase.model.Company;
  *@version 1.0
  *@since   2020-01-14 
  */
-public class CompanyMapper {
+public class CompanyMapper  {
 
 	/**
 	 *Le Mapping SQL==>Java Bean: permet de convertir une ligne SQL en company Bean 
@@ -23,6 +24,19 @@ public class CompanyMapper {
 		Company company=new Company();
 		company.setId(resultset.getLong("id"));
 		company.setName(resultset.getString("name"));
+		return company;
+	}
+	
+	public static CompanyDTO mapFromCompanyToCompanyDto(Company company) {
+		CompanyDTO companyDto=new CompanyDTO();
+		companyDto.setId(company.getId());
+		companyDto.setName(company.getName());
+		return companyDto;
+	}
+	public static Company mapFromCompanyDtoToCompany(CompanyDTO companyDto) {
+		Company company=new Company();
+		company.setId(companyDto.getId());
+		company.setName(companyDto.getName());
 		return company;
 	}
 }

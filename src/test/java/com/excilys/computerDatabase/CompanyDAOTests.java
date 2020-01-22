@@ -17,8 +17,8 @@ public class CompanyDAOTests {
 	public void setUp() throws Exception {
 		daoFactory=DaoFactory.getInstanceH2();
 		companyDAO=CompanyDAO.getInstance(daoFactory);
-		companyDAO.createTestDatabase();
-		companyDAO.insertInTestDatabase();
+		//companyDAO.createTestDatabase();
+		//companyDAO.insertInTestDatabase();
 	}
 
 	@After
@@ -34,7 +34,7 @@ public class CompanyDAOTests {
 	public void testGetCompanyById() {
 		Company company1=new Company( 1L,"Apple Inc.");
 		Company company2=companyDAO.getCompanyById(1L).get();
-		assertTrue(company1.equals(company2));
+		assertEquals(company1, company2);
 	}
 
 }
