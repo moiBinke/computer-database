@@ -19,6 +19,7 @@ import com.excilys.computerDatabase.daos.DaoFactory;
 import com.excilys.computerDatabase.exceptions.DAOConfigurationException;
 import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
+import com.excilys.computerDatabase.util.Pages;
 
 /**
  * <h1>Projet computer Data Base</h1>

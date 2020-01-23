@@ -52,7 +52,9 @@ public class ComputerMapper {
 	public static ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
 		ComputerDTO computerDto= new ComputerDTO();
 		computerDto.setId(computer.getId());
+		if(computer.getIntroduced()!=null)
 		computerDto.setIntroduced(computer.getIntroduced().toString());
+		if(computer.getDiscontinued()!=null)
 		computerDto.setDiscontinued(computer.getDiscontinued().toString());
 		computerDto.setName(computer.getName());
 		computerDto.setCompany(CompanyMapper.mapFromCompanyToCompanyDto(computer.getCompany()));

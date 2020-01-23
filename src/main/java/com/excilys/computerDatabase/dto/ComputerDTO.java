@@ -3,8 +3,12 @@ package com.excilys.computerDatabase.dto;
 
 public class ComputerDTO {
 
+	public ComputerDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	private Long id;
-	private String name;
+	public String name;
 	private String introduced;
 	private String discontinued;
 	private CompanyDTO company;
