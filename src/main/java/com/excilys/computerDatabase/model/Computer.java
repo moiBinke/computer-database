@@ -2,6 +2,7 @@ package com.excilys.computerDatabase.model;
 
 import java.time.LocalDate;
 
+import com.excilys.computerDatabase.validators.ComputerValidator;
 /**
  * model Computer .
  *@author COULIBALY Issa
@@ -38,47 +39,16 @@ public class Computer {
 	public LocalDate getIntroduced() {
 		return introduced;
 	}
+	
 	public void setIntroduced(LocalDate introduced) {
-		if(introduced!=null) {
-			if(this.getDiscontinued()!=null) {
-				if(this.discontinued.isAfter(introduced)) {
-					this.introduced = introduced;
-				}
-				else {
-					System.out.println("discontinued doit etre superieur à introduced");
-				}
-			}
-			else {
-				this.introduced = introduced;
-			}
-			
-		}
-		else {
-			this.introduced = introduced;
-		}
+		this.introduced = introduced;
 	}
 	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
+	
 	public void setDiscontinued(LocalDate discontinued) {
-		if(discontinued!=null) {
-			if(this.introduced!=null) {
-				if(this.introduced.isBefore(discontinued)) {
-					this.discontinued = discontinued;
-				}
-				else {
-					System.out.println("discontinued doit etre superieur à introduced");
-				}
-			}
-			else {
-				this.discontinued = discontinued;
-			}
-			
-		}
-		else {
-			this.discontinued=discontinued;
-		}
-		
+		this.discontinued = discontinued;
 	}
 	public Company getCompany() {
 		return company;
@@ -128,7 +98,8 @@ public class Computer {
 		}
 		public Computer build() {
 			Computer computer = new Computer(this);
-			//Validators();
+			ComputerValidator computerValidator=new ComputerValidator();
+			computerValidator.validateComputer(computer);
 			return computer;
 		}
 	}

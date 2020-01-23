@@ -2,6 +2,7 @@ package com.excilys.computerDatabase.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import com.excilys.computerDatabase.dto.CompanyDTO;
 import com.excilys.computerDatabase.model.Company;
@@ -38,5 +39,15 @@ public class CompanyMapper  {
 		company.setId(companyDto.getId());
 		company.setName(companyDto.getName());
 		return company;
+	}
+
+	public static Optional<CompanyDTO> mapFromCompanyToCompanyDto(Optional<Company> company) {
+		if(company.isPresent()) {
+			CompanyDTO companyDto=new CompanyDTO();
+			companyDto.setId(company.get().getId());
+			companyDto.setName(company.get().getName());
+			return Optional.of(companyDto);
+		}
+		else return Optional.empty();
 	}
 }
