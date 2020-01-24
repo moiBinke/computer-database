@@ -5,6 +5,13 @@ public class CompanyDTO {
 	private Long id;
 	private String name;
 	
+	public CompanyDTO(long id) {
+		this.id=id;
+	}
+	public CompanyDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Long getId() {
 		return id;
 	}

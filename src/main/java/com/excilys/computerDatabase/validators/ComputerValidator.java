@@ -10,7 +10,7 @@ public class ComputerValidator {
 
 	
 	public Computer validateComputer(Computer computer) {
-		if(validateDates(computer) && validateComputerName(computer)) {}
+		if(validateDates(computer)) {}
 		return computer;
 	}
 	public boolean validateDates(Computer computer) {
@@ -26,8 +26,5 @@ public class ComputerValidator {
 			}
 		}
 	}
-	public boolean validateComputerName(Computer computer) {
-		if(computer.getName()==null)return false;
-		throw new ValidatorException("ValidatorException: Computer Name is required");
-	}
+	
 }

@@ -27,7 +27,7 @@ public class ComputerMapper {
 	}
 	
 	public static LocalDate convertStringToLocalDateViaSqlDate(String dateString) throws ParseException {
-        Date dateToConvert=new SimpleDateFormat("dd-MM-yyyy").parse(dateString);  
+        Date dateToConvert=new SimpleDateFormat("yyyy-MM-dd").parse(dateString);  
 	    return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
 	}
 	/**
@@ -65,6 +65,7 @@ public class ComputerMapper {
 		Computer computer=new Computer.ComputerBuilder(computerDto.getName())
 									  .initializeWithId(computerDto.getId())
 									  .initializeWithIntroducedDate(convertStringToLocalDateViaSqlDate(computerDto.getIntroduced()))
+									  .initializeWithDiscontinuedDate(convertStringToLocalDateViaSqlDate(computerDto.getDiscontinued()))
 									  .initializeWithCompany(CompanyMapper.mapFromCompanyDtoToCompany(computerDto.getCompany()))
 									  .build();
 		return computer;

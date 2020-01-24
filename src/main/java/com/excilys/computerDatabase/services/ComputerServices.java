@@ -1,5 +1,6 @@
 package com.excilys.computerDatabase.services;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import com.excilys.computerDatabase.daos.ComputerDAO;
@@ -47,5 +48,8 @@ public class ComputerServices {
 		return computerDTOList;
 	}
 	
-	
+	public ComputerDTO create(ComputerDTO computerDto) throws ParseException {
+		Computer newComputer =ComputerMapper.convertFromComputerDtoToComputer(computerDto);
+		return ComputerMapper.convertFromComputerToComputerDTO(computerDAO.addCommputer(newComputer));
+	}
 }

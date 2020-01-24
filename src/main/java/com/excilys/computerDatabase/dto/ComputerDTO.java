@@ -13,6 +13,13 @@ public class ComputerDTO {
 	private String discontinued;
 	private CompanyDTO company;
 	
+	public ComputerDTO( String name, String introduced, String discontinued, CompanyDTO company) {
+		super();
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.company = company;
+	}
 	public Long getId() {
 		return id;
 	}

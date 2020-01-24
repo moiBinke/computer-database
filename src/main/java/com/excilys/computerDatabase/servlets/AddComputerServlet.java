@@ -1,6 +1,7 @@
 package com.excilys.computerDatabase.servlets;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -11,8 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.dto.CompanyDTO;
+import com.excilys.computerDatabase.dto.ComputerDTO;
+import com.excilys.computerDatabase.exceptions.Logging;
 import com.excilys.computerDatabase.services.CompanyServices;
+import com.excilys.computerDatabase.services.ComputerServices;
 
 /**
  * Servlet implementation class CompanyController
@@ -21,25 +26,25 @@ import com.excilys.computerDatabase.services.CompanyServices;
 public class AddComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        CompanyServices companyServices;
+       ComputerServices computerServices;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public AddComputerServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
     /**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		companyServices=CompanyServices.getInstance();
+		computerServices=ComputerServices.getInstance();
 	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+				response.getWriter().append("Served at: ").append(request.getContextPath());
 		ArrayList<CompanyDTO> companyDtoList=new ArrayList<CompanyDTO>();
 		companyDtoList=companyServices.findALl();
 		request.setAttribute("companies", companyDtoList);
@@ -50,8 +55,15 @@ public class AddComputerServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		System.out.println(request.getParameter("introduced"));
+		CompanyDTO companyDTO=new CompanyDTO(Long.parseLong(request.getParameter("companyId")));
+		ComputerDTO computerDTO=new ComputerDTO(request.getParameter("computerName"),request.getParameter("introduced"),request.getParameter("discontinued"),companyDTO);
+		try {
+			computerServices.create(computerDTO);
+		} catch (ParseException e) {
+			Logging.afficherMessage("Cannot convert computer date type");
+			e.printStackTrace();
+		}
 	}
 
 }
