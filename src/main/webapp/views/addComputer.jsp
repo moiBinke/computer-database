@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                    <form action="/computerDatabase/AddComputerServlet" method="POST">
+                    <form action="/computerDatabase/AddComputerServlet" method="POST" name="addComputer">
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
@@ -47,7 +47,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" name="companyId" >
+                                <select class="form-control" id="companyId" name="companyId">
+                                <option value="" selected> </option>
                                 <c:forEach items="${companies}" var="company">
                                     <option value="${company.id}"><c:out value="${company.name}"></c:out></option>
                                 </c:forEach>
@@ -64,5 +65,8 @@
             </div>
         </div>
     </section>
+    <script src="js/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+    <script src="js/front-computer-validation.js"></script>
 </body>
 </html>
