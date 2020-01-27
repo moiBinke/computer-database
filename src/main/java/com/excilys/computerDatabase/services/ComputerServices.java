@@ -5,11 +5,10 @@ import java.util.ArrayList;
 
 import com.excilys.computerDatabase.daos.ComputerDAO;
 import com.excilys.computerDatabase.daos.DaoFactory;
-import com.excilys.computerDatabase.dto.ComputerDTO;
-import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.util.Pages;
-
+/**lES SERVICES RETOURNENT DES eNTITÉS AU LIEU DES dtos
+ */
 public class ComputerServices {
 	private ComputerDAO computerDAO;
 	private static ComputerServices computerServices;
@@ -28,28 +27,19 @@ public class ComputerServices {
 		return computerServices;
 	}
 
-	public ArrayList<ComputerDTO> findAll() {
-		ArrayList<Computer>computerList=computerDAO.getComputerList();;
-		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
-		for(Computer computer: computerList) {
-			computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
-		}
-		return computerDTOList;
+	public ArrayList<Computer> findAll() {
+		return computerDAO.getComputerList();
+	
 	}
 
-	public ArrayList<ComputerDTO> getPage(int taillePage, int pageIterator) {
+	public ArrayList<Computer> getPage(int taillePage, int pageIterator) {
 		Pages page =new Pages(computerDAO);
-		ArrayList<Computer>computerList=page.getPage(taillePage, pageIterator);
-		System.out.println(computerList.size());
-		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
-		for(Computer computer: computerList) {
-			computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
-		}
-		return computerDTOList;
+		return page.getPage(taillePage, pageIterator);
+		
 	}
 	
-	public ComputerDTO create(ComputerDTO computerDto) throws ParseException {
-		Computer newComputer =ComputerMapper.convertFromComputerDtoToComputer(computerDto);
-		return ComputerMapper.convertFromComputerToComputerDTO(computerDAO.addCommputer(newComputer));
+	public Computer create(Computer newComputer) throws ParseException {
+		
+		return computerDAO.addCommputer(newComputer);
 	}
 }

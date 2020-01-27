@@ -12,10 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.dto.CompanyDTO;
 import com.excilys.computerDatabase.dto.ComputerDTO;
 import com.excilys.computerDatabase.exceptions.Logging;
+import com.excilys.computerDatabase.mappers.CompanyMapper;
+import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.services.CompanyServices;
 import com.excilys.computerDatabase.services.ComputerServices;
 
@@ -46,7 +49,11 @@ public class AddComputerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				response.getWriter().append("Served at: ").append(request.getContextPath());
 		ArrayList<CompanyDTO> companyDtoList=new ArrayList<CompanyDTO>();
-		companyDtoList=companyServices.findALl();
+		ArrayList<Company> companyList=new ArrayList<Company>();
+		companyList=companyServices.findALl();
+		for(Company company:companyList) {
+			companyDtoList.add(CompanyMapper.mapFromCompanyToCompanyDto(company));
+		}
 		request.setAttribute("companies", companyDtoList);
 		request.getRequestDispatcher("views/addComputer.jsp").forward(request, response);
 	}
@@ -59,11 +66,20 @@ public class AddComputerServlet extends HttpServlet {
 		CompanyDTO companyDTO=new CompanyDTO(Long.parseLong(request.getParameter("companyId")));
 		ComputerDTO computerDTO=new ComputerDTO(request.getParameter("computerName"),request.getParameter("introduced"),request.getParameter("discontinued"),companyDTO);
 		try {
-			computerServices.create(computerDTO);
-		} catch (ParseException e) {
-			Logging.afficherMessage("Cannot convert computer date type");
-			e.printStackTrace();
+			Computer newComputer =ComputerMapper.convertFromComputerDtoToComputer(computerDTO);
+			try {
+				newComputer=computerServices.create(newComputer);
+				computerDTO=ComputerMapper.convertFromComputerToComputerDTO(newComputer);
+				request.setAttribute("newComputer",computerDTO );
+				request.getRequestDispatcher("views/addComputer.jsp").forward(request, response);
+			} catch (ParseException e) {
+				Logging.afficherMessage("Cannot convert computer date type");
+				e.printStackTrace();
+			}
+		} catch (ParseException e1) {
+			e1.printStackTrace();
 		}
+		
 	}
 
 }

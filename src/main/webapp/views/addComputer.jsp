@@ -65,6 +65,28 @@
             </div>
         </div>
     </section>
+     <div class="container">
+            <div class="row">
+                <div class="col-xs-8 col-xs-offset-2 box">
+				    <section class="text-center">
+				    	<c:if test="${newComputer!=null}">
+				    		<div class="card" style="width: 18rem;">
+							  <img class="card-img-top" src="..." alt="Card image cap">
+							  <div class="card-body">
+							    <h5 class="card-title">Nom: <c:out value="${newComputer.name}"></c:out></h5>
+							    <h5 class="card-title">Introoduced Date<c:out value="${newComputer.introduced}"></c:out></h5>
+							    <h5 class="card-title">Discontinued Date<c:out value="${newComputer.discontinued }"></c:out></h5>
+							    <h5 class="card-title">Company<c:out value="${newComputer.company.name}"></c:out></h5>
+							    <p class="card-text">You can show it in computers list by clicking on below link</p>
+							    <a href="/computerDatabase/DashboardComputerServlet" class="btn btn-primary">show list</a>
+							  </div>
+							</div>
+				    	</c:if>
+				    </section>
+				</div>
+		</div>
+	</div>
+				   
     <script src="js/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
     <script src="js/front-computer-validation.js"></script>

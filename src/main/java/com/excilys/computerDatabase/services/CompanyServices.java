@@ -27,16 +27,11 @@ public class CompanyServices {
 		}
 		return companyServices;
 	}
-	public Optional<CompanyDTO> getById(Long companyId) {
-		CompanyDTO companyDto =new CompanyDTO();
-		return CompanyMapper.mapFromCompanyToCompanyDto(companyServices.companyDAO.getCompanyById(companyId));
+	public Optional<Company> getById(Long companyId) {
+		return companyServices.companyDAO.getCompanyById(companyId);
 	}
-	public ArrayList<CompanyDTO> findALl() {
-		ArrayList<Company> companyList=companyServices.companyDAO.getCompanyList();
-		ArrayList<CompanyDTO> companyDtoList=new ArrayList<CompanyDTO>();
-		for(Company company:companyList) {
-			companyDtoList.add(CompanyMapper.mapFromCompanyToCompanyDto(company));
-		}
-		return companyDtoList;
+	public ArrayList<Company> findALl() {
+		return companyServices.companyDAO.getCompanyList();
+		
 	}
 }

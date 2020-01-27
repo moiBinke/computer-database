@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.computerDatabase.daos.DaoFactory;
 import com.excilys.computerDatabase.dto.ComputerDTO;
+import com.excilys.computerDatabase.mappers.ComputerMapper;
+import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.services.ComputerServices;
 import com.excilys.computerDatabase.util.Pages;
 
@@ -21,11 +23,15 @@ import com.excilys.computerDatabase.util.Pages;
 @WebServlet(urlPatterns = "/DashboardComputerServlet")
 public class DashboardComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	public ComputerServices computerService;
+       
+	
+	
+	
 	public  int pageIterator;
 	private int taillePage=20;
 	public int maxPage;
-	public ComputerServices computerService;
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -59,10 +65,13 @@ public class DashboardComputerServlet extends HttpServlet {
 		request.setAttribute("maxPage", maxPage);
 		System.out.println("Max "+maxPage);
 		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
+		ArrayList<Computer>computerList=new ArrayList<Computer>();
 		if(request.getParameter("pageIterator")!=null) {
-			System.out.println("**************************************");
 			pageIterator=Integer.parseInt(request.getParameter("pageIterator"));
-			computerDTOList=computerService.getPage(pageIterator*taillePage,taillePage );
+			computerList=computerService.getPage(pageIterator*taillePage,taillePage );
+			for(Computer computer: computerList) {
+				computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
+			}
 			request.setAttribute("sizeComputer", sizeComputer);
 			request.setAttribute("computerList", computerDTOList);
 			request.setAttribute("pageIterator", pageIterator);
@@ -72,7 +81,10 @@ public class DashboardComputerServlet extends HttpServlet {
 		}
 		else {
 			pageIterator=0;
-			computerDTOList=computerService.getPage(pageIterator*taillePage,taillePage);
+			computerList=computerService.getPage(pageIterator*taillePage,taillePage);
+			for(Computer computer: computerList) {
+				computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
+			}
 			request.setAttribute("sizeComputer", sizeComputer);
 			request.setAttribute("computerList", computerDTOList);
 			request.setAttribute("pageIterator", pageIterator);

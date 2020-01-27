@@ -96,6 +96,7 @@ public class Computer {
 			this.company=company;
 			return this;
 		}
+		//La validation depuis l'entrée "fail fast"
 		public Computer build() {
 			Computer computer = new Computer(this);
 			ComputerValidator computerValidator=new ComputerValidator();
