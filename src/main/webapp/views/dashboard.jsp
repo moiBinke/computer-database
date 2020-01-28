@@ -43,7 +43,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.jsp">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="AddComputerServlet">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -130,9 +130,9 @@
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+            <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=10">10</a></button>
+            <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=50">50</a></button>
+            <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=100">100</a></button>
         </div>
 
     </footer>

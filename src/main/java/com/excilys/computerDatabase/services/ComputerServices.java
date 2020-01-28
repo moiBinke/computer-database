@@ -42,4 +42,9 @@ public class ComputerServices {
 		
 		return computerDAO.addCommputer(newComputer);
 	}
+
+	public int size() {
+		// TODO Auto-generated method stub
+		return computerDAO.size();
+	}
 }

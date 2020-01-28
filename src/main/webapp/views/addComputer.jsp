@@ -22,7 +22,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.jsp"> Application - Computer Database </a>
+            <a class="navbar-brand" href="/computerDatabase/DashboardComputerServlet"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -58,7 +58,7 @@
                         <div class="actions pull-right">
                             <input type="submit" value="Add" class="btn btn-primary">
                             or
-                            <a href="/computerDatabase/DashboardComputerServlet" class="btn btn-default">Cancel</a>
+                           <input type="reset" class="btn btn-default" value="Cancel"/>
                         </div>
                     </form>
                 </div>

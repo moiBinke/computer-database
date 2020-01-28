@@ -29,9 +29,10 @@ public class DashboardComputerServlet extends HttpServlet {
 	
 	
 	
-	public  int pageIterator;
+	private  int pageIterator;
 	private int taillePage=20;
-	public int maxPage;
+	private int maxPage;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -60,12 +61,15 @@ public class DashboardComputerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int sizeComputer=computerService.findAll().size();
+		int sizeComputer=computerService.size();
 		maxPage=sizeComputer/taillePage;
 		request.setAttribute("maxPage", maxPage);
 		System.out.println("Max "+maxPage);
 		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
 		ArrayList<Computer>computerList=new ArrayList<Computer>();
+		if(request.getParameter("taillePage")!=null) {
+			taillePage=Integer.parseInt(request.getParameter("taillePage"));
+		}
 		if(request.getParameter("pageIterator")!=null) {
 			pageIterator=Integer.parseInt(request.getParameter("pageIterator"));
 			computerList=computerService.getPage(pageIterator*taillePage,taillePage );
@@ -80,8 +84,8 @@ public class DashboardComputerServlet extends HttpServlet {
 			
 		}
 		else {
-			pageIterator=0;
-			computerList=computerService.getPage(pageIterator*taillePage,taillePage);
+			pageIterator=0;//Initialisation de l'iterateur : premier appel
+			computerList=computerService.getPage(pageIterator*taillePage,taillePage);// appel de computer dao 
 			for(Computer computer: computerList) {
 				computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
 			}

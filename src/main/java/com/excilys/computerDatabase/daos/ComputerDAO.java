@@ -46,6 +46,7 @@ public class ComputerDAO {
 	public static final String UPDATE_COMPUTER_DISCONTINUED_DATE = "UPDATE computer SET discontinued=? WHERE id=?;";
 	public static final String UPDATE_COMPUTER_COMPANY_ID = "UPDATE computer SET company_id=? WHERE id=?;";
 	public static final String GET_PAGE_COMPUTER = "SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id LIMIT ?, ?";
+	private static final String COUNT = "SELECT COUNT(*) FROM computer";
 	
 	
 	/**
@@ -437,10 +438,29 @@ public class ComputerDAO {
 	    return listeComputer;
 	}
 
-	
-	
+	public int size() {
+		
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    int size=0;
+		try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnexion();
+	        preparedStatement = initialiserRequetePreparee( connexion, COUNT,false);
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+	        	size=resultSet.getInt(1);
+	        }
+	    } catch ( SQLException e ) {
+	       Logging.afficherMessage("Cannot get computer list size");
+	       e.printStackTrace();
+	    } finally {
+	        fermeture( resultSet, preparedStatement, connexion );
+	    }
 
-
-
+	    return size;
+	}
 
 }
