@@ -52,26 +52,39 @@ public class ComputerDAO {
 	/**
 	 * Construction du singleton:
 	 */
-	private DaoFactory daoFactory;
+	//private DaoFactory daoFactory;
 	
 	private static ComputerDAO computerDAO;
 	
 	private ComputerDAO() {
 		super();
 	}
-
-	private ComputerDAO(DaoFactory daoFactory) {
-		super();
-		this.daoFactory = daoFactory;
-	}
-	
+/**
+ * En commentaire l'ancien Connexion avant hikari
+ * @param daoFactory
+ * @return
+ */
+//	private ComputerDAO(DaoFactory daoFactory) {
+//		super();
+//		this.daoFactory = daoFactory;
+//	}
+	/**
+	 * En commentaire l'ancienne getInstance du DAO
+	 * @param daoFactory
+	 * @return
+	 */
+//	public static ComputerDAO getInstance(DaoFactory daoFactory) {
+//		if(computerDAO==null) {
+//			return new ComputerDAO(daoFactory);
+//		}
+//	    return computerDAO; 
+//	}
 	public static ComputerDAO getInstance(DaoFactory daoFactory) {
 		if(computerDAO==null) {
-			return new ComputerDAO(daoFactory);
+			return new ComputerDAO();
 		}
 	    return computerDAO; 
 	}
-	
 	/*
 	 * Fonctions de connection
 	 */
@@ -160,7 +173,11 @@ public class ComputerDAO {
 		     int minute=java.time.LocalTime.now().getMinute();
 		     int second=java.time.LocalTime.now().getSecond();
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+		     /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, ADD_COMPUTER, true, computer.getName(), convertToTimeStamp(computer.getIntroduced()), convertToTimeStamp(computer.getDiscontinued()),computer.getCompany().getId() );
 	        int statut = preparedStatement.executeUpdate();
 	        /* Analyse du statut retourné par la requête d'insertion */
@@ -195,8 +212,11 @@ public class ComputerDAO {
 	    ArrayList<Computer>listeComputer=new ArrayList<Computer>(); 
 		Computer computer;
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_List_COMPUTER, false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -223,8 +243,11 @@ public class ComputerDAO {
 	    Optional<Computer> computer=null;
 
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_BY_ID, false, computerId );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -252,8 +275,11 @@ public class ComputerDAO {
 	    Computer computer = null;
 	    boolean estSupprime=false;
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_BY_ID, false, computerId );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -285,7 +311,11 @@ public class ComputerDAO {
 	    int estMisAjour=0;
 		try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, UPDATE_COMPUTER_NAME, false,name, idComputer  );
 	        estMisAjour=preparedStatement.executeUpdate();
 	       System.out.println(estMisAjour);
@@ -319,7 +349,11 @@ public class ComputerDAO {
 	    int estMisAjour=0;
 		try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, UPDATE_COMPUTER_INTRODUCED_DATE, false,computer.orElse(null).getIntroduced(), computer.orElse(null).getId()  );
 	        estMisAjour=preparedStatement.executeUpdate();
 	       System.out.println(estMisAjour);
@@ -354,7 +388,11 @@ public class ComputerDAO {
 	    int estMisAjour=0;
 		try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, UPDATE_COMPUTER_DISCONTINUED_DATE, false,computer.orElse(null).getDiscontinued(), computer.orElse(null).getId()  );
 	        estMisAjour=preparedStatement.executeUpdate();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -386,7 +424,11 @@ public class ComputerDAO {
 	    int estMisAjour=0;
 		try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, UPDATE_COMPUTER_COMPANY_ID, false,newCompanyId, computerToUpdateCompanyId  );
 	        estMisAjour=preparedStatement.executeUpdate();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -418,7 +460,11 @@ public class ComputerDAO {
 		Computer computer;
 		try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_PAGE_COMPUTER,false,ligneDebut,taillePage);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -445,7 +491,11 @@ public class ComputerDAO {
 	    int size=0;
 		try {
 	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnexion();
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, COUNT,false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */

@@ -4,6 +4,7 @@ com/excilys/computerDatabase/servlets/DashboardComputerServlet.class
 com/excilys/computerDatabase/model/Computer$ComputerBuilder.class
 com/excilys/computerDatabase/mappers/CompanyMapper.class
 com/excilys/computerDatabase/exceptions/DAOConfigurationException.class
+com/excilys/computerDatabase/exceptions/ValidatorException$DateValidator.class
 com/excilys/computerDatabase/util/MyTools.class
 com/excilys/computerDatabase/exceptions/DAOExceptions.class
 com/excilys/computerDatabase/model/Computer.class
@@ -15,10 +16,12 @@ com/excilys/computerDatabase/util/Pages.class
 com/excilys/computerDatabase/servlets/AddComputerServlet.class
 com/excilys/computerDatabase/validators/ComputerValidator.class
 com/excilys/computerDatabase/dto/CompanyDTO.class
+com/excilys/computerDatabase/exceptions/ValidatorException$NameValidator.class
 com/excilys/computerDatabase/daos/DaoFactory.class
 com/excilys/computerDatabase/daos/ComputerDAO.class
 com/excilys/computerDatabase/exceptions/Logging.class
 com/excilys/computerDatabase/Programme.class
 com/excilys/computerDatabase/services/CompanyServices.class
+com/excilys/computerDatabase/daos/DaoFactoryHikary.class
 com/excilys/computerDatabase/services/ComputerServices.class
 com/excilys/computerDatabase/model/Computer$1.class

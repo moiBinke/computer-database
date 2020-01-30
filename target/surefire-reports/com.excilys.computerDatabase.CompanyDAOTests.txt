@@ -1,4 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: com.excilys.computerDatabase.CompanyDAOTests
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.509 s - in com.excilys.computerDatabase.CompanyDAOTests
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.224 s <<< FAILURE! - in com.excilys.computerDatabase.CompanyDAOTests
+testGetListCompany(com.excilys.computerDatabase.CompanyDAOTests)  Time elapsed: 0.148 s  <<< ERROR!
+java.lang.ExceptionInInitializerError
+	at com.excilys.computerDatabase.CompanyDAOTests.testGetListCompany(CompanyDAOTests.java:31)
+Caused by: java.lang.IllegalArgumentException: Cannot find property file: datasource.properties
+	at com.excilys.computerDatabase.CompanyDAOTests.testGetListCompany(CompanyDAOTests.java:31)
+
+testGetCompanyById(com.excilys.computerDatabase.CompanyDAOTests)  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class com.excilys.computerDatabase.daos.DaoFactoryHikary
+	at com.excilys.computerDatabase.CompanyDAOTests.testGetCompanyById(CompanyDAOTests.java:36)
+

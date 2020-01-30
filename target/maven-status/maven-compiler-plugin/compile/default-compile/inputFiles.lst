@@ -7,6 +7,7 @@
 /home/excilys/projetsEclipse/computerDatabase/src/main/java/com/excilys/computerDatabase/daos/DaoFactory.java
 /home/excilys/projetsEclipse/computerDatabase/src/main/java/com/excilys/computerDatabase/services/CompanyServices.java
 /home/excilys/projetsEclipse/computerDatabase/src/main/java/com/excilys/computerDatabase/exceptions/Logging.java
+/home/excilys/projetsEclipse/computerDatabase/src/main/java/com/excilys/computerDatabase/daos/DaoFactoryHikary.java
 /home/excilys/projetsEclipse/computerDatabase/src/main/java/com/excilys/computerDatabase/validators/ComputerValidator.java
 /home/excilys/projetsEclipse/computerDatabase/src/main/java/com/excilys/computerDatabase/servlets/AddComputerServlet.java
 /home/excilys/projetsEclipse/computerDatabase/src/main/java/com/excilys/computerDatabase/exceptions/ValidatorException.java

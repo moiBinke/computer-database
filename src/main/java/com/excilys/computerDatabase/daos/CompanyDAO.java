@@ -31,7 +31,7 @@ public class CompanyDAO  {
 	/**
 	 * Construction du singleton:
 	 */
-	private DaoFactory daoFactory;
+	//private DaoFactory daoFactory;
 	
 	private static CompanyDAO companyDAO;
 	
@@ -39,14 +39,25 @@ public class CompanyDAO  {
 		super();
 	}
 
-	private CompanyDAO(DaoFactory daoFactory) {
-		super();
-		this.daoFactory = daoFactory;
-	}
-	
+//	private CompanyDAO(DaoFactory daoFactory) {
+//		super();
+//		this.daoFactory = daoFactory;
+//	}
+	/**
+	 * En paramètre l'ancienne getInstance
+	 * @param daoFactory
+	 * @return
+	 */
+//	public static CompanyDAO getInstance(DaoFactory daoFactory) {
+//		if(companyDAO==null) {
+//			return new CompanyDAO(daoFactory);
+//			return new CompanyDAO();
+//		}
+//		return companyDAO;
+//	}
 	public static CompanyDAO getInstance(DaoFactory daoFactory) {
 		if(companyDAO==null) {
-			return new CompanyDAO(daoFactory);
+			return new CompanyDAO();
 		}
 		return companyDAO;
 	}
@@ -119,7 +130,7 @@ public class CompanyDAO  {
 
 	
 	public ArrayList<Company> getCompanyList() {
-		Connection connexion = null;
+		Connection connexion=null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
 	    ArrayList<Company>listeCompany=new ArrayList<Company>(); 
@@ -128,7 +139,8 @@ public class CompanyDAO  {
 	        /**
 	         *  Récupération d'une connexion depuis la Factory 
 	         *  */
-	        connexion = daoFactory.getConnexion();
+	      //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_List_COMPANY, false);
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
@@ -156,7 +168,8 @@ public class CompanyDAO  {
 	        /**
 	         *  Récupération d'une connexion depuis la Factory 
 	         *  */
-	        connexion = daoFactory.getConnexion();
+		//  connexion = daoFactory.getConnexion();
+			connexion=DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_COMPANY_BY_ID, false, idCompany );
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
