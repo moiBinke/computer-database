@@ -12,7 +12,7 @@ public class ComputerValidator {
 		validateDates(computer);
 		validateComputerName(computer);
 	}
-	public void validateDates(Computer computer){
+	private void validateDates(Computer computer){
 		if(computer.getIntroduced()==null || computer.getDiscontinued()==null) {
 			//We do nothing because it's correct
 		}
@@ -26,7 +26,7 @@ public class ComputerValidator {
 			}
 		}
 	}
-	public void validateComputerName(Computer computer){
+	private void validateComputerName(Computer computer){
 		if(computer.getName()==null || computer.getName().equals("")) {
 			throw new ValidatorException.NameValidator("ValidatorException: Computer Name is required");
 		}
