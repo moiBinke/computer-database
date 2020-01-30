@@ -82,7 +82,7 @@ public class ComputerDAO {
 			try {
 				resultset.close();
 			}catch(SQLException sqlExcept) {
-				Logging.afficherMessage("Error when trying to close ResultSet Object");
+				Logging.afficherMessageError("Error when trying to close ResultSet Object");
 			}
 		}
 	}
@@ -92,7 +92,7 @@ public class ComputerDAO {
 			try {
 				statement.close();
 			}catch(SQLException sqlExcept) {
-				Logging.afficherMessage("Error when trying to close Statement Object");
+				Logging.afficherMessageError("Error when trying to close Statement Object");
 			}
 		}
 	}
@@ -102,7 +102,7 @@ public class ComputerDAO {
 			try {
 				connection.close();
 			}catch(SQLException sqlExcept) {
-				Logging.afficherMessage("Error when trying to close Connection Object");
+				Logging.afficherMessageError("Error when trying to close Connection Object");
 			}
 		}
 	}
@@ -172,13 +172,13 @@ public class ComputerDAO {
 	        if ( valeursAutoGenerees.next() ) {
 	            /* Puis initialisation de la propriété id du l'objet computer */
 	            computer.setId(valeursAutoGenerees.getLong( 1 ) );
-	            Logging.afficherMessage("Computer created successfuly");
+	            Logging.afficherMessageDebug("Computer created successfuly");
 	        } else {
-	        	Logging.afficherMessage("Error when trying to add new Computer Object");
+	        	Logging.afficherMessageError("Error when trying to add new Computer Object");
 	            throw new DAOExceptions( );
 	        }
 	    } catch ( SQLException e ) {
-	    	Logging.afficherMessage("Error when trying to add new Computer Object");
+	    	Logging.afficherMessageError("Error when trying to add new Computer Object");
 	        throw new DAOExceptions( e );
 	    } finally {
 	        fermeture( valeursAutoGenerees, preparedStatement, connexion );
@@ -204,9 +204,9 @@ public class ComputerDAO {
 				computer = ComputerMapper.mapComputer(resultSet);
 				listeComputer.add(computer);
 	        }
-        	Logging.afficherMessage("computer list got successfuly");
+        	Logging.afficherMessageDebug("computer list got successfuly");
 	    } catch ( SQLException e ) {
-        	Logging.afficherMessage("Error when trying to select all Computer Object in database");
+        	Logging.afficherMessageError("Error when trying to select all Computer Object in database");
 	       e.printStackTrace();
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );
@@ -230,13 +230,13 @@ public class ComputerDAO {
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if ( resultSet.next() ) {
 				computer = Optional.ofNullable(ComputerMapper.mapComputer(resultSet));
-	        	Logging.afficherMessage("a computer is selected from database");
+	        	Logging.afficherMessageDebug("a computer is selected from database");
 	        }
 	        else {
-	        	Logging.afficherMessage("Cannot get computer with id: "+computerId);;
+	        	Logging.afficherMessageError("Cannot get computer with id: "+computerId);;
 	        }
 	    } catch ( SQLException e ) {
-        	Logging.afficherMessage("Error when trying to get Computer by its Id");
+        	Logging.afficherMessageError("Error when trying to get Computer by its Id");
 	       e.printStackTrace();
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );
@@ -270,10 +270,10 @@ public class ComputerDAO {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }
 		if(estSupprime) {
-        	Logging.afficherMessage("A computer with id= "+computerId+" is deleted");
+        	Logging.afficherMessageDebug("A computer with id= "+computerId+" is deleted");
 			return Optional.of(computer);
 		}
-		Logging.afficherMessage("Cannot get computer with id: "+computerId);
+		Logging.afficherMessageError("Cannot get computer with id: "+computerId);
 		return   Optional.empty();
 	}
 	 
@@ -336,10 +336,10 @@ public class ComputerDAO {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }
 		if(estMisAjour!=0) {
-			Logging.afficherMessage("A computer with id= "+computerToUpdateIntroducedDateId+" come to be updated");
+			Logging.afficherMessageDebug("A computer with id= "+computerToUpdateIntroducedDateId+" come to be updated");
 			return computer;
 		}
-		Logging.afficherMessage("Cannot update introduced date of computer with id= "+computerToUpdateIntroducedDateId+" ");
+		Logging.afficherMessageError("Cannot update introduced date of computer with id= "+computerToUpdateIntroducedDateId+" ");
 		return Optional.empty();
 	}
 
@@ -357,7 +357,6 @@ public class ComputerDAO {
 	        connexion = daoFactory.getConnexion();
 	        preparedStatement = initialiserRequetePreparee( connexion, UPDATE_COMPUTER_DISCONTINUED_DATE, false,computer.orElse(null).getDiscontinued(), computer.orElse(null).getId()  );
 	        estMisAjour=preparedStatement.executeUpdate();
-	       System.out.println(estMisAjour);
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if (estMisAjour!=0) {
 				computer = getComputer(computerToUpdateDiscontinuedDateId);
@@ -371,10 +370,10 @@ public class ComputerDAO {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }
 		if(estMisAjour!=0) {
-			Logging.afficherMessage("A computer with id= "+computerToUpdateDiscontinuedDateId+" come to be updated");
+			Logging.afficherMessageDebug("A computer with id= "+computerToUpdateDiscontinuedDateId+" come to be updated");
 			return computer;
 		}
-		Logging.afficherMessage("Cannot update introduced date of computer with id= "+computerToUpdateDiscontinuedDateId+" ");
+		Logging.afficherMessageError("Cannot update introduced date of computer with id= "+computerToUpdateDiscontinuedDateId+" ");
 		return Optional.empty();
 	}
 
@@ -403,10 +402,10 @@ public class ComputerDAO {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }
 		if(estMisAjour!=0) {
-			Logging.afficherMessage("Computer "+computerToUpdateCompanyId+" company_id come to be updated ");
+			Logging.afficherMessageDebug("Computer "+computerToUpdateCompanyId+" company_id come to be updated ");
 			return computer;
 		}
-		Logging.afficherMessage("Cannot update Company for Computer with id "+computerToUpdateCompanyId+" ");
+		Logging.afficherMessageError("Cannot update Company for Computer with id "+computerToUpdateCompanyId+" ");
 		return Optional.empty();
 	}
 
@@ -427,9 +426,9 @@ public class ComputerDAO {
 				computer = ComputerMapper.mapComputer(resultSet);
 				listeComputer.add(computer);
 	        }
-	        Logging.afficherMessage("computer list got successfuly ");
+	        Logging.afficherMessageDebug("computer list got successfuly ");
 	    } catch ( SQLException e ) {
-	       Logging.afficherMessage("Cannot get computer list ");
+	       Logging.afficherMessageError("Cannot get computer list ");
 	       e.printStackTrace();
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );
@@ -454,7 +453,7 @@ public class ComputerDAO {
 	        	size=resultSet.getInt(1);
 	        }
 	    } catch ( SQLException e ) {
-	       Logging.afficherMessage("Cannot get computer list size");
+	       Logging.afficherMessageError("Cannot get computer list size");
 	       e.printStackTrace();
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );

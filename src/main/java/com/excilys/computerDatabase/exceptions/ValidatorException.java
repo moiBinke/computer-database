@@ -39,5 +39,51 @@ public class ValidatorException extends RuntimeException{
 			super(cause);
 		}
 		
+		public static class NameValidator extends ValidatorException{
+
+			public NameValidator() {
+				super();
+				// TODO Auto-generated constructor stub
+			}
+
+			public NameValidator(String message, Throwable cause) {
+				super(message, cause);
+				// TODO Auto-generated constructor stub
+			}
+
+			public NameValidator(String message) {
+				super(message);
+				// TODO Auto-generated constructor stub
+			}
+
+			public NameValidator(Throwable cause) {
+				super(cause);
+				// TODO Auto-generated constructor stub
+			}
+			
+		}
+		public static class DateValidator extends ValidatorException{
+
+			public DateValidator() {
+				super();
+				// TODO Auto-generated constructor stub
+			}
+
+			public DateValidator(String message, Throwable cause) {
+				super(message, cause);
+				// TODO Auto-generated constructor stub
+			}
+
+			public DateValidator(String message) {
+				super(message);
+				// TODO Auto-generated constructor stub
+			}
+
+			public DateValidator(Throwable cause) {
+				super(cause);
+				// TODO Auto-generated constructor stub
+			}
+			
+		}
 		
 	}

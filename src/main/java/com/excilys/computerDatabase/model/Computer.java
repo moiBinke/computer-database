@@ -99,8 +99,6 @@ public class Computer {
 		//La validation depuis l'entrée "fail fast"
 		public Computer build() {
 			Computer computer = new Computer(this);
-			ComputerValidator computerValidator=new ComputerValidator();
-			computerValidator.validateComputer(computer);
 			return computer;
 		}
 	}

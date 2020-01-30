@@ -35,26 +35,30 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" name="computerName" placeholder="Computer name">
+                                <input type="text" class="form-control" id="computerName" name="computerName" value="${failedComputer.name}" placeholder="Computer name">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" name="introduced" placeholder="Introduced date">
+                                <input type="date" class="form-control" id="introduced" value="${failedComputer.introduced}" name="introduced" placeholder="Introduced date">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" name="discontinued" placeholder="Discontinued date">
+                                <input type="date" class="form-control" id="discontinued" value="${failedComputer.discontinued}" name="discontinued" placeholder="Discontinued date">
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" name="companyId">
-                                <option value="" selected> </option>
+                                <select class="form-control" id="companyId" name="companyId" >
+                                <option value="${failedComputer.company.name}" selected> </option>
                                 <c:forEach items="${companies}" var="company">
                                     <option value="${company.id}"><c:out value="${company.name}"></c:out></option>
                                 </c:forEach>
                                 </select>
                             </div>                  
                         </fieldset>
+                        <div class="form-group error">
+                        	<c:out value="${erreur}"></c:out>
+                        </div>
+                        
                         <div class="actions pull-right">
                             <input type="submit" value="Add" class="btn btn-primary">
                             or

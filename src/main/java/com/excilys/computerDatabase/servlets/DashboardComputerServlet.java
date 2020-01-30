@@ -64,7 +64,6 @@ public class DashboardComputerServlet extends HttpServlet {
 		int sizeComputer=computerService.size();
 		maxPage=sizeComputer/taillePage;
 		request.setAttribute("maxPage", maxPage);
-		System.out.println("Max "+maxPage);
 		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
 		ArrayList<Computer>computerList=new ArrayList<Computer>();
 		if(request.getParameter("taillePage")!=null) {
@@ -73,27 +72,21 @@ public class DashboardComputerServlet extends HttpServlet {
 		if(request.getParameter("pageIterator")!=null) {
 			pageIterator=Integer.parseInt(request.getParameter("pageIterator"));
 			computerList=computerService.getPage(pageIterator*taillePage,taillePage );
-			for(Computer computer: computerList) {
-				computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
-			}
-			request.setAttribute("sizeComputer", sizeComputer);
-			request.setAttribute("computerList", computerDTOList);
-			request.setAttribute("pageIterator", pageIterator);
-			request.getRequestDispatcher("views/dashboard.jsp").forward(request, response);
-		
-			
 		}
 		else {
 			pageIterator=0;//Initialisation de l'iterateur : premier appel
 			computerList=computerService.getPage(pageIterator*taillePage,taillePage);// appel de computer dao 
-			for(Computer computer: computerList) {
-				computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
-			}
-			request.setAttribute("sizeComputer", sizeComputer);
-			request.setAttribute("computerList", computerDTOList);
-			request.setAttribute("pageIterator", pageIterator);
-			request.getRequestDispatcher("views/dashboard.jsp").forward(request, response);
 		}
+//		for(Computer computer: computerList) {
+//			computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
+//		}
+		computerList.stream()
+					.forEach(computer->computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer)));
+		
+		request.setAttribute("sizeComputer", sizeComputer);
+		request.setAttribute("computerList", computerDTOList);
+		request.setAttribute("pageIterator", pageIterator);
+		request.getRequestDispatcher("views/dashboard.jsp").forward(request, response);
 		
 	}
 

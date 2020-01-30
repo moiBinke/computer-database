@@ -12,4 +12,14 @@ public class Logging {
 
      LOGGER.info(message);
  }
+ public static void afficherMessageError(String message) {
+	 PropertyConfigurator.configure(Logging.class.getClassLoader().getResource("log4j.properties"));
+
+     LOGGER.error(message);
+ }
+ public static void afficherMessageDebug(String message) {
+	 PropertyConfigurator.configure(Logging.class.getClassLoader().getResource("log4j.properties"));
+
+     LOGGER.debug(message);
+ }
 }

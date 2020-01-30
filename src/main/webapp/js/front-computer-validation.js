@@ -2,22 +2,16 @@ $(function() {
   
   $("form[name='addComputer']").validate({
     rules: {
-	      computerName: "required",
-	      computerCompany:"required",
-    	  introduced:"required",
-    	  discontinued:"required"
+	      computerName:"required",
     	  
     },
-    // Specify validation error messages
     messages: {
-      computerName: "Please enter computer name",
-      computerCompany: "Please select this computer company",
-      introduced:"Please enter introduced date",
-	  discontinued:"please enter discontinued date"
+
+      computerName: "Please Computer Name is required",
+      
     },
   submitHandler: function(form) {
       form.submit();
     }
   });
 });
-

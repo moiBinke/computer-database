@@ -30,3 +30,6 @@ input[type='checkbox'] {
 form .error {
   color: #ff0000;
 }
+.error{
+	color: #ff0000;
+}

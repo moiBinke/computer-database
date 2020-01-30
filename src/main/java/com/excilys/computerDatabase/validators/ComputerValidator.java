@@ -1,6 +1,5 @@
 package com.excilys.computerDatabase.validators;
 
-import java.time.LocalDate;
 
 import com.excilys.computerDatabase.exceptions.ValidatorException;
 import com.excilys.computerDatabase.model.Computer;
@@ -8,23 +7,30 @@ import com.excilys.computerDatabase.model.Computer;
 public class ComputerValidator {
 
 
-	
-	public Computer validateComputer(Computer computer) {
-		if(validateDates(computer)) {}
-		return computer;
+
+	public  void validateComputer(Computer computer) {
+		validateDates(computer);
+		validateComputerName(computer);
 	}
-	public boolean validateDates(Computer computer) {
+	public void validateDates(Computer computer){
 		if(computer.getIntroduced()==null || computer.getDiscontinued()==null) {
-			return true;
+			//We do nothing because it's correct
 		}
 		else {
 			if(computer.getDiscontinued().isAfter(computer.getIntroduced())) {
-				return true;
+				//We do nothing because it's correct
 			}
 			else {
-				throw new ValidatorException("ValidatorException: Introduced date should be before discontinuedDate");
+				//We put an exception
+				throw new ValidatorException.DateValidator("ValidatorException: Introduced date should be before discontinuedDate");
 			}
 		}
 	}
-	
+	public void validateComputerName(Computer computer){
+		if(computer.getName()==null || computer.getName().equals("")) {
+			throw new ValidatorException.NameValidator("ValidatorException: Computer Name is required");
+		}
+		//else we do nothing because it's correct
+		
+	}
 }

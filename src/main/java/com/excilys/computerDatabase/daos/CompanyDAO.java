@@ -59,9 +59,9 @@ public class CompanyDAO  {
 		if(resultset!=null) {
 			try {
 				resultset.close();
-				Logging.afficherMessage("ResultSet fermé avec succès");
+				Logging.afficherMessageDebug("ResultSet fermé avec succès");
 			}catch(SQLException sqlExcept) {
-				Logging.afficherMessage("Error when closing ResultSet object");
+				Logging.afficherMessageError("Error when closing ResultSet object");
 				
 			}
 		}
@@ -73,9 +73,9 @@ public class CompanyDAO  {
 		if(statement!=null) {
 			try {
 				statement.close();
-				Logging.afficherMessage("Error when closing Statement object");
+				Logging.afficherMessageError("Statement fermé avec succès");
 			}catch(SQLException sqlExcept) {
-				Logging.afficherMessage("Error when closing Statement object");
+				Logging.afficherMessageError("Error when closing Statement object");
 			}
 		}
 	}
@@ -138,7 +138,7 @@ public class CompanyDAO  {
 	        }
 	    } catch ( SQLException e ) {
 	       e.printStackTrace();
-		Logging.afficherMessage("Error when trying to get Company list");
+		Logging.afficherMessageError("Error when trying to get Company list");
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }
@@ -164,11 +164,11 @@ public class CompanyDAO  {
 	        	company = Optional.ofNullable(CompanyMapper.mapCompany(resultSet));
 	        }
 	        else {
-	        	System.out.println("ce computer n'existe pas!");
+	        	Logging.afficherMessageError("ce computer n'existe pas!");
 	        }
 	    } catch ( SQLException e ) {
 	       e.printStackTrace();
-	       Logging.afficherMessage("Error when trying to get Company by Id");
+	       Logging.afficherMessageError("Error when trying to get Company by Id");
 	    } finally {
 	        fermeture( resultSet, preparedStatement, connexion );
 	    }
