@@ -511,5 +511,12 @@ public class ComputerDAO {
 
 	    return size;
 	}
+	public Computer updateComputer(Computer computerToUpdate) {
+		updateComputerName(computerToUpdate.getId(),computerToUpdate.getName()).get();
+		updateComputerIntroducedDate(computerToUpdate.getId(),computerToUpdate.getIntroduced()).get();
+		updateComputerDiscontinuedDate(computerToUpdate.getId(),computerToUpdate.getDiscontinued()).get();
+		computerToUpdate=updateComputerCompany(computerToUpdate.getId(),computerToUpdate.getCompany().getId()).get();
+		return computerToUpdate;
+	}
 
 }

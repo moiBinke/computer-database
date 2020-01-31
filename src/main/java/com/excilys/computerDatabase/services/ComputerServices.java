@@ -2,6 +2,7 @@ package com.excilys.computerDatabase.services;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.excilys.computerDatabase.daos.ComputerDAO;
 import com.excilys.computerDatabase.daos.DaoFactory;
@@ -44,7 +45,15 @@ public class ComputerServices {
 	}
 
 	public int size() {
-		// TODO Auto-generated method stub
 		return computerDAO.size();
+	}
+
+	public  Optional<Computer> findById(Long idComputer) {
+		return computerDAO.getComputer(idComputer);
+	}
+
+	public Computer update(Computer computerToUpdate) {
+		System.out.println(computerToUpdate);
+		return computerDAO.updateComputer(computerToUpdate);
 	}
 }

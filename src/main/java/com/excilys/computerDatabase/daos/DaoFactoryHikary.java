@@ -44,7 +44,6 @@ public class DaoFactoryHikary {
 		if (connect != null) {
 			try {
 				connect.close();
-				connect = null;
 			} catch (SQLException sqlException) {
 				for (Throwable e : sqlException) {
 					Logging.afficherMessageError("Problèmes rencontrés: " + e);

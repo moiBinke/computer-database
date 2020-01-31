@@ -1,8 +1,5 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.excilys.computerDatabase.dto.ComputerDTO"%>
-<%@page import="com.excilys.computerDatabase.dto.CompanyDTO"%>
 
 <%@ page isELIgnored="false"%>
 
@@ -24,7 +21,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.jsp"> Application - Computer Database </a>
+            <a class="navbar-brand" href="DashboardComputerServlet"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -94,7 +91,7 @@
                             <input type="checkbox" name="cb" class="cb" value="0">
                         </td>
                         <td>
-                            <a href="editComputer.jsp" onclick=""><c:out value="${computer.name}"></c:out></a>
+                            <a href="editComputerServlet?id=${computer.id}" onclick=""><c:out value="${computer.name}"></c:out></a>
                         </td>
                         <td><c:out value="${computer.introduced}"></c:out> </td>
                         <td><c:out value="${computer.discontinued}"></c:out> </td>

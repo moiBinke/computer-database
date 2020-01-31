@@ -20,6 +20,14 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 		this.company = company;
 	}
+	public ComputerDTO(Long id, String name, String introduced, String discontinued, CompanyDTO companyDTO) {
+		super();
+		this.id=id;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.company = companyDTO;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -49,6 +57,11 @@ public class ComputerDTO {
 	}
 	public void setCompany(CompanyDTO company) {
 		this.company = company;
+	}
+	@Override
+	public String toString() {
+		return "ComputerDTO [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
+				+ discontinued + ", company=" + company + "]";
 	}
 	
 	
