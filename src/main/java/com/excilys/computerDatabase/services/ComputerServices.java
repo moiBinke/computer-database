@@ -56,4 +56,8 @@ public class ComputerServices {
 		System.out.println(computerToUpdate);
 		return computerDAO.updateComputer(computerToUpdate);
 	}
+
+	public void deleteComputer(long idComputer) {
+		 computerDAO.deleteComputer(idComputer);
+	}
 }

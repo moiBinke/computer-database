@@ -2,6 +2,7 @@ package com.excilys.computerDatabase.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -95,7 +96,14 @@ public class DashboardComputerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		System.out.println(request.getParameter("selection"));
+		String[] computerIdsAsListString=request.getParameter("selection").split(",");
+		for(String idString:computerIdsAsListString) {
+			computerService.deleteComputer(Long.parseLong(idString));
+		}
+		
+		
+     	doGet(request, response);
 	}
 
 }
