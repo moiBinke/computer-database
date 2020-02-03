@@ -65,4 +65,8 @@ public class ComputerServices {
 		Pages page =new Pages(computerDAO);
 		return page.getPageOrderByName(taillePage, pageIterator);
 	}
+
+	public ArrayList<Computer> search(String search) {
+		return computerDAO.search(search);
+	}
 }

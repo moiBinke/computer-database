@@ -56,6 +56,7 @@ public class ComputerDAO {
 	public static final String GET_COMPUTER_ORDER_BY_DISCONTINUED_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY discontinued DESC LIMIT ?, ? ;";
 	public static final String GET_COMPUTER_ORDER_BY_COMPANY_NAME_ASC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY company_name ASC LIMIT ?, ? ;";
 	public static final String GET_COMPUTER_ORDER_BY_COMPANY_NAME_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY company_name DESC LIMIT ?, ? ;";
+	public static final String SEARCH="SELECT computer.id as computer_id, computer.name as computer_name , computer.introduced, computer.discontinued, computer.company_id, company.name as company_name  FROM computer LEFT JOIN company on company.id=computer.company_id WHERE LOWER(computer.name) LIKE ? OR  LOWER(company.name) LIKE ? OR introduced LIKE ? OR discontinued LIKE ?;";
 
 	/**
 	 * Construction du singleton:
@@ -555,6 +556,36 @@ public class ComputerDAO {
 		updateComputerDiscontinuedDate(computerToUpdate.getId(),computerToUpdate.getDiscontinued()).get();
 		computerToUpdate=updateComputerCompany(computerToUpdate.getId(),computerToUpdate.getCompany().getId()).get();
 		return computerToUpdate;
+	}
+	public ArrayList<Computer> search(String search) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    ArrayList<Computer>listeComputer=new ArrayList<Computer>(); 
+		Computer computer;
+		try {
+			 /**
+		      * En commentaire l'ancienne connection AVANT hIKARI
+		      */
+		     //  connexion = daoFactory.getConnexion();
+			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
+			search="%"+search.toLowerCase()+"%";
+	        preparedStatement = initialiserRequetePreparee( connexion, SEARCH, false,search,search,search,search);
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        while ( resultSet.next() ) {
+				computer = ComputerMapper.mapComputer(resultSet);
+				listeComputer.add(computer);
+	        }
+        	Logging.afficherMessageDebug("computer list got successfuly");
+	    } catch ( SQLException e ) {
+        	Logging.afficherMessageError("Error when trying to search Computer Object in database");
+	       e.printStackTrace();
+	    } finally {
+	        fermeture( resultSet, preparedStatement, connexion );
+	    }
+
+	    return listeComputer;
 	}
 
 }

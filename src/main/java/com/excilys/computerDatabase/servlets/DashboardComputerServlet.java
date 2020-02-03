@@ -30,7 +30,7 @@ public class DashboardComputerServlet extends HttpServlet {
 	
 	
 	
-	private  int pageIterator;
+	private  Integer pageIterator;
 	private int taillePage=20;
 	private int maxPage;
 	private String orderBy;
@@ -82,9 +82,7 @@ public class DashboardComputerServlet extends HttpServlet {
 			pageIterator=0;//Initialisation de l'iterateur : premier appel
 			computerList=computerService.getPage(pageIterator*taillePage,taillePage,orderBy);// appel de computer dao 
 		}
-//		for(Computer computer: computerList) {
-//			computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
-//		}
+
 		computerList.stream()
 					.forEach(computer->computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer)));
 		
@@ -93,17 +91,46 @@ public class DashboardComputerServlet extends HttpServlet {
 		request.setAttribute("pageIterator", pageIterator);
 		request.getRequestDispatcher("views/dashboard.jsp").forward(request, response);
 	}
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+	/**
+	 * méthode de Recherche 
+	 */
+	private void search(HttpServletRequest request, HttpServletResponse response, String search) throws ServletException, IOException  {
+		int sizeComputer=computerService.size();
+		maxPage=sizeComputer/taillePage;
+		request.setAttribute("maxPage", maxPage);
+		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
+		ArrayList<Computer>computerList=new ArrayList<Computer>();
+		System.out.println(search);
+		computerList=computerService.search(search);
+		computerList.stream()
+		.forEach(computer->computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer)));
+		request.setAttribute("sizeComputer", sizeComputer);
+		request.setAttribute("computerList", computerDTOList);
+		request.getRequestDispatcher("views/dashboard.jsp").forward(request, response);
+			}
 
-		if(request.getParameter("order-by")!=null && !request.getParameter("order-by").equals("")) {
-			orderBy=request.getParameter("order-by");
-			traitementDashboardWithOrderBy(request,response,orderBy);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if(request.getParameter("search")!=null && !request.getParameter("search").equals("")) {
+			
+			search(request,response,request.getParameter("search"));
+			System.out.println(request.getParameter("search"));
 		}
-		else{
-			traitementDashboardWithOrderBy(request,response,orderBy);
+		else {
+			if(request.getParameter("order-by")!=null && !request.getParameter("order-by").equals("")) {
+				orderBy=request.getParameter("order-by");
+				traitementDashboardWithOrderBy(request,response,orderBy);
+			}
+			else{
+				traitementDashboardWithOrderBy(request,response,orderBy);
+			}
 		}
 		
+		
 	}
+
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

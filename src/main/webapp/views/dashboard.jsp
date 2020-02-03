@@ -148,25 +148,27 @@
 
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
-            <ul class="pagination">
-              <li>
-              	<c:if test="${pageIterator>0}">
-              		<a href="DashboardComputerServlet?pageIterator=${pageIterator-1}" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-				</c:if>      
-              </li>
-              <c:forEach  var = "i" begin = "1" end = "5">
-              <li><a href="DashboardComputerServlet?pageIterator=${pageIterator+i}"><c:out value="${pageIterator+i}"></c:out></a></li>
-			  </c:forEach>
-              <li>
-              <c:if test="${pageIterator<maxPage}">
-                <a href="DashboardComputerServlet?pageIterator=${pageIterator+1}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-                </c:if>
-            </li>
-        </ul>
+	        <c:if test="${pageIterator!=null}">
+	            <ul class="pagination">
+	              <li>
+	              	<c:if test="${pageIterator>0}">
+	              		<a href="DashboardComputerServlet?pageIterator=${pageIterator-1}" aria-label="Previous">
+	                      <span aria-hidden="true">&laquo;</span>
+	                    </a>
+					</c:if>      
+	              </li>
+	              <c:forEach  var = "i" begin = "1" end = "5">
+	              <li><a href="DashboardComputerServlet?pageIterator=${pageIterator+i}"><c:out value="${pageIterator+i}"></c:out></a></li>
+				  </c:forEach>
+	              <li>
+	              <c:if test="${pageIterator<maxPage}">
+	                <a href="DashboardComputerServlet?pageIterator=${pageIterator+1}" aria-label="Next">
+	                    <span aria-hidden="true">&raquo;</span>
+	                </a>
+	                </c:if>
+	            </li>
+	        </ul>
+	        </c:if>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
             <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=10">10</a></button>
