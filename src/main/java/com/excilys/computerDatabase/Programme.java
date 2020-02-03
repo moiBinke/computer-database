@@ -56,6 +56,7 @@ public class Programme{
             System.out.println("\n                                                      5-  Delete computer");
             System.out.println("\n                                                      6-  Display all companies ");
             System.out.println("\n                                                      7-  Select a company by id ");
+            System.out.println("\n                                                      71-  Delete Company by id ");
             System.out.println("\n                                                      8-  Quitter\n");
             System.out.println("\n\n\n\nSaisissez votre Choix :");
             System.out.print( "Enter votre choix en tapant le numéro correspondant: \n" );
@@ -106,6 +107,7 @@ public class Programme{
 		
 		Scanner lecteur = new Scanner( System.in );
 		int choix=0;
+		String orderByAny="any";
 		
 		while(true) {
 			choix=menu();
@@ -199,7 +201,7 @@ public class Programme{
 				taillePage=lecteur.nextInt();
 				System.out.println("Entrer l'index de la ligne initiale");
 				ligneDebut=lecteur.nextInt();
-				listComputerPage=computerPage.getPage(ligneDebut,taillePage);
+				listComputerPage=computerPage.getPage(ligneDebut,taillePage,orderByAny);
 				System.out.println(listComputerPage);
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");
 				lecteur.nextInt();
@@ -220,7 +222,7 @@ public class Programme{
 						computerPaginer.setStop(true);
 					}
 					else {
-						page=computerPaginer.pagination(controle);
+						page=computerPaginer.pagination(controle,orderByAny);
 					    System.out.println("\n               ****************************************************Page "+computerPaginer.getIteration()+"*************************************************************************               \n");
 					    System.out.println("                                                                     < Page"+computerPaginer.getIteration()+" >                                                                                                          \n");
 						System.out.println(page);
@@ -254,6 +256,11 @@ public class Programme{
 			case 8:
 				System.out.println("******************************************Fin Programme***********************************************");
 				return ;
+			case 71:
+				Long companyToDeleteId;
+				System.out.println("Entrer id du company");
+				companyToDeleteId=lecteur.nextLong();
+				companyDAO.deleteComputer(companyToDeleteId);
 			default:
 				System.out.println("Ce choix n'existe pas!");
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");

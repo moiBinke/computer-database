@@ -27,7 +27,7 @@ public class CompanyDAO  {
 	 */
 	public static final String GET_List_COMPANY="SELECT name, id FROM company";
 	public static final String GET_COMPANY_BY_ID="SELECT name, id FROM company where id=? ";
-
+	public static final String DELETE_COMPANY="DELETE FROM company WHERE id=?";
 	/**
 	 * Construction du singleton:
 	 */
@@ -188,7 +188,53 @@ public class CompanyDAO  {
 	    return company;
 	}
 	
-	
+	/*
+	 * DELETE A COMPANY: we should delete all computer of this company.
+	 */
+	public void deleteComputer(Long idCompany) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement1 = null;
+	    PreparedStatement preparedStatement2 = null;
+	    int resultSet1;
+	    int resultSet2;
+
+		try {
+	        /**
+	         *  Récupération d'une connexion depuis la Factory DaoFactoryHikary
+	         *  */
+			connexion=DaoFactoryHikary.getInstance().getConnection();
+			
+			connexion.setAutoCommit(false);
+			
+	        preparedStatement1 = initialiserRequetePreparee( connexion, ComputerDAO.DELETE_COMPUTER_WITH_COMPANY_ID, false, idCompany );
+	        resultSet1 = preparedStatement1.executeUpdate();
+	        
+	        preparedStatement2 = initialiserRequetePreparee( connexion,DELETE_COMPANY , false, idCompany);
+	        resultSet2 = preparedStatement2.executeUpdate();
+	        System.out.println("r1:"+resultSet1);
+	        System.out.println("r1:"+resultSet2);
+	        if(resultSet2==1) {
+	        	connexion.commit();
+	        	Logging.afficherMessage("company with id "+idCompany+" is deleted succesfully. Even "+resultSet1+" computer(s) is(are) deleted during this operation");
+	        }
+	        else if(resultSet2==0) {
+	        	connexion.rollback();
+	        	Logging.afficherMessage("No company with id "+idCompany+" founded");
+	        }
+	        else {
+	        	connexion.rollback();
+	        	Logging.afficherMessageError("Error when deleting company with id :"+idCompany);
+	        }
+	        
+	    } catch ( SQLException e ) {
+	       e.printStackTrace();
+	       Logging.afficherMessageError("Error when trying to get Company by Id");
+	    } finally {
+	        fermetureStatement( preparedStatement1);
+	        fermetureStatement( preparedStatement2);
+	        fermetureConnection(connexion );
+	    }
+	}
 	
 
 }

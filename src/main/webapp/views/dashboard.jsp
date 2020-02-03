@@ -45,8 +45,50 @@
                 </div>
             </div>
         </div>
-
-        <form id="deleteForm" action="/computerDatabase/DashboardComputerServlet" method="POST">
+         <div class="row text-center">
+            	<div class="col-md-3">
+            		<h5>Order by computer name</h5>
+            		<a href="DashboardComputerServlet?order-by=name">
+            			<span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
+            		</a>
+            		
+            		<a  href="DashboardComputerServlet?order-by=name-alt">
+            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+            		</a>
+            	</div>
+            	<div class="col-md-3">
+            		<h5>Order by computer introduced date</h5>
+            		<a href="DashboardComputerServlet?order-by=introduced">
+            			<span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
+            		</a>
+            		
+            		<a  href="DashboardComputerServlet?order-by=introduced-alt">
+            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+            		</a>	
+            	</div>
+            	<div class="col-md-3">
+            		<h5>Order by computer Discontinued</h5>
+            		<a href="DashboardComputerServlet?order-by=discontinued">
+            			<span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
+            		</a>
+            		
+            		<a  href="DashboardComputerServlet?order-by=discontinued-alt">
+            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+            		</a>	
+            	</div>
+            	<div class="col-md-3">
+            		<h5>Order by company Name</h5>
+            		<a href="DashboardComputerServlet?order-by=company-name">
+            			<span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
+            		</a>
+            		
+            		<a  href="DashboardComputerServlet?order-by=company-name-alt">
+            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+            		</a>
+            	</div>
+            </div>
+		<div class=""></div>
+        <form id="deleteForm" action="DashboardComputerServlet?DashboardComputerServlet" method="POST">
             <input type="hidden" name="selection" value="">
         </form>
 

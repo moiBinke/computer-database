@@ -46,9 +46,17 @@ public class ComputerDAO {
 	public static final String UPDATE_COMPUTER_DISCONTINUED_DATE = "UPDATE computer SET discontinued=? WHERE id=?;";
 	public static final String UPDATE_COMPUTER_COMPANY_ID = "UPDATE computer SET company_id=? WHERE id=?;";
 	public static final String GET_PAGE_COMPUTER = "SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id LIMIT ?, ?";
-	private static final String COUNT = "SELECT COUNT(*) FROM computer";
-	
-	
+	public static final String COUNT = "SELECT COUNT(*) FROM computer;";
+	public static final String DELETE_COMPUTER_WITH_COMPANY_ID="DELETE FROM computer WHERE company_id=?;";
+	public static final String GET_COMPUTER_ORDER_BY_NAME_ASC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY computer_name ASC LIMIT ?, ? ;";
+	public static final String GET_COMPUTER_ORDER_BY_NAME_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY computer_name ASC LIMIT ?, ? ;";
+	public static final String GET_COMPUTER_ORDER_BY_INTRODUCED_ASC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY introduced ASC LIMIT ?, ? ;";
+	public static final String GET_COMPUTER_ORDER_BY_INTRODUCED_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY introduced DESC LIMIT ?, ? ;";
+	public static final String GET_COMPUTER_ORDER_BY_DISCONTINUED_ASC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY discontinued ASC LIMIT ?, ? ;";
+	public static final String GET_COMPUTER_ORDER_BY_DISCONTINUED_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY discontinued DESC LIMIT ?, ? ;";
+	public static final String GET_COMPUTER_ORDER_BY_COMPANY_NAME_ASC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY company_name ASC LIMIT ?, ? ;";
+	public static final String GET_COMPUTER_ORDER_BY_COMPANY_NAME_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY company_name DESC LIMIT ?, ? ;";
+
 	/**
 	 * Construction du singleton:
 	 */
@@ -452,7 +460,7 @@ public class ComputerDAO {
 	}
 
 	 
-	public ArrayList<Computer> getComputerListPage(int ligneDebut, int  taillePage ) {
+	public ArrayList<Computer> getComputerListPage(int ligneDebut, int  taillePage, String orderBy ) {
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -465,7 +473,37 @@ public class ComputerDAO {
 		      */
 		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
-	        preparedStatement = initialiserRequetePreparee( connexion, GET_PAGE_COMPUTER,false,ligneDebut,taillePage);
+			switch(orderBy) {
+			case "any":
+				preparedStatement = initialiserRequetePreparee( connexion, GET_PAGE_COMPUTER,false,ligneDebut,taillePage);
+				break;
+			case "name":
+				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_NAME_ASC,false,ligneDebut,taillePage);
+				break;
+			case "name-alt":
+				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_NAME_DESC,false,ligneDebut,taillePage);
+				break;
+			case "introduced":
+				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_INTRODUCED_ASC,false,ligneDebut,taillePage);
+				break;
+			case "introduced-alt":
+				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_INTRODUCED_DESC,false,ligneDebut,taillePage);
+				break;
+			case "discontinued":
+				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_DISCONTINUED_ASC,false,ligneDebut,taillePage);
+				break;
+			case "discontinued-alt":
+				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_DISCONTINUED_DESC,false,ligneDebut,taillePage);
+				break;
+			case "company-name":
+				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_COMPANY_NAME_ASC,false,ligneDebut,taillePage);
+				break;
+			case "company-name-alt":
+				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_COMPANY_NAME_DESC,false,ligneDebut,taillePage);
+				break;
+			default:
+		}
+	        
 	        resultSet = preparedStatement.executeQuery();
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {

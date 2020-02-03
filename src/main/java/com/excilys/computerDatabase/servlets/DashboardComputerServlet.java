@@ -33,7 +33,7 @@ public class DashboardComputerServlet extends HttpServlet {
 	private  int pageIterator;
 	private int taillePage=20;
 	private int maxPage;
-	
+	private String orderBy;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -48,6 +48,7 @@ public class DashboardComputerServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		computerService= ComputerServices.getInstance();
+		orderBy="any";
 	}
 
 	/**
@@ -58,10 +59,12 @@ public class DashboardComputerServlet extends HttpServlet {
 	}
 
 	/**
+	 * @throws IOException 
+	 * @throws ServletException 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	public void traitementDashboardWithOrderBy(HttpServletRequest request, HttpServletResponse response, String orderBy) throws ServletException, IOException {
+		
 		int sizeComputer=computerService.size();
 		maxPage=sizeComputer/taillePage;
 		request.setAttribute("maxPage", maxPage);
@@ -72,11 +75,12 @@ public class DashboardComputerServlet extends HttpServlet {
 		}
 		if(request.getParameter("pageIterator")!=null) {
 			pageIterator=Integer.parseInt(request.getParameter("pageIterator"));
-			computerList=computerService.getPage(pageIterator*taillePage,taillePage );
+			computerList=computerService.getPage(pageIterator*taillePage,taillePage,orderBy );
+
 		}
 		else {
 			pageIterator=0;//Initialisation de l'iterateur : premier appel
-			computerList=computerService.getPage(pageIterator*taillePage,taillePage);// appel de computer dao 
+			computerList=computerService.getPage(pageIterator*taillePage,taillePage,orderBy);// appel de computer dao 
 		}
 //		for(Computer computer: computerList) {
 //			computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer));
@@ -88,6 +92,16 @@ public class DashboardComputerServlet extends HttpServlet {
 		request.setAttribute("computerList", computerDTOList);
 		request.setAttribute("pageIterator", pageIterator);
 		request.getRequestDispatcher("views/dashboard.jsp").forward(request, response);
+	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		if(request.getParameter("order-by")!=null && !request.getParameter("order-by").equals("")) {
+			orderBy=request.getParameter("order-by");
+			traitementDashboardWithOrderBy(request,response,orderBy);
+		}
+		else{
+			traitementDashboardWithOrderBy(request,response,orderBy);
+		}
 		
 	}
 

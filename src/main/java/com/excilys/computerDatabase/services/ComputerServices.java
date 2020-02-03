@@ -33,9 +33,9 @@ public class ComputerServices {
 	
 	}
 
-	public ArrayList<Computer> getPage(int taillePage, int pageIterator) {
+	public ArrayList<Computer> getPage(int taillePage, int pageIterator, String orderBy) {
 		Pages page =new Pages(computerDAO);
-		return page.getPage(taillePage, pageIterator);
+		return page.getPage(taillePage, pageIterator,orderBy);
 		
 	}
 	
@@ -59,5 +59,10 @@ public class ComputerServices {
 
 	public void deleteComputer(long idComputer) {
 		 computerDAO.deleteComputer(idComputer);
+	}
+
+	public ArrayList<Computer> getPageOrderByComputerName(int taillePage, int pageIterator) {
+		Pages page =new Pages(computerDAO);
+		return page.getPageOrderByName(taillePage, pageIterator);
 	}
 }

@@ -48,31 +48,35 @@ public class Pages {
 	public void setTaillePage(int taillePage) {
 		this.taillePage = taillePage;
 	}
-	public ArrayList<Computer> getPage(int taillePage, int ligneDebut){
+	public ArrayList<Computer> getPage(int taillePage, int ligneDebut, String orderBy){
 		 ArrayList<Computer> page=new  ArrayList<Computer>();
-		 page=computerDAO.getComputerListPage(taillePage,ligneDebut);
+		 page=computerDAO.getComputerListPage(taillePage,ligneDebut,orderBy);
 		 return page;
 		 
 	}
 	/**
 	 * @param paginer qui est soit '<' pour dire previous ou '>' pour dire suivant
 	 */
-	public ArrayList<Computer> pagination(String paginer) {
+	public ArrayList<Computer> pagination(String paginer,String orderBy) {
 		 ArrayList<Computer> page=new  ArrayList<Computer>();
 		if(!stop) {
 			if(paginer.equals("<") && this.iteration>0) {
 				--iteration;
-				page=getPage( taillePage,  iteration*this.taillePage);
+				page=getPage( taillePage,  iteration*this.taillePage,orderBy);
 				System.out.println("----");
 			}
 			if(paginer.equals(">")) {
 				iteration++;
-				page=getPage( taillePage,  iteration*this.taillePage);
+				page=getPage( taillePage,  iteration*this.taillePage,orderBy);
 				System.out.println(iteration);
 				
 			}
 		}
 		return page;
+	}
+	public ArrayList<Computer> getPageOrderByName(int taillePage2, int pageIterator) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
