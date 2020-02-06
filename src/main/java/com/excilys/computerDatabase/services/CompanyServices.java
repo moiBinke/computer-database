@@ -34,4 +34,8 @@ public class CompanyServices {
 		return companyServices.companyDAO.getCompanyList();
 		
 	}
+	public void delete(Long companyToDeleteId) {
+		companyServices.companyDAO.deleteComputer(companyToDeleteId);
+		
+	}
 }

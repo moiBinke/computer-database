@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.excilys.computerDatabase.dto.CompanyDTO;
 import com.excilys.computerDatabase.dto.ComputerDTO;
 import com.excilys.computerDatabase.exceptions.Logging;
-import com.excilys.computerDatabase.exceptions.ValidatorException;
+import com.excilys.computerDatabase.exceptions.ComputerValidatorException;
 import com.excilys.computerDatabase.mappers.CompanyMapper;
 import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.model.Company;
@@ -36,13 +36,7 @@ public class EditComputerServlet extends HttpServlet {
     private CompanyServices companyServices;
     private ComputerServices computerServices;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public EditComputerServlet() {
-        super();
 
-    }
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -52,12 +46,7 @@ public class EditComputerServlet extends HttpServlet {
 		computerServices=ComputerServices.getInstance();
 	}
 
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
+	
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -87,7 +76,6 @@ public class EditComputerServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
 		CompanyDTO companyDTO=new CompanyDTO(Long.parseLong(request.getParameter("companyId")));
 		ComputerDTO computerDTO=new ComputerDTO(Long.parseLong(request.getParameter("id")),request.getParameter("computerName"),request.getParameter("introduced"),request.getParameter("discontinued"),companyDTO);
@@ -105,12 +93,12 @@ public class EditComputerServlet extends HttpServlet {
 				String successMessage="CI-dessous les nouvelles valleurs de ce computer";
 				request.setAttribute("successMessage", successMessage);
 				
-			}catch(ValidatorException.DateValidator dateValidator) {
+			}catch(ComputerValidatorException.DateValidator dateValidator) {
 				erreur.append("Vérifier que la date discontinued est après introduced");
 				request.setAttribute("erreur", erreur);
 				request.setAttribute("failedComputer", computerToUpdate);
 				
-			}catch(ValidatorException.NameValidator nameValidator) {
+			}catch(ComputerValidatorException.NameValidator nameValidator) {
 				erreur.append("\n Vérifier que le nom existe et n'est pas vide ");
 				request.setAttribute("erreur", erreur);
 				request.setAttribute("failedComputer", computerToUpdate);

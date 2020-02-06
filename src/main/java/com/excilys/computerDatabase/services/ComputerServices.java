@@ -8,7 +8,7 @@ import com.excilys.computerDatabase.daos.ComputerDAO;
 import com.excilys.computerDatabase.daos.DaoFactory;
 import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.util.Pages;
-/**lES SERVICES RETOURNENT DES eNTITÉS AU LIEU DES dtos
+/**LES SERVICES RETOURNENT DES ENTITÉS AU LIEU DES DTOs
  */
 public class ComputerServices {
 	private ComputerDAO computerDAO;

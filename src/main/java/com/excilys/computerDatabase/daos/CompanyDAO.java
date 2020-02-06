@@ -30,31 +30,19 @@ public class CompanyDAO  {
 	public static final String DELETE_COMPANY="DELETE FROM company WHERE id=?";
 	/**
 	 * Construction du singleton:
-	 */
-	//private DaoFactory daoFactory;
-	
+	 */	
 	private static CompanyDAO companyDAO;
 	
 	private CompanyDAO() {
 		super();
 	}
 
-//	private CompanyDAO(DaoFactory daoFactory) {
-//		super();
-//		this.daoFactory = daoFactory;
-//	}
 	/**
 	 * En paramètre l'ancienne getInstance
 	 * @param daoFactory
 	 * @return
 	 */
-//	public static CompanyDAO getInstance(DaoFactory daoFactory) {
-//		if(companyDAO==null) {
-//			return new CompanyDAO(daoFactory);
-//			return new CompanyDAO();
-//		}
-//		return companyDAO;
-//	}
+
 	public static CompanyDAO getInstance(DaoFactory daoFactory) {
 		if(companyDAO==null) {
 			return new CompanyDAO();
@@ -136,14 +124,9 @@ public class CompanyDAO  {
 	    ArrayList<Company>listeCompany=new ArrayList<Company>(); 
 		Company company;
 		try {
-	        /**
-	         *  Récupération d'une connexion depuis la Factory 
-	         *  */
-	      //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_List_COMPANY, false);
 	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {
 				company = CompanyMapper.mapCompany(resultSet);
 				listeCompany.add(company);
@@ -165,14 +148,9 @@ public class CompanyDAO  {
 	    Optional<Company> company = null;
 
 		try {
-	        /**
-	         *  Récupération d'une connexion depuis la Factory 
-	         *  */
-		//  connexion = daoFactory.getConnexion();
 			connexion=DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_COMPANY_BY_ID, false, idCompany );
 	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if ( resultSet.next() ) {
 	        	company = Optional.ofNullable(CompanyMapper.mapCompany(resultSet));
 	        }
@@ -197,12 +175,9 @@ public class CompanyDAO  {
 	    PreparedStatement preparedStatement2 = null;
 	    int resultSet1;
 	    int resultSet2;
-
+	    connexion=DaoFactoryHikary.getInstance().getConnection();
 		try {
-	        /**
-	         *  Récupération d'une connexion depuis la Factory DaoFactoryHikary
-	         *  */
-			connexion=DaoFactoryHikary.getInstance().getConnection();
+			
 			
 			connexion.setAutoCommit(false);
 			
@@ -213,7 +188,7 @@ public class CompanyDAO  {
 	        resultSet2 = preparedStatement2.executeUpdate();
 	        System.out.println("r1:"+resultSet1);
 	        System.out.println("r1:"+resultSet2);
-	        if(resultSet2==1) {
+	        if(resultSet2==1 && resultSet1>=0) {
 	        	connexion.commit();
 	        	Logging.afficherMessage("company with id "+idCompany+" is deleted succesfully. Even "+resultSet1+" computer(s) is(are) deleted during this operation");
 	        }
@@ -228,8 +203,13 @@ public class CompanyDAO  {
 	        
 	    } catch ( SQLException e ) {
 	       e.printStackTrace();
-	       Logging.afficherMessageError("Error when trying to get Company by Id");
+	       Logging.afficherMessageError("Error when deleting company with id :\"+idCompany");
 	    } finally {
+	    	try {
+				connexion.setAutoCommit(true);
+			} catch (SQLException e) {
+				 Logging.afficherMessageError("Error when trying to set to true connection autoCommit property");
+			}
 	        fermetureStatement( preparedStatement1);
 	        fermetureStatement( preparedStatement2);
 	        fermetureConnection(connexion );

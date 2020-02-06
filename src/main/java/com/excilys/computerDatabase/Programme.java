@@ -19,6 +19,8 @@ import com.excilys.computerDatabase.daos.DaoFactory;
 import com.excilys.computerDatabase.exceptions.DAOConfigurationException;
 import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
+import com.excilys.computerDatabase.services.CompanyServices;
+import com.excilys.computerDatabase.services.ComputerServices;
 import com.excilys.computerDatabase.util.Pages;
 
 /**
@@ -104,6 +106,7 @@ public class Programme{
 		DaoFactory daoFactory=DaoFactory.getInstance();
 		ComputerDAO computerDAO=ComputerDAO.getInstance(daoFactory);
 		CompanyDAO companyDAO=CompanyDAO.getInstance(daoFactory);
+		CompanyServices companyServices=CompanyServices.getInstance();
 		
 		Scanner lecteur = new Scanner( System.in );
 		int choix=0;
@@ -260,7 +263,7 @@ public class Programme{
 				Long companyToDeleteId;
 				System.out.println("Entrer id du company");
 				companyToDeleteId=lecteur.nextLong();
-				companyDAO.deleteComputer(companyToDeleteId);
+				companyServices.delete(companyToDeleteId);
 			default:
 				System.out.println("Ce choix n'existe pas!");
 				System.out.println("taper 9  puis 'Entrer' pour revenir au menu");

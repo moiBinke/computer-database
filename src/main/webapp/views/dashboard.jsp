@@ -46,46 +46,9 @@
             </div>
         </div>
          <div class="row text-center">
-            	<div class="col-md-3">
-            		<h5>Order by computer name</h5>
-            		<a href="DashboardComputerServlet?order-by=name">
-            			<span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
-            		</a>
-            		
-            		<a  href="DashboardComputerServlet?order-by=name-alt">
-            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
-            		</a>
-            	</div>
-            	<div class="col-md-3">
-            		<h5>Order by computer introduced date</h5>
-            		<a href="DashboardComputerServlet?order-by=introduced">
-            			<span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
-            		</a>
-            		
-            		<a  href="DashboardComputerServlet?order-by=introduced-alt">
-            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
-            		</a>	
-            	</div>
-            	<div class="col-md-3">
-            		<h5>Order by computer Discontinued</h5>
-            		<a href="DashboardComputerServlet?order-by=discontinued">
-            			<span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
-            		</a>
-            		
-            		<a  href="DashboardComputerServlet?order-by=discontinued-alt">
-            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
-            		</a>	
-            	</div>
-            	<div class="col-md-3">
-            		<h5>Order by company Name</h5>
-            		<a href="DashboardComputerServlet?order-by=company-name">
-            			<span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
-            		</a>
-            		
-            		<a  href="DashboardComputerServlet?order-by=company-name-alt">
-            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
-            		</a>
-            	</div>
+            	
+           
+           
             </div>
 		<div class=""></div>
         <form id="deleteForm" action="DashboardComputerServlet?DashboardComputerServlet" method="POST">
@@ -108,18 +71,55 @@
                             </span>
                         </th>
                         <th>
-                            Computer name
+                        	
+                            <p>Computer name</p>
+                            <p>
+			            		<a href="DashboardComputerServlet?order-by=computer_name ASC">
+			            			<span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
+			            		</a>
+			            		
+			            		<a  href="DashboardComputerServlet?order-by=computer_name DESC">
+			            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+			            		</a>
+			            	</p>
                         </th>
                         <th>
-                            Introduced date
+                            <p>Introduced date</p>
+                            <p>
+                            	<a href="DashboardComputerServlet?order-by=introduced ASC">
+			            			<span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
+			            		</a>
+			            		
+			            		<a  href="DashboardComputerServlet?order-by=introduced DESC">
+			            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+			            		</a>	
+                            </p>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                            Discontinued date
+                           <p> Discontinued date</p>
+                           <p>
+                          		<a href="DashboardComputerServlet?order-by=discontinued ASC">
+			            			<span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
+			            		</a>
+			            		
+			            		<a  href="DashboardComputerServlet?order-by=discontinued DESC">
+			            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+			            		</a>	
+                           </p>
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            Company
+                            <p>Company</p>
+                            <p>
+                           		<a href="DashboardComputerServlet?order-by=company_name ASC">
+			            			<span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
+			            		</a>
+			            		
+			            		<a  href="DashboardComputerServlet?order-by=company_name DESC">
+			            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+			            		</a>
+                           	</p>
                         </th>
 
                     </tr>
@@ -175,7 +175,7 @@
             <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=50">50</a></button>
             <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=100">100</a></button>
         </div>
-
+		</div>
     </footer>
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
