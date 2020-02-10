@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.excilys.computerDatabase.exceptions.DAOConfigurationException;
 import com.excilys.computerDatabase.exceptions.DAOExceptions;
 import com.excilys.computerDatabase.exceptions.Logging;
@@ -30,16 +32,15 @@ import com.excilys.computerDatabase.model.Computer;
  *@version 1.0
  *@since   2020-01-16 
  */
+@Repository
 public class ComputerDAO {
 	
 	/**
 	 * Les requetes utilisées pour computer
 	 */
-	
-	
 	public static final String ADD_COMPUTER= "INSERT INTO computer (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);";
 	public static final String GET_COMPUTER_BY_ID= "SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id WHERE computer.id=?";
-	public static final String GET_List_COMPUTER= "SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY computer.id";
+	public static final String GET_List_COMPUTER= "SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY computer.id ASC;";
 	public static final String DELETE_COMPUTER= "DELETE FROM computer WHERE id=?";
 	public static final String UPDATE_COMPUTER_NAME= "UPDATE computer SET name=? WHERE id=?;";
 	public static final String UPDATE_COMPUTER_INTRODUCED_DATE = "UPDATE computer SET introduced=? WHERE id=?;";
@@ -48,55 +49,28 @@ public class ComputerDAO {
 	public static final String GET_PAGE_COMPUTER = "SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id LIMIT ?, ?";
 	public static final String COUNT = "SELECT COUNT(*) FROM computer;";
 	public static final String DELETE_COMPUTER_WITH_COMPANY_ID="DELETE FROM computer WHERE company_id=?;";
-	public static final String GET_COMPUTER_ORDER_BY_NAME_ASC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY computer_name ASC LIMIT ?, ? ;";
-	public static final String GET_COMPUTER_ORDER_BY_NAME_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY computer_name ASC LIMIT ?, ? ;";
-	public static final String GET_COMPUTER_ORDER_BY_INTRODUCED_ASC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY introduced ASC LIMIT ?, ? ;";
-	public static final String GET_COMPUTER_ORDER_BY_INTRODUCED_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY introduced DESC LIMIT ?, ? ;";
-	public static final String GET_COMPUTER_ORDER_BY_DISCONTINUED_ASC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY discontinued ASC LIMIT ?, ? ;";
-	public static final String GET_COMPUTER_ORDER_BY_DISCONTINUED_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY discontinued DESC LIMIT ?, ? ;";
-	public static final String GET_COMPUTER_ORDER_BY_COMPANY_NAME_ASC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY company_name ASC LIMIT ?, ? ;";
-	public static final String GET_COMPUTER_ORDER_BY_COMPANY_NAME_DESC="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY company_name DESC LIMIT ?, ? ;";
 	public static final String SEARCH="SELECT computer.id as computer_id, computer.name as computer_name , computer.introduced, computer.discontinued, computer.company_id, company.name as company_name  FROM computer LEFT JOIN company on company.id=computer.company_id WHERE LOWER(computer.name) LIKE ? OR  LOWER(company.name) LIKE ? OR introduced LIKE ? OR discontinued LIKE ?;";
-
+	public static final String GET_ORDER_BY="SELECT computer.id as computer_id, computer.name as computer_name, computer.introduced, computer.discontinued, computer.company_id, company.name as company_name FROM computer LEFT JOIN company on company.id=computer.company_id ORDER BY ";
+	public static final String LIMIT=" LIMIT ?, ? ;";
 	/**
 	 * Construction du singleton:
 	 */
-	//private DaoFactory daoFactory;
-	
-	private static ComputerDAO computerDAO;
+//	private static ComputerDAO computerDAO;
 	
 	private ComputerDAO() {
 		super();
 	}
-/**
- * En commentaire l'ancien Connexion avant hikari
- * @param daoFactory
- * @return
- */
-//	private ComputerDAO(DaoFactory daoFactory) {
-//		super();
-//		this.daoFactory = daoFactory;
-//	}
-	/**
-	 * En commentaire l'ancienne getInstance du DAO
-	 * @param daoFactory
-	 * @return
-	 */
-//	public static ComputerDAO getInstance(DaoFactory daoFactory) {
+
+//	public static ComputerDAO getInstance() {
 //		if(computerDAO==null) {
-//			return new ComputerDAO(daoFactory);
+//			return new ComputerDAO();
 //		}
 //	    return computerDAO; 
 //	}
-	public static ComputerDAO getInstance(DaoFactory daoFactory) {
-		if(computerDAO==null) {
-			return new ComputerDAO();
-		}
-	    return computerDAO; 
-	}
 	/*
 	 * Fonctions de connection
 	 */
+	
 	/* fermeture du resultset */
 	
 	public static void fermetureResultset(ResultSet resultset) {
@@ -181,11 +155,6 @@ public class ComputerDAO {
 	    	 int hour=java.time.LocalTime.now().getHour();
 		     int minute=java.time.LocalTime.now().getMinute();
 		     int second=java.time.LocalTime.now().getSecond();
-	        /* Récupération d'une connexion depuis la Factory */
-		     /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, ADD_COMPUTER, true, computer.getName(), convertToTimeStamp(computer.getIntroduced()), convertToTimeStamp(computer.getDiscontinued()),computer.getCompany().getId() );
 	        int statut = preparedStatement.executeUpdate();
@@ -196,7 +165,6 @@ public class ComputerDAO {
 	        /* Récupération de l'id auto-généré par la requête d'insertion */
 	        valeursAutoGenerees = preparedStatement.getGeneratedKeys();
 	        if ( valeursAutoGenerees.next() ) {
-	            /* Puis initialisation de la propriété id du l'objet computer */
 	            computer.setId(valeursAutoGenerees.getLong( 1 ) );
 	            Logging.afficherMessageDebug("Computer created successfuly");
 	        } else {
@@ -221,14 +189,9 @@ public class ComputerDAO {
 	    ArrayList<Computer>listeComputer=new ArrayList<Computer>(); 
 		Computer computer;
 		try {
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_List_COMPUTER, false);
 	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {
 				computer = ComputerMapper.mapComputer(resultSet);
 				listeComputer.add(computer);
@@ -252,14 +215,9 @@ public class ComputerDAO {
 	    Optional<Computer> computer=null;
 
 		try {
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_BY_ID, false, computerId );
 	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if ( resultSet.next() ) {
 				computer = Optional.ofNullable(ComputerMapper.mapComputer(resultSet));
 	        	Logging.afficherMessageDebug("a computer is selected from database");
@@ -284,14 +242,9 @@ public class ComputerDAO {
 	    Computer computer = null;
 	    boolean estSupprime=false;
 		try {
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_BY_ID, false, computerId );
 	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if ( resultSet.next() ) {
 				computer = ComputerMapper.mapComputer(resultSet);
 				preparedStatement = initialiserRequetePreparee( connexion, DELETE_COMPUTER, false, computerId );
@@ -319,16 +272,10 @@ public class ComputerDAO {
 	    Optional<Computer> computer = null;
 	    int estMisAjour=0;
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, UPDATE_COMPUTER_NAME, false,name, idComputer  );
 	        estMisAjour=preparedStatement.executeUpdate();
 	       System.out.println(estMisAjour);
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if (estMisAjour!=0) {
 				computer = getComputer(idComputer);
 				
@@ -357,16 +304,10 @@ public class ComputerDAO {
 	    ResultSet resultSet = null;
 	    int estMisAjour=0;
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, UPDATE_COMPUTER_INTRODUCED_DATE, false,computer.orElse(null).getIntroduced(), computer.orElse(null).getId()  );
 	        estMisAjour=preparedStatement.executeUpdate();
 	       System.out.println(estMisAjour);
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if (estMisAjour!=0) {
 				computer = getComputer(computerToUpdateIntroducedDateId);
 				
@@ -396,15 +337,9 @@ public class ComputerDAO {
 	    ResultSet resultSet = null;
 	    int estMisAjour=0;
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, UPDATE_COMPUTER_DISCONTINUED_DATE, false,computer.orElse(null).getDiscontinued(), computer.orElse(null).getId()  );
 	        estMisAjour=preparedStatement.executeUpdate();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if (estMisAjour!=0) {
 				computer = getComputer(computerToUpdateDiscontinuedDateId);
 				
@@ -432,15 +367,9 @@ public class ComputerDAO {
 	    Optional<Computer> computer = null;
 	    int estMisAjour=0;
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, UPDATE_COMPUTER_COMPANY_ID, false,newCompanyId, computerToUpdateCompanyId  );
 	        estMisAjour=preparedStatement.executeUpdate();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if (estMisAjour!=0) {
 				computer = getComputer(computerToUpdateCompanyId);
 				
@@ -468,45 +397,19 @@ public class ComputerDAO {
 	    ArrayList<Computer>listeComputer=new ArrayList<Computer>(); 
 		Computer computer;
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
+	       
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
-			switch(orderBy) {
-			case "any":
+			if(orderBy.startsWith("any")) {
+				System.out.println(GET_PAGE_COMPUTER+orderBy+LIMIT);
+
 				preparedStatement = initialiserRequetePreparee( connexion, GET_PAGE_COMPUTER,false,ligneDebut,taillePage);
-				break;
-			case "name":
-				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_NAME_ASC,false,ligneDebut,taillePage);
-				break;
-			case "name-alt":
-				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_NAME_DESC,false,ligneDebut,taillePage);
-				break;
-			case "introduced":
-				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_INTRODUCED_ASC,false,ligneDebut,taillePage);
-				break;
-			case "introduced-alt":
-				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_INTRODUCED_DESC,false,ligneDebut,taillePage);
-				break;
-			case "discontinued":
-				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_DISCONTINUED_ASC,false,ligneDebut,taillePage);
-				break;
-			case "discontinued-alt":
-				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_DISCONTINUED_DESC,false,ligneDebut,taillePage);
-				break;
-			case "company-name":
-				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_COMPANY_NAME_ASC,false,ligneDebut,taillePage);
-				break;
-			case "company-name-alt":
-				preparedStatement = initialiserRequetePreparee( connexion, GET_COMPUTER_ORDER_BY_COMPANY_NAME_DESC,false,ligneDebut,taillePage);
-				break;
-			default:
-		}
-	        
+			}
+			else {
+				System.out.println(GET_ORDER_BY+orderBy+LIMIT);
+
+				preparedStatement = initialiserRequetePreparee( connexion, GET_ORDER_BY+orderBy+LIMIT,false,ligneDebut,taillePage);
+			}
 	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {
 				computer = ComputerMapper.mapComputer(resultSet);
 				listeComputer.add(computer);
@@ -529,15 +432,9 @@ public class ComputerDAO {
 	    ResultSet resultSet = null;
 	    int size=0;
 		try {
-	        /* Récupération d'une connexion depuis la Factory */
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 	        preparedStatement = initialiserRequetePreparee( connexion, COUNT,false);
 	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {
 	        	size=resultSet.getInt(1);
 	        }
@@ -564,15 +461,10 @@ public class ComputerDAO {
 	    ArrayList<Computer>listeComputer=new ArrayList<Computer>(); 
 		Computer computer;
 		try {
-			 /**
-		      * En commentaire l'ancienne connection AVANT hIKARI
-		      */
-		     //  connexion = daoFactory.getConnexion();
 			connexion=(Connection) DaoFactoryHikary.getInstance().getConnection();
 			search="%"+search.toLowerCase()+"%";
 	        preparedStatement = initialiserRequetePreparee( connexion, SEARCH, false,search,search,search,search);
 	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        while ( resultSet.next() ) {
 				computer = ComputerMapper.mapComputer(resultSet);
 				listeComputer.add(computer);

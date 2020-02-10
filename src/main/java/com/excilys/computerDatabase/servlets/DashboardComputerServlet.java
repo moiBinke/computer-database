@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.excilys.computerDatabase.daos.DaoFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import com.excilys.computerDatabase.dto.ComputerDTO;
 import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.model.Computer;
@@ -22,9 +25,10 @@ import com.excilys.computerDatabase.util.Pages;
  * Servlet implementation class ComputerController
  */
 @WebServlet(urlPatterns = "/DashboardComputerServlet")
+@Controller
 public class DashboardComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+	@Autowired
 	public ComputerServices computerService;
        
 	
@@ -34,37 +38,24 @@ public class DashboardComputerServlet extends HttpServlet {
 	private int taillePage=20;
 	private int maxPage;
 	private String orderBy;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DashboardComputerServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+ 
 
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-		computerService= ComputerServices.getInstance();
+		super.init(config);
+    	SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 		orderBy="any";
 	}
 
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
-
+	
 	/**
 	 * @throws IOException 
 	 * @throws ServletException 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	public void traitementDashboardWithOrderBy(HttpServletRequest request, HttpServletResponse response, String orderBy) throws ServletException, IOException {
-		
 		int sizeComputer=computerService.size();
 		maxPage=sizeComputer/taillePage;
 		request.setAttribute("maxPage", maxPage);
@@ -79,7 +70,7 @@ public class DashboardComputerServlet extends HttpServlet {
 
 		}
 		else {
-			pageIterator=0;//Initialisation de l'iterateur : premier appel
+			pageIterator=0;
 			computerList=computerService.getPage(pageIterator*taillePage,taillePage,orderBy);// appel de computer dao 
 		}
 
@@ -136,7 +127,6 @@ public class DashboardComputerServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		System.out.println(request.getParameter("selection"));
 		String[] computerIdsAsListString=request.getParameter("selection").split(",");
 		for(String idString:computerIdsAsListString) {

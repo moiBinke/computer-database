@@ -1,9 +1,14 @@
 package com.excilys.computerDatabase.validators;
 
 
-import com.excilys.computerDatabase.exceptions.ValidatorException;
+import com.excilys.computerDatabase.exceptions.ComputerValidatorException;
 import com.excilys.computerDatabase.model.Computer;
-
+/**
+ *ComputerValidator: for computer properties validation 
+ *@author COULIBALY Issa
+ *@version 1.0
+ *@since   2020-01-30 
+ */
 public class ComputerValidator {
 
 
@@ -22,13 +27,13 @@ public class ComputerValidator {
 			}
 			else {
 				//We put an exception
-				throw new ValidatorException.DateValidator("ValidatorException: Introduced date should be before discontinuedDate");
+				throw new ComputerValidatorException.DateValidator("ValidatorException: Introduced date should be before discontinuedDate");
 			}
 		}
 	}
 	private void validateComputerName(Computer computer){
 		if(computer.getName()==null || computer.getName().equals("")) {
-			throw new ValidatorException.NameValidator("ValidatorException: Computer Name is required");
+			throw new ComputerValidatorException.NameValidator("ValidatorException: Computer Name is required");
 		}
 		//else we do nothing because it's correct
 		

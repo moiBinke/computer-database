@@ -4,29 +4,23 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.computerDatabase.daos.ComputerDAO;
-import com.excilys.computerDatabase.daos.DaoFactory;
 import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.util.Pages;
-/**lES SERVICES RETOURNENT DES eNTITÉS AU LIEU DES dtos
+/**LES SERVICES RETOURNENT DES ENTITÉS AU LIEU DES DTOs
  */
+@Service
 public class ComputerServices {
+	@Autowired
 	private ComputerDAO computerDAO;
-	private static ComputerServices computerServices;
-	private DaoFactory daoFactory;
-	private ComputerServices() {
+	
+	public ComputerServices() {
 		
 	}
 	
-	public static ComputerServices getInstance() {
-		if(computerServices==null) {
-			computerServices=new ComputerServices();
-			computerServices.daoFactory=DaoFactory.getInstance();
-			computerServices.computerDAO=ComputerDAO.getInstance(computerServices.daoFactory);
-			return computerServices;
-		}
-		return computerServices;
-	}
 
 	public ArrayList<Computer> findAll() {
 		return computerDAO.getComputerList();

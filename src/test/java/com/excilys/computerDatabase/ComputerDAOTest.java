@@ -11,22 +11,23 @@ import org.junit.Test;
 
 import com.excilys.computerDatabase.daos.CompanyDAO;
 import com.excilys.computerDatabase.daos.ComputerDAO;
-import com.excilys.computerDatabase.daos.DaoFactory;
 import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
 
 import junit.framework.TestCase;
 public class ComputerDAOTest {
-	public static DaoFactory daoFactory;
+//	public static DaoFactory daoFactory;
+//	public static ComputerDAO computerDAO;
+//	
+//	@Before
+//	public void setUp() throws Exception {
+//		daoFactory=DaoFactory.getInstanceH2();
+//		computerDAO=computerDAO.getInstance(daoFactory);
+//		//computerDAO.createTestDatabase();
+//		//computerDAO.insertInTestDatabase();
+//	}
 	public static ComputerDAO computerDAO;
-	
-	@Before
-	public void setUp() throws Exception {
-		daoFactory=DaoFactory.getInstanceH2();
-		computerDAO=computerDAO.getInstance(daoFactory);
-		//computerDAO.createTestDatabase();
-		//computerDAO.insertInTestDatabase();
-	}
+
 
 	@After
 	public void tearDown() throws Exception {

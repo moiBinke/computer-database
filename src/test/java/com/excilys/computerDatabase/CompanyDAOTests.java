@@ -11,15 +11,16 @@ import org.junit.Test;
 import com.excilys.computerDatabase.daos.*;
 import com.excilys.computerDatabase.model.Company;
 public class CompanyDAOTests {
-	public static DaoFactory daoFactory;
+//	public static DaoFactoryHikary daoFactory;
+//	public static CompanyDAO companyDAO;
+//	@Before
+//	public void setUp() throws Exception {
+//		daoFactory=DaoFactory.getInstanceH2();
+//		companyDAO=CompanyDAO.getInstance(daoFactory);
+//		//companyDAO.createTestDatabase();
+//		//companyDAO.insertInTestDatabase();
+//	}
 	public static CompanyDAO companyDAO;
-	@Before
-	public void setUp() throws Exception {
-		daoFactory=DaoFactory.getInstanceH2();
-		companyDAO=CompanyDAO.getInstance(daoFactory);
-		//companyDAO.createTestDatabase();
-		//companyDAO.insertInTestDatabase();
-	}
 
 	@After
 	public void tearDown() throws Exception {

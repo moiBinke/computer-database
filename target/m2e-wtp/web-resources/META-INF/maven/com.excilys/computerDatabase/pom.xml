@@ -71,7 +71,32 @@
 	    <groupId>com.zaxxer</groupId>
 	    <artifactId>HikariCP</artifactId>
 	    <version>${hikariCP-version}</version>
-	</dependency>	
+	</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+	<dependency>
+	    <groupId>commons-logging</groupId>
+	    <artifactId>commons-logging</artifactId>
+	    <version>1.2</version>
+	</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-core</artifactId>
+	    <version>5.2.3.RELEASE</version>
+	</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context</artifactId>
+	    <version>5.2.3.RELEASE</version>
+	</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-web</artifactId>
+	    <version>5.2.3.RELEASE</version>
+	</dependency>
+		
   </dependencies>
   <build>
     <finalName>computerDatabase</finalName>

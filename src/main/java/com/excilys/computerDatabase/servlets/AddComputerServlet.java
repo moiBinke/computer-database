@@ -12,12 +12,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.dto.CompanyDTO;
 import com.excilys.computerDatabase.dto.ComputerDTO;
 import com.excilys.computerDatabase.exceptions.Logging;
-import com.excilys.computerDatabase.exceptions.ValidatorException;
+import com.excilys.computerDatabase.exceptions.ComputerValidatorException;
 import com.excilys.computerDatabase.mappers.CompanyMapper;
 import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.services.CompanyServices;
@@ -28,22 +32,21 @@ import com.excilys.computerDatabase.validators.ComputerValidator;
  * Servlet implementation class CompanyController
  */
 @WebServlet("/AddComputerServlet")
+@Controller
 public class AddComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       private CompanyServices companyServices;
-       private ComputerServices computerServices;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AddComputerServlet() {
-        super();
-    }
+	
+	@Autowired
+    private CompanyServices companyServices;
+	@Autowired
+	private ComputerServices computerServices;
+    
     /**
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		companyServices=CompanyServices.getInstance();
-		computerServices=ComputerServices.getInstance();
+		super.init(config);
+    	SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -53,9 +56,6 @@ public class AddComputerServlet extends HttpServlet {
 		ArrayList<CompanyDTO> companyDtoList=new ArrayList<CompanyDTO>();
 		ArrayList<Company> companyList=new ArrayList<Company>();
 		companyList=companyServices.findALl();
-//		for(Company company:companyList) {
-//			companyDtoList.add(CompanyMapper.mapFromCompanyToCompanyDto(company));
-//		}
 		companyList.stream()
 				   .forEach(company->companyDtoList.add(
 						   CompanyMapper.mapFromCompanyToCompanyDto(company)));
@@ -85,12 +85,12 @@ public class AddComputerServlet extends HttpServlet {
 					Logging.afficherMessage("Cannot convert computer date type: "+newComputer.getDiscontinued());
 					e.printStackTrace();
 				}
-			}catch(ValidatorException.DateValidator dateValidator) {
+			}catch(ComputerValidatorException.DateValidator dateValidator) {
 				erreur.append("Vérifier que la date discontinued est après introduced");
 				request.setAttribute("erreur", erreur);
 				request.setAttribute("failedComputer", newComputer);
 				
-			}catch(ValidatorException.NameValidator nameValidator) {
+			}catch(ComputerValidatorException.NameValidator nameValidator) {
 				erreur.append("\n Vérifier que le nom existe et n'est pas vide ");
 				request.setAttribute("erreur", erreur);
 				request.setAttribute("failedComputer", newComputer);

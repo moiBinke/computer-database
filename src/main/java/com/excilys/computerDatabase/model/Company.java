@@ -23,7 +23,6 @@ public class Company {
 	
 
 	public Company(Long id) {
-		// TODO Auto-generated constructor stub
 		this.id=id;
 	}
 
