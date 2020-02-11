@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
+import org.springframework.jdbc.core.RowMapper;
+
 import com.excilys.computerDatabase.dto.ComputerDTO;
 import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
@@ -18,7 +20,7 @@ import com.excilys.computerDatabase.model.Computer.ComputerBuilder;
  *@version 1.0
  *@since   2020-01-14 
  */
-public class ComputerMapper {
+public class ComputerMapper implements RowMapper<Computer>{
 	
 	public static LocalDate convertToLocalDateViaSqlDate(Date dateToConvert) {
 		if(dateToConvert==null)
@@ -71,5 +73,10 @@ public class ComputerMapper {
 									  .initializeWithCompany(CompanyMapper.mapFromCompanyDtoToCompany(computerDto.getCompany()))
 									  .build();
 		return computer;
+	}
+
+	@Override
+	public Computer mapRow(ResultSet resultset, int rowNum) throws SQLException {
+		return mapComputer(resultset);
 	}
 }

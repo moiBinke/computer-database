@@ -35,7 +35,7 @@ public class ComputerServices {
 	
 	public Computer create(Computer newComputer) throws ParseException {
 		
-		return computerDAO.addCommputer(newComputer);
+		return computerDAO.addCommputer(newComputer).get();
 	}
 
 	public int size() {

@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import org.springframework.jdbc.core.RowMapper;
+
 import com.excilys.computerDatabase.dto.CompanyDTO;
 import com.excilys.computerDatabase.model.Company;
 
@@ -13,7 +15,7 @@ import com.excilys.computerDatabase.model.Company;
  *@version 1.0
  *@since   2020-01-14 
  */
-public class CompanyMapper  {
+public class CompanyMapper implements RowMapper<Company>  {
 
 	/**
 	 *Le Mapping SQL==>Java Bean: permet de convertir une ligne SQL en company Bean 
@@ -49,5 +51,10 @@ public class CompanyMapper  {
 			return Optional.of(companyDto);
 		}
 		else return Optional.empty();
+	}
+
+	@Override
+	public Company mapRow(ResultSet resultset, int rowNum) throws SQLException {
+		return mapCompany(resultset);
 	}
 }
