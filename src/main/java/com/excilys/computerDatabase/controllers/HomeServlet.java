@@ -1,4 +1,4 @@
-package com.excilys.computerDatabase.servlets;
+package com.excilys.computerDatabase.controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

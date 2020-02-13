@@ -14,11 +14,11 @@ import com.excilys.computerDatabase.util.Pages;
  */
 @Service
 public class ComputerServices {
-	@Autowired
+	
 	private ComputerDAO computerDAO;
 	
-	public ComputerServices() {
-		
+	public ComputerServices(ComputerDAO computerDAO) {
+		this.computerDAO=computerDAO;
 	}
 	
 

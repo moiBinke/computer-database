@@ -36,14 +36,15 @@ public class CompanyDAO  {
 	 */	
 
 	private DataSource dataSource;
-	@Autowired
-	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	CompanyMapper companyMapper;
 	
 	
-	private CompanyDAO(DataSource dataSource) {
+	private CompanyDAO(DataSource dataSource,NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
 		super();
 		this.dataSource= dataSource;
+		this.namedParameterJdbcTemplate=namedParameterJdbcTemplate;
 		companyMapper=new CompanyMapper();
 	}
 

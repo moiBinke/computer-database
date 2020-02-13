@@ -13,11 +13,11 @@ import com.excilys.computerDatabase.model.Company;
 @Service
 public class CompanyServices {
 
-	@Autowired
+	
 	private  CompanyDAO companyDAO;
 	
-	private CompanyServices() {
-		
+	private CompanyServices(CompanyDAO companyDAO) {
+		this.companyDAO=companyDAO;
 	}
 
 	public Optional<Company> getById(Long companyId) {

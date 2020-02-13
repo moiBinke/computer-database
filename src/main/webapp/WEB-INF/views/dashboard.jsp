@@ -1,10 +1,13 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 
 <%@ page isELIgnored="false"%>
 
 <%@taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE HTML PUBLIC  "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -14,14 +17,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
+<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapStyle" />
+<spring:url value="/resources/css/font-awesome.css" var="fontAweSomeStyle" />
+<spring:url value="/resources/css/main.css" var="mainCss" />
+
+
+<link href="${bootstrapStyle}" rel="stylesheet" media="screen">
+<link href="${fontAweSomeStyle}" rel="stylesheet" media="screen">
+<link href="${mainCss}" rel="stylesheet" media="screen">
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="DashboardComputerServlet"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -46,12 +54,12 @@
             </div>
         </div>
          <div class="row text-center">
-            	
+                
            
            
             </div>
-		<div class=""></div>
-        <form id="deleteForm" action="DashboardComputerServlet?DashboardComputerServlet" method="POST">
+        <div class=""></div>
+        <form id="deleteForm" action="deleteComputer" method="POST">
             <input type="hidden" name="selection" value="">
         </form>
 
@@ -71,55 +79,55 @@
                             </span>
                         </th>
                         <th>
-                        	
+                            
                             <p>Computer name</p>
                             <p>
-			            		<a href="DashboardComputerServlet?order-by=computer_name ASC">
-			            			<span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
-			            		</a>
-			            		
-			            		<a  href="DashboardComputerServlet?order-by=computer_name DESC">
-			            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
-			            		</a>
-			            	</p>
+                                <a href="/dashboard?orderBy=computer_name ASC">
+                                    <span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
+                                </a>
+                                
+                                <a  href="dashboard?orderBy=computer_name DESC">
+                                    <span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+                                </a>
+                            </p>
                         </th>
                         <th>
                             <p>Introduced date</p>
                             <p>
-                            	<a href="DashboardComputerServlet?order-by=introduced ASC">
-			            			<span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
-			            		</a>
-			            		
-			            		<a  href="DashboardComputerServlet?order-by=introduced DESC">
-			            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
-			            		</a>	
+                                <a href="dashboard?orderBy=introduced ASC">
+                                    <span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
+                                </a>
+                                
+                                <a  href="dashboard?orderBy=introduced DESC">
+                                    <span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+                                </a>    
                             </p>
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
                            <p> Discontinued date</p>
                            <p>
-                          		<a href="DashboardComputerServlet?order-by=discontinued ASC">
-			            			<span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
-			            		</a>
-			            		
-			            		<a  href="DashboardComputerServlet?order-by=discontinued DESC">
-			            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
-			            		</a>	
+                                <a href="dashboard?orderBy=discontinued ASC">
+                                    <span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
+                                </a>
+                                
+                                <a  href="dashboard?orderBy=discontinued DESC">
+                                    <span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+                                </a>    
                            </p>
                         </th>
                         <!-- Table header for Company -->
                         <th>
                             <p>Company</p>
                             <p>
-                           		<a href="DashboardComputerServlet?order-by=company_name ASC">
-			            			<span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
-			            		</a>
-			            		
-			            		<a  href="DashboardComputerServlet?order-by=company_name DESC">
-			            			<span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
-			            		</a>
-                           	</p>
+                                <a href="dashboard?orderBy=company_name ASC">
+                                    <span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
+                                </a>
+                                
+                                <a  href="dashboard?orderBy=company_name DESC">
+                                    <span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
+                                </a>
+                            </p>
                         </th>
 
                     </tr>
@@ -139,7 +147,7 @@
                         <td><c:out value="${computer.discontinued}"></c:out> </td>
                         <td><c:out value="${computer.company.name}"></c:out></td>
                     </tr>
-				  </c:forEach>
+                  </c:forEach>
                     
                 </tbody>
             </table>
@@ -148,38 +156,42 @@
 
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
-	        <c:if test="${pageIterator!=null}">
-	            <ul class="pagination">
-	              <li>
-	              	<c:if test="${pageIterator>0}">
-	              		<a href="DashboardComputerServlet?pageIterator=${pageIterator-1}" aria-label="Previous">
-	                      <span aria-hidden="true">&laquo;</span>
-	                    </a>
-					</c:if>      
-	              </li>
-	              <c:forEach  var = "i" begin = "1" end = "5">
-	              <li><a href="DashboardComputerServlet?pageIterator=${pageIterator+i}"><c:out value="${pageIterator+i}"></c:out></a></li>
-				  </c:forEach>
-	              <li>
-	              <c:if test="${pageIterator<maxPage}">
-	                <a href="DashboardComputerServlet?pageIterator=${pageIterator+1}" aria-label="Next">
-	                    <span aria-hidden="true">&raquo;</span>
-	                </a>
-	                </c:if>
-	            </li>
-	        </ul>
-	        </c:if>
+            <c:if test="${pageIterator!=null}">
+                <ul class="pagination">
+                  <li>
+                    <c:if test="${pageIterator>0}">
+                        <a href="dashboard?pageIterator=${pageIterator-1}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </c:if>      
+                  </li>
+                  <c:forEach  var = "i" begin = "1" end = "5">
+                  <li><a href="dashboard?pageIterator=${pageIterator+i}"><c:out value="${pageIterator+i}"></c:out></a></li>
+                  </c:forEach>
+                  <li>
+                  <c:if test="${pageIterator<maxPage}">
+                    <a href="dashboard?pageIterator=${pageIterator+1}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    </c:if>
+                </li>
+            </ul>
+            </c:if>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=10">10</a></button>
-            <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=50">50</a></button>
-            <button type="button" class="btn btn-default"><a href="DashboardComputerServlet?taillePage=100">100</a></button>
+            <button type="button" class="btn btn-default"><a href="dashboard?taillePage=10">10</a></button>
+            <button type="button" class="btn btn-default"><a href="dashboard?taillePage=50">50</a></button>
+            <button type="button" class="btn btn-default"><a href="dashboard?taillePage=100">100</a></button>
         </div>
-		</div>
+        </div>
     </footer>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/dashboard.js"></script>
+<spring:url value="/resources/js/jquery.min.js" var="jqueryMinJs" />
+<spring:url value="/resources/js/bootstrap.min.js" var="bootsrapJs" />
+<spring:url value="/resources/js/dashboard.js" var="dashboardJs" />
+
+<script src="${jqueryMinJs }"></script>
+<script src="${bootsrapJs }"></script>
+<script src="${dashboardJs }"></script>
 
 </body>
 </html>

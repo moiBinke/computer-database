@@ -49,12 +49,14 @@ public class ComputerDAO {
 	/**
 	 * Construction du singleton:
 	 */
-	@Autowired
-	DataSource dataSource;
-	@Autowired
-	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	private DataSource dataSource;
+	
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	ComputerMapper computerMapper;
-	private ComputerDAO() {
+	private ComputerDAO(NamedParameterJdbcTemplate namedParameterJdbcTemplate,DataSource dataSource) {
+		this.namedParameterJdbcTemplate=namedParameterJdbcTemplate;
+		this.dataSource=dataSource;
 		computerMapper=new ComputerMapper();
 		
 	}
