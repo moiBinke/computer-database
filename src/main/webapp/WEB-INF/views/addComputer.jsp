@@ -6,7 +6,6 @@
 <%@taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE HTML PUBLIC  "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -27,7 +26,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/computerDatabase/DashboardComputerServlet"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -36,28 +35,28 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <h1>Add Computer</h1>
-                     <form:form action="addComputer" method="POST" modelAttribute="computer">
+                     <form action="addComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
-                                <form:label for="computerName" path="name">Computer name</form:label>
-                                <form:input type="text" class="form-control" id="computerName" name="computerName" value="${failedComputer.name}" placeholder="Computer name" path="name"/>
+                                <label for="computerName">Computer name</label>
+                                <input type="text" class="form-control" id="computerName" name="name" value="${failedComputer.name}" placeholder="Computer name"/>
                             </div>
                             <div class="form-group">
-                                <form:label for="introduced" path="introduced">Introduced date</form:label>
-                                <form:input type="date" class="form-control" id="introduced" value="${failedComputer.introduced}" name="introduced" placeholder="Introduced date" path="introduced"/>
+                                <label for="introduced" >Introduced date</label>
+                                <input type="date" class="form-control" id="introduced" value="${failedComputer.introduced}" name="introduced" placeholder="Introduced date" />
                             </div>
                             <div class="form-group">
-                                <form:label for="discontinued" path="discontinued">Discontinued date</form:label>
-                                <form:input type="date" class="form-control" id="discontinued" value="${failedComputer.discontinued}" name="discontinued" placeholder="Discontinued date" path="discontinued"/>
+                                <label for="discontinued" path="discontinued">Discontinued date</label>
+                                <input type="date" class="form-control" id="discontinued" value="${failedComputer.discontinued}" name="discontinued" placeholder="Discontinued date" />
                             </div>
                             <div class="form-group">
-                                <form:label for="companyId" path="company.id">Company</form:label>
-                                <form:select class="form-control" id="companyId" name="companyId" path="company.id">
-                                <form:option value="${failedComputer.company.name}" selected> </form:option>
+                                <label for="companyId">Company</label>
+                                <select class="form-control" id="companyId" name="company.id">
+                                <option value="${failedComputer.company.name}" ><c:out value="${failedComputer.name}"></c:out> </option>
                                 <c:forEach items="${companies}" var="company">
-                                    <form:option value="${company.id}"><c:out value="${company.name}"></c:out></form:option>
+                                    <option value="${company.id}"><c:out value="${company.name}"></c:out></option>
                                 </c:forEach>
-                                </form:select>
+                                </select>
                             </div>                  
                         </fieldset>
                         <div class="form-group error">
@@ -65,11 +64,11 @@
                         </div>
                         
                         <div class="actions pull-right">
-                            <form:input type="submit" value="Add" class="btn btn-primary"/>
+                            <input type="submit" value="Add"  class="btn btn-primary" />
                             or
-                           <form:input type="reset" class="btn btn-default" value="Cancel"/>
+                           <input type="reset" class="btn btn-default" value="Cancel"/>
                         </div>
-                    </form:form>
+                    </form>
                 </div>
             </div>
         </div>
@@ -87,7 +86,7 @@
 							    <h5 class="card-title">Discontinued Date<c:out value="${newComputer.discontinued }"></c:out></h5>
 							    <h5 class="card-title">Company<c:out value="${newComputer.company.name}"></c:out></h5>
 							    <p class="card-text">You can show it in computers list by clicking on below link</p>
-							    <a href="/computerDatabase/DashboardComputerServlet" class="btn btn-primary">show list</a>
+							    <a href="dashboard" class="btn btn-primary">show list</a>
 							  </div>
 							</div>
 				    	</c:if>

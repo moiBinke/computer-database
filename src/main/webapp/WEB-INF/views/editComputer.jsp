@@ -5,20 +5,28 @@
 
 <%@taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
+<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapStyle" />
+<spring:url value="/resources/css/font-awesome.css" var="fontAweSomeStyle" />
+<spring:url value="/resources/css/main.css" var="mainCss" />
+
+
+<link href="${bootstrapStyle}" rel="stylesheet" media="screen">
+<link href="${fontAweSomeStyle}" rel="stylesheet" media="screen">
+<link href="${mainCss}" rel="stylesheet" media="screen">
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="DashboardComputerServlet"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
         </div>
     </header>
     <section id="main">
@@ -32,12 +40,12 @@
 					<div class="form-group ">
                         	<c:out value="${successMessage}"></c:out>
                      </div>
-                    <form action="editComputerServlet" method="POST">
+                    <form action="editComputer" method="POST">
                         <input type="hidden" id="id" name="id" value="${computerToUpdate.id }"/> <!-- TODO: Change this value with the computer id -->
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" name="computerName" value="${computerToUpdate.name }" placeholder="Computer name">
+                                <input type="text" class="form-control" id="computerName" name="name" value="${computerToUpdate.name }" placeholder="Computer name">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
@@ -49,7 +57,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" name="companyId">
+                                <select class="form-control" id="companyId" name="company.id">
 	                                <c:forEach items="${companies}" var="company">
 	                                	<c:if test="${ company.id==computerToUpdate.company.id}">
 	                                		 <option value="${company.id}" selected><c:out value="${company.name}"></c:out></option>
@@ -67,7 +75,7 @@
                         <div class="actions pull-right">
                             <input type="submit" value="Edit" class="btn btn-primary">
                             or
-                            <a href="DashboardComputerServlet" class="btn btn-default">Cancel</a>
+                            <a href="dashboard" class="btn btn-default">Cancel</a>
                         </div>
                     </form>
                 </div>

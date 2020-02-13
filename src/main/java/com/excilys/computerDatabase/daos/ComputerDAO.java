@@ -2,6 +2,7 @@ package com.excilys.computerDatabase.daos;
 
 
 
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class ComputerDAO {
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		namedParameterJdbcTemplate.update(ADD_COMPUTER, namedParameters, keyHolder);
-		Integer idComputer=(int) keyHolder.getKey();
+		Long idComputer=keyHolder.getKey().longValue();
 	    return getComputer((long)idComputer);
 	}
 

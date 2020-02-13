@@ -1,3 +1,9 @@
+<%@page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@ page isELIgnored="false"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,9 +11,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
+<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapStyle" />
+<spring:url value="/resources/css/font-awesome.css" var="fontAweSomeStyle" />
+<spring:url value="/resources/css/main.css" var="mainCss" />
+
+
+<link href="${bootstrapStyle}" rel="stylesheet" media="screen">
+<link href="${fontAweSomeStyle}" rel="stylesheet" media="screen">
+<link href="${mainCss}" rel="stylesheet" media="screen">
 </head>
 <body>
     
@@ -22,7 +33,7 @@
         
         <div class="col-md-5 myDIV text-center" style="border-radius:30px;border:solid; border-color:#3dc218; height:100px;background-color:#ededed; font-size:larger">
           <br>
-          <a href="AddComputerServlet"><h3>Add Computer</h3></a>
+          <a href="addComputerPage"><h3>Add Computer</h3></a>
         </div>
         <div class="col-md-2" >
           
@@ -42,7 +53,7 @@
       <div class="row text-center ">
         <div class="col-md-5 myDIV" style="border-radius:30px;border:solid; border-color:#3dc218; height:100px;background-color:#ededed;font-size:larger">
           <br>
-          <a href="DashboardComputerServlet">
+          <a href="dashboard">
           <h3>Computer Dashbord</h3>
           </a>
         </div>
@@ -57,9 +68,13 @@
       </div>
 
     </main><!-- /.container -->
-  <script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/dashboard.js"></script>
+<spring:url value="/resources/js/jquery.min.js" var="jqueryMinJs" />
+<spring:url value="/resources/js/bootstrap.min.js" var="bootsrapJs" />
+<spring:url value="/resources/js/dashboard.js" var="dashboardJs" />
+
+<script src="${jqueryMinJs }"></script>
+<script src="${bootsrapJs }"></script>
+<script src="${dashboardJs }"></script>
 
 </body>
 </html>

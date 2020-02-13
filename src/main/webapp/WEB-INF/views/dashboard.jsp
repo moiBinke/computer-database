@@ -48,7 +48,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="AddComputerServlet">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="addComputerPage">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                             
                             <p>Computer name</p>
                             <p>
-                                <a href="/dashboard?orderBy=computer_name ASC">
+                                <a href="dashboard?orderBy=computer_name ASC">
                                     <span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
                                 </a>
                                 
@@ -141,7 +141,7 @@
                             <input type="checkbox" name="cb" class="cb" value="${computer.id}">
                         </td>
                         <td>
-                            <a href="editComputerServlet?id=${computer.id}" onclick=""><c:out value="${computer.name}"></c:out></a>
+                            <a href="editComputerPage?id=${computer.id}" onclick=""><c:out value="${computer.name}"></c:out></a>
                         </td>
                         <td><c:out value="${computer.introduced}"></c:out> </td>
                         <td><c:out value="${computer.discontinued}"></c:out> </td>

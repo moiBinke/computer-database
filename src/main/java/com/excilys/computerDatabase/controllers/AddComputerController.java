@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.computerDatabase.model.Company;
@@ -52,13 +53,14 @@ public class AddComputerController {
 					   .forEach(company->companyDtoList.add(
 							   CompanyMapper.mapFromCompanyToCompanyDto(company)));
 			dataMap.put("companies", companyDtoList);
+			dataMap.put("failedComputer", new ComputerDTO());
 			return "addComputer";
 		}
 		
 		@PostMapping("addComputer")
-		public void addComputer(@ModelAttribute("employee") ComputerDTO computerDTO)  {
-			CompanyDTO companyDTO=new CompanyDTO(Long.parseLong(request.getParameter("companyId")));
-			ComputerDTO computerDTO=new ComputerDTO(request.getParameter("computerName"),request.getParameter("introduced"),request.getParameter("discontinued"),companyDTO);
+		public void addComputer(@ModelAttribute("failedComputer") ComputerDTO computerDTO,ModelMap dataMap)  {
+//			CompanyDTO companyDTO=new CompanyDTO(Long.parseLong());
+//			ComputerDTO computerDTO=new ComputerDTO(request.getParameter("computerName"),request.getParameter("introduced"),request.getParameter("discontinued"),companyDTO);
 			
 			try {
 				StringBuilder erreur=new StringBuilder();
@@ -70,20 +72,20 @@ public class AddComputerController {
 					try {
 						newComputer=computerServices.create(newComputer);
 						computerDTO=ComputerMapper.convertFromComputerToComputerDTO(newComputer);
-						request.setAttribute("newComputer",computerDTO );
+						dataMap.put("newComputer",computerDTO );
 					} catch (ParseException e) {
 						Logging.afficherMessage("Cannot convert computer date type: "+newComputer.getDiscontinued());
 						e.printStackTrace();
 					}
 				}catch(ComputerValidatorException.DateValidator dateValidator) {
 					erreur.append("Vérifier que la date discontinued est après introduced");
-					request.setAttribute("erreur", erreur);
-					request.setAttribute("failedComputer", newComputer);
+					dataMap.put("erreur", erreur);
+					dataMap.put("failedComputer", newComputer);
 					
 				}catch(ComputerValidatorException.NameValidator nameValidator) {
 					erreur.append("\n Vérifier que le nom existe et n'est pas vide ");
-					request.setAttribute("erreur", erreur);
-					request.setAttribute("failedComputer", newComputer);
+					dataMap.put("erreur", erreur);
+					dataMap.put("failedComputer", newComputer);
 				}
 				finally {
 					//doGet(request, response);
