@@ -59,9 +59,7 @@ public class AddComputerController {
 		
 		@PostMapping("addComputer")
 		public void addComputer(@ModelAttribute("failedComputer") ComputerDTO computerDTO,ModelMap dataMap)  {
-//			CompanyDTO companyDTO=new CompanyDTO(Long.parseLong());
-//			ComputerDTO computerDTO=new ComputerDTO(request.getParameter("computerName"),request.getParameter("introduced"),request.getParameter("discontinued"),companyDTO);
-			
+		
 			try {
 				StringBuilder erreur=new StringBuilder();
 				Computer newComputer =ComputerMapper.convertFromComputerDtoToComputer(computerDTO);

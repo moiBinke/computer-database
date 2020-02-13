@@ -7,13 +7,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<spring:message code=""/>
 <!DOCTYPE HTML PUBLIC  "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
 <head>
-<title>Computer Database</title>
+<title><spring:message code="Cdb.projectName"/></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
@@ -22,6 +22,8 @@
 <spring:url value="/resources/css/main.css" var="mainCss" />
 
 
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head>
 <link href="${bootstrapStyle}" rel="stylesheet" media="screen">
 <link href="${fontAweSomeStyle}" rel="stylesheet" media="screen">
 <link href="${mainCss}" rel="stylesheet" media="screen">
@@ -29,14 +31,22 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard"> Application - Computer Database </a>
+            <a class="navbar-brand" href="dashboard"><spring:message code="Cdb.projectName"/></a>
+            <div class="dropdown ">
+	            <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton"
+	               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><spring:message code="app.lang.title"/></button>
+	            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	            	  <a class="dropdown-item" href="?lang=fr"><spring:message code="app.lang.french"/></a>
+	               	  <a class="dropdown-item" href="?lang=en"><spring:message code="app.lang.english"/></a> 
+	          </div>
         </div>
+        </div>
+        <div>
     </header>
-
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-              <c:out value="${sizeComputer}"> </c:out> Computers found 
+              <c:out value="${sizeComputer}"> </c:out> <spring:message code="Cbd.computerFounded"/>
             </h1>
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
@@ -48,14 +58,12 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputerPage">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="addComputerPage"><spring:message code="addComputerButton"/></a> 
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="editButton"/></a>
                 </div>
             </div>
         </div>
-         <div class="row text-center">
-                
-           
+    
            
             </div>
         <div class=""></div>
@@ -80,7 +88,7 @@
                         </th>
                         <th>
                             
-                            <p>Computer name</p>
+                            <p><spring:message code="computerName"/></p>
                             <p>
                                 <a href="dashboard?orderBy=computer_name ASC">
                                     <span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
@@ -92,7 +100,7 @@
                             </p>
                         </th>
                         <th>
-                            <p>Introduced date</p>
+                            <p><spring:message code="introduced"/></p>
                             <p>
                                 <a href="dashboard?orderBy=introduced ASC">
                                     <span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
@@ -105,7 +113,7 @@
                         </th>
                         <!-- Table header for Discontinued Date -->
                         <th>
-                           <p> Discontinued date</p>
+                           <p> <spring:message code="discontinued"/></p>
                            <p>
                                 <a href="dashboard?orderBy=discontinued ASC">
                                     <span class=" glyphicon glyphicon-sort-by-order">&nbsp &nbsp</span>
@@ -118,7 +126,7 @@
                         </th>
                         <!-- Table header for Company -->
                         <th>
-                            <p>Company</p>
+                            <p><spring:message code="companyName"/></p>
                             <p>
                                 <a href="dashboard?orderBy=company_name ASC">
                                     <span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
