@@ -14,6 +14,7 @@
 <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapStyle" />
 <spring:url value="/resources/css/font-awesome.css" var="fontAweSomeStyle" />
 <spring:url value="/resources/css/main.css" var="mainCss" />
+<spring:url value="/resources/images/excilys.png" var="homePicture" />
 
 
 <link href="${bootstrapStyle}" rel="stylesheet" media="screen">
@@ -24,7 +25,7 @@
     
 	<main role="main" class="container" style="margin-top:3%;">
       <div class=" text-center" style="font-weight:bold;font-family: Verdana;font-size:xx-large;color:">
-        <img src="images/excilys.png" > 
+        <img src="${homePicture }" > 
         <div>Application - Computer Database</div>
         </br>
       </div>

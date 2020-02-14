@@ -6,21 +6,15 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 
 import com.excilys.computerDatabase.dto.CompanyDTO;
 import com.excilys.computerDatabase.dto.ComputerDTO;
@@ -38,16 +32,15 @@ import com.excilys.computerDatabase.validators.ComputerValidator;
  * Servlet implementation class editComputerServlet
  */
 @Controller
-public class EditComputerController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+public class EditComputerController {
     private ComputerDTO computerDto;
-    String companyName;
-    private Long idComputer;
-    @Autowired
     private CompanyServices companyServices;
-    @Autowired
-    private ComputerServices computerServices;
-
+	private ComputerServices computerServices;
+	
+	public EditComputerController(CompanyServices companyServices,ComputerServices computerServices) {
+		this.companyServices=companyServices;
+		this.computerServices=computerServices;
+	}
     @GetMapping("editComputerPage")
 	public String editComputerPage(@RequestParam(value="id")Long idComputer,ModelMap dataMap) {
 	

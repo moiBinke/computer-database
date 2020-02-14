@@ -4,15 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.computerDatabase.dto.ComputerDTO;
@@ -24,8 +21,11 @@ import com.excilys.computerDatabase.services.ComputerServices;
 public class DashboardController {
 	private int maxPage;
 
-	@Autowired
-	public ComputerServices computerService;
+	private ComputerServices computerService;
+	
+	public DashboardController(ComputerServices computerService) {
+		this.computerService=computerService;
+	}
 	
 	public String traitementDashboardWithOrderBy( String orderBy, int taillePage,int pageIterator,ModelMap dataMap) throws ServletException, IOException {
 		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
@@ -71,9 +71,8 @@ public class DashboardController {
 			}
 	}
 	@PostMapping("/deleteComputer")
-	public String deleteComputer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getParameter("selection"));
-		String[] computerIdsAsListString=request.getParameter("selection").split(",");
+	public String deleteComputer(@RequestParam(value="selection")String listIdComputer) throws ServletException, IOException {
+		String[] computerIdsAsListString=listIdComputer.split(",");
 		for(String idString:computerIdsAsListString) {
 			computerService.deleteComputer(Long.parseLong(idString));
 		}

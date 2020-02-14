@@ -9,21 +9,19 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.AbstractContextLoaderInitializer;
-import org.springframework.web.context.WebApplicationContext;
+
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
  
 @Configuration
 @ComponentScan(basePackages = {"com.excilys.computerDatabase.daos","com.excilys.computerDatabase.services",
-								"com.excilys.computerDatabase.servlets",})
+								"com.excilys.computerDatabase.controllers",})
 @PropertySource(value = "classpath:datasource.properties")
 public class SpringConfiguration implements  WebApplicationInitializer {
 	

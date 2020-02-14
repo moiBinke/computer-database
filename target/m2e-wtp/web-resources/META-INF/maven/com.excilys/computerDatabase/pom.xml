@@ -25,6 +25,8 @@
     <slf4j-version>1.7.5</slf4j-version>
     <servlet-version>4.0.0-b06</servlet-version>
     <jstl-version>1.2</jstl-version>
+    <commonLogg>1.2</commonLogg>
+    <springVersion>5.2.3.RELEASE</springVersion>
   </properties>
 
   <dependencies>
@@ -76,37 +78,21 @@
 	<dependency>
 	    <groupId>commons-logging</groupId>
 	    <artifactId>commons-logging</artifactId>
-	    <version>1.2</version>
+	    <version>${commonLogg}</version>
 	</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-core</artifactId>
-	    <version>5.2.3.RELEASE</version>
-	</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-context</artifactId>
-	    <version>5.2.3.RELEASE</version>
-	</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-web</artifactId>
-	    <version>5.2.3.RELEASE</version>
-	</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+		NB: Spring core est dans Spring context qui est dans Spring Web qui est dans Spring MVC
+		 -->
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-jdbc</artifactId>
-	    <version>5.2.3.RELEASE</version>
+	    <version>${springVersion}</version>
 	</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 	<dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-webmvc</artifactId>
-	    <version>5.2.3.RELEASE</version>
+	    <version>${springVersion}</version>
 	</dependency>
 	
   </dependencies>
