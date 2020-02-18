@@ -90,11 +90,11 @@
                             
                             <p><spring:message code="computerName"/></p>
                             <p>
-                                <a href="dashboard?orderBy=computer_name ASC">
+                                <a href="dashboard?orderBy=name ASC">
                                     <span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
                                 </a>
                                 
-                                <a  href="dashboard?orderBy=computer_name DESC">
+                                <a  href="dashboard?orderBy=name DESC">
                                     <span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
                                 </a>
                             </p>
@@ -128,11 +128,11 @@
                         <th>
                             <p><spring:message code="companyName"/></p>
                             <p>
-                                <a href="dashboard?orderBy=company_name ASC">
+                                <a href="dashboard?orderBy=company.name ASC">
                                     <span class="glyphicon glyphicon-sort-by-alphabet">&nbsp &nbsp</span>
                                 </a>
                                 
-                                <a  href="dashboard?orderBy=company_name DESC">
+                                <a  href="dashboard?orderBy=company.name DESC">
                                     <span class="glyphicon glyphicon-sort-by-alphabet-alt"> </span>
                                 </a>
                             </p>

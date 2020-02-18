@@ -1,14 +1,26 @@
 package com.excilys.computerDatabase.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * model Company .
  *@author COULIBALY Issa
  *@version 1.0
  *@since   2020-01-14 
  */
+@Entity
+@Table(name = "company")
 public class Company {
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column
 	private String name;
 	
 	public Company() {

@@ -31,6 +31,9 @@ public class CompanyMapper implements RowMapper<Company>  {
 	}
 	
 	public static CompanyDTO mapFromCompanyToCompanyDto(Company company) {
+		if(company==null) {
+			return null;
+		}
 		CompanyDTO companyDto=new CompanyDTO();
 		companyDto.setId(company.getId());
 		companyDto.setName(company.getName());

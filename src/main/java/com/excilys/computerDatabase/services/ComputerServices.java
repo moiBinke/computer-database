@@ -16,8 +16,9 @@ import com.excilys.computerDatabase.util.Pages;
 public class ComputerServices {
 	
 	private ComputerDAO computerDAO;
-	
+
 	public ComputerServices(ComputerDAO computerDAO) {
+		super();
 		this.computerDAO=computerDAO;
 	}
 	

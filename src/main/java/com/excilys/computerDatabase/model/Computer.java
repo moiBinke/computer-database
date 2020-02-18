@@ -2,6 +2,16 @@ package com.excilys.computerDatabase.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import com.excilys.computerDatabase.validators.ComputerValidator;
 /**
  * model Computer .
@@ -9,13 +19,25 @@ import com.excilys.computerDatabase.validators.ComputerValidator;
  *@version 1.0
  *@since   2020-01-14 
  */
+@Entity
+@Table(name = "computer")
 public class Computer {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "introduced")
 	private LocalDate introduced;
+	@Column(name = "discontinued")
 	private LocalDate discontinued;
+	@ManyToOne
+	@JoinColumn(name = "company_id")
 	private Company company;
 	
+	private Computer() {
+		
+	}
 	private Computer(ComputerBuilder computerBuilder) {
 		this.id=computerBuilder.id;
 		this.name=computerBuilder.name;
@@ -59,7 +81,7 @@ public class Computer {
 	@Override
 	public String toString() {
 		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company=" + company.toString() + "]" + "\n";
+				 + "\n";
 	}
 	
 	

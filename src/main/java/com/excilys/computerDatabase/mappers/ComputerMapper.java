@@ -52,6 +52,9 @@ public class ComputerMapper implements RowMapper<Computer>{
 	}
 	
 	public static ComputerDTO convertFromComputerToComputerDTO(Computer computer) {
+		if(computer==null) {
+			return null;
+		}
 		ComputerDTO computerDto= new ComputerDTO();
 		computerDto.setId(computer.getId());
 		if(computer.getIntroduced()!=null) {

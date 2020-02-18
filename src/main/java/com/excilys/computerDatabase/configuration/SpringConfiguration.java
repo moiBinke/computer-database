@@ -18,12 +18,19 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
  
+
 @Configuration
 @ComponentScan(basePackages = {"com.excilys.computerDatabase.daos","com.excilys.computerDatabase.services",
 								"com.excilys.computerDatabase.controllers",})
 @PropertySource(value = "classpath:datasource.properties")
-public class SpringConfiguration implements  WebApplicationInitializer {
+@EnableTransactionManagement
+public class SpringConfiguration implements
+WebApplicationInitializer {
 	
     @Autowired
     private Environment environnement;
@@ -38,16 +45,25 @@ public class SpringConfiguration implements  WebApplicationInitializer {
         return dataSource;
     }
  
-    @Bean
-    public NamedParameterJdbcTemplate namedParameterjdbcTemplate(DataSource dataSource) {
-    	NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        return namedParameterJdbcTemplate;
+    
+	@Bean
+    public PlatformTransactionManager createHibernateTransactionManager() {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactory().getObject());
+        return transactionManager;
     }
-  
- 
 
 
-    @Override
+	@Bean
+	public LocalSessionFactoryBean sessionFactory() {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setPackagesToScan("com.excilys.computerDatabase.model");
+		return sessionFactory;
+	}
+
+
+	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
 		webContext.register(SpringConfiguration.class,SpringMVCConfiguration.class);
