@@ -29,8 +29,11 @@ public class ComputerMapper implements RowMapper<Computer>{
 	}
 	
 	public static LocalDate convertStringToLocalDateViaSqlDate(String dateString) throws ParseException {
-        Date dateToConvert=new SimpleDateFormat("yyyy-MM-dd").parse(dateString);  
-	    return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
+     if(!dateString.equals("") && dateString!=null) {
+    	 Date dateToConvert=new SimpleDateFormat("yyyy-MM-dd").parse(dateString);  
+ 	    return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
+     }
+     return null;
 	}
 	/**
 	 *Le Mapping SQL==>Java Bean: permet de convertir une ligne SQL en Computer Bean 

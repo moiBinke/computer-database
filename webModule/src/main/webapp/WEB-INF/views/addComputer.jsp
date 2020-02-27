@@ -38,8 +38,11 @@
 	               	  <a class="dropdown-item" href="?id=${computerToUpdate.id }&lang=en"><spring:message code="app.lang.english"/></a> 
 	          </div>
         </div>
+         <div>
+        	</b><a href="${pageContext.request.contextPath}/logout" style="color:white"><i class="fa fa-sign-out" aria-hidden="true"></i>
+        	Logout</a>
         </div>
-        <div>
+        </div>
     </header>
 
     <section id="main">

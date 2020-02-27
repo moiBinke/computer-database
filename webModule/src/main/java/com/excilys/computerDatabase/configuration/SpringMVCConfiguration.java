@@ -40,7 +40,7 @@ public class SpringMVCConfiguration implements WebMvcConfigurer{
 	   public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	        registry
 	          .addResourceHandler("/resources/**")
-	          .addResourceLocations("/resources/"); 
+	          .addResourceLocations("/resources/").setCachePeriod(30000000); 
 	    }
 	   @Bean("messageSource")
 	   public MessageSource messageSource() {

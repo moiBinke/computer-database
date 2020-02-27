@@ -24,6 +24,7 @@
     <jstl-version>1.2</jstl-version>
     <commonLogg>1.2</commonLogg>
     <springVersion>5.2.3.RELEASE</springVersion>
+    <springSecurityVersion>5.2.2.RELEASE</springSecurityVersion>
   </properties>
 
   <dependencies>
@@ -111,6 +112,24 @@
 	    <artifactId>spring-orm</artifactId>
 	    <version>${springVersion}</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+	<dependency>
+   	    <groupId>org.springframework.security</groupId>
+   	    <artifactId>spring-security-web</artifactId>
+	    <version>${springSecurityVersion}</version>
+	</dependency>
+	<dependency>
+   	    <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+	    <version>${springSecurityVersion}</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-core</artifactId>
+    <version>5.2.2.RELEASE</version>
+</dependency>
+	
   </dependencies>
   <build>
     <pluginManagement>

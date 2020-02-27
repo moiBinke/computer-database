@@ -110,7 +110,6 @@ public class ComputerDAO {
 		return computerToUpdate;
 	}
 
-	@Transactional
 	public Optional<Computer> updateComputerIntroducedDate(Long computerToUpdateIntroducedDateId, LocalDate newIntroducedDate) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaUpdate<Computer> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Computer.class);
@@ -143,7 +142,7 @@ public class ComputerDAO {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaUpdate<Computer> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Computer.class);
 		Root<Computer> root = criteriaUpdate.from(Computer.class);
-		criteriaUpdate.set("company_id", newCompanyId);
+		criteriaUpdate.set("company", newCompanyId);
 		criteriaUpdate.where(criteriaBuilder.equal(root.get("id"), computerToUpdateCompanyId));
 		Query update = entityManager.createQuery(criteriaUpdate);
 		update.executeUpdate();
@@ -151,7 +150,7 @@ public class ComputerDAO {
 		return computerToUpdate;
 	}
 	
-
+	@Transactional
 	public Computer updateComputer(Computer computerToUpdate) {
 		updateComputerName(computerToUpdate.getId(),computerToUpdate.getName()).get();
 		

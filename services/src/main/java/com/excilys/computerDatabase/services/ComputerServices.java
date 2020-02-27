@@ -48,7 +48,6 @@ public class ComputerServices {
 	}
 
 	public Computer update(Computer computerToUpdate) {
-		System.out.println(computerToUpdate);
 		return computerDAO.updateComputer(computerToUpdate);
 	}
 

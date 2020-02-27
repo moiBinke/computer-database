@@ -1,3 +1,10 @@
+<%@page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@ page isELIgnored="false"%>
+
+<%@taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +25,8 @@
 	<section id="main">
 		<div class="container">
 			<div class="alert alert-danger">
-				Error 403: Access denied!
+				<!-- Error 403: Access denied! -->
+				<h3 style="color:red;">${message}</h3>
 				<br/>
 				<!-- stacktrace -->
 			</div>

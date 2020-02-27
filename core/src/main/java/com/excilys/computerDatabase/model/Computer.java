@@ -99,18 +99,29 @@ public class Computer {
 			this.name=name;
 		}
 		
+		public ComputerBuilder() {
+		}
+
 		public ComputerBuilder initializeWithId(Long id) {
 			this.id=id;
 			return this;
 		}
+		public ComputerBuilder initializeWithName(String name) {
+			this.name=name;
+			return this;
+		}
 		
 		public ComputerBuilder initializeWithIntroducedDate(LocalDate introduced) {
-			this.introduced=introduced;
+			if(introduced!=null) {
+				this.introduced=introduced;
+			}
 			return this;
 		}
 		
 		public ComputerBuilder initializeWithDiscontinuedDate(LocalDate discontinued) {
-			this.discontinued=discontinued;
+			if(discontinued!=null) {
+				this.discontinued=discontinued;
+			}
 			return this;
 	    }
 		

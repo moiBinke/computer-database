@@ -22,7 +22,7 @@
 <spring:url value="/resources/css/main.css" var="mainCss" />
 
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head>
 <link href="${bootstrapStyle}" rel="stylesheet" media="screen">
 <link href="${fontAweSomeStyle}" rel="stylesheet" media="screen">
@@ -40,8 +40,15 @@
 	               	  <a class="dropdown-item" href="?lang=en"><spring:message code="app.lang.english"/></a> 
 	          </div>
         </div>
+         <div>
+        	</b><a href="${pageContext.request.contextPath}/registerPage" style="color:white"><i class="fa fa-user-plus" style="font-size:24px;color:#de4e4e"></i>
+        	Add user</a>
         </div>
         <div>
+        	</b><a href="${pageContext.request.contextPath}/logout" style="color:white"><i class="fa fa-sign-out" style="font-size:24px;color:#de4e4e" aria-hidden="true"></i>
+        	Logout</a>
+        </div>
+        </div>
     </header>
     <section id="main">
         <div class="container">
