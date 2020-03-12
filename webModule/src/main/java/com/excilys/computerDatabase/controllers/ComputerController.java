@@ -5,29 +5,68 @@ import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 
-
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.excilys.computerDatabase.dto.ComputerDTO;
 import com.excilys.computerDatabase.mappers.ComputerMapper;
 import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.services.ComputerServices;
 
-@Controller
-public class DashboardController {
+
+@RestController
+public class ComputerController {
+
 	private int maxPage;
 
 	private ComputerServices computerService;
 	
-	public DashboardController(ComputerServices computerService) {
+	public ComputerController(ComputerServices computerService) {
 		this.computerService=computerService;
 	}
 	
-	public String traitementDashboardWithOrderBy( String orderBy, int taillePage,int pageIterator,ModelMap dataMap) throws ServletException, IOException {
+	
+	@GetMapping("/computers")
+	public ResponseEntity<ArrayList<ComputerDTO>> getDashbord(@RequestParam(value="search", required = false) String search,@RequestParam(value="orderBy", defaultValue = "any") String orderBy,@RequestParam(value="taillePage", defaultValue="20") int taillePage,@RequestParam(value="pageIterator", defaultValue="0")int pageIterator,ModelMap dataMap) throws ServletException, IOException {
+			
+			if(search!=null && !search.equals("")) {
+				
+				return new ResponseEntity<ArrayList<ComputerDTO>>(search(search, dataMap,taillePage), HttpStatus.OK); 
+			}
+			else {
+				
+				return new ResponseEntity<ArrayList<ComputerDTO>>(traitementDashboardWithOrderBy(orderBy,taillePage,pageIterator,dataMap), HttpStatus.OK); 
+ 
+				
+			}
+	}
+	
+	@DeleteMapping("/computers")
+	public  ResponseEntity deleteComputer(@RequestBody String listIdComputer) throws ServletException, IOException {
+		String[] computerIdsAsListString=listIdComputer.split(",");
+		for(String idString:computerIdsAsListString) {
+			computerService.deleteComputer(Long.parseLong(idString));
+		}
+		return  ResponseEntity.ok(null);
+		
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	public ArrayList<ComputerDTO> traitementDashboardWithOrderBy( String orderBy, int taillePage,int pageIterator,ModelMap dataMap) throws ServletException, IOException {
 		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
 		ArrayList<Computer>computerList=new ArrayList<Computer>();
 		int sizeComputer=computerService.size();
@@ -40,10 +79,10 @@ public class DashboardController {
 		dataMap.put("sizeComputer", sizeComputer);
 		dataMap.put("computerList", computerDTOList);
 		dataMap.put("pageIterator", pageIterator);
-		return "dashboard";
+		return computerDTOList;
 	}
 	
-	private String search( String search,ModelMap dataMap,int taillePage){
+	private ArrayList<ComputerDTO> search( String search,ModelMap dataMap,int taillePage){
 		int sizeComputer=computerService.size();
 		maxPage=sizeComputer/taillePage;
 		dataMap.put("maxPage", maxPage);
@@ -55,29 +94,6 @@ public class DashboardController {
 					.forEach(computer->computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer)));
 		dataMap.put("sizeComputer", sizeComputer);
 		dataMap.put("computerList", computerDTOList);
-		return "dashboard";
+		return computerDTOList;
 			}
-	@GetMapping("/dashboard")
-	public String getDashbord(@RequestParam(value="search", required = false) String search,@RequestParam(value="orderBy", defaultValue = "any") String orderBy,@RequestParam(value="taillePage", defaultValue="20") int taillePage,@RequestParam(value="pageIterator", defaultValue="0")int pageIterator,ModelMap dataMap) throws ServletException, IOException {
-			
-			if(search!=null && !search.equals("")) {
-				
-				return search(search, dataMap,taillePage);
-			}
-			else {
-				
-					return traitementDashboardWithOrderBy(orderBy,taillePage,pageIterator,dataMap);
-				
-			}
-	}
-	@PostMapping("/deleteComputer")
-	public String deleteComputer(@RequestParam(value="selection")String listIdComputer) throws ServletException, IOException {
-		String[] computerIdsAsListString=listIdComputer.split(",");
-		for(String idString:computerIdsAsListString) {
-			computerService.deleteComputer(Long.parseLong(idString));
-		}
-		return "redirect:dashboard";
-		
-	}
-	
 }

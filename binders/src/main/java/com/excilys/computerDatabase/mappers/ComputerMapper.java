@@ -29,7 +29,8 @@ public class ComputerMapper implements RowMapper<Computer>{
 	}
 	
 	public static LocalDate convertStringToLocalDateViaSqlDate(String dateString) throws ParseException {
-     if(!dateString.equals("") && dateString!=null) {
+    String x= dateString;
+		if( dateString!=null) {
     	 Date dateToConvert=new SimpleDateFormat("yyyy-MM-dd").parse(dateString);  
  	    return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
      }

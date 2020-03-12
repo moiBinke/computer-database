@@ -48,11 +48,11 @@ public class WebSecurityConfig extends  WebSecurityConfigurerAdapter{
 		
 		httpSecurity.csrf().disable();
 		//Les pages qui n'exigent pas la connexion
-		httpSecurity.authorizeRequests().antMatchers( "/accueil","/login", "/logout").permitAll();
+		httpSecurity.authorizeRequests().antMatchers( "/register","/addComputerPage","/editComputerPage","/deleteComputer","/editComputerPage","/editComputer","/accueil","/login", "/logout","/dashboard").permitAll();
 		//Tous les rôles peuvent acceder à l'url '/dashboard'
-		httpSecurity.authorizeRequests().antMatchers("/dashboard").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+		//httpSecurity.authorizeRequests().antMatchers().access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
 		//Seuls les admin peuvent accederr aux autres pages
-		httpSecurity.authorizeRequests().antMatchers("/register","/addComputerPage","/editComputerPage","/delete","/editComputerPage","/editComputer").access("hasRole( 'ROLE_ADMIN')");
+		//httpSecurity.authorizeRequests().antMatchers("/register","/addComputerPage","/editComputerPage","/delete","/editComputerPage","/editComputer").access("hasRole( 'ROLE_ADMIN')");
 		//Quand le user est connecté mais essaie d'acceder à une page qui ne lui ai pas permis , l'execption suivante est levée.
 		httpSecurity.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 		

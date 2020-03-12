@@ -1,16 +1,24 @@
 package com.excilys.computerDatabase.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
@@ -24,7 +32,7 @@ import com.excilys.computerDatabase.services.CompanyServices;
 import com.excilys.computerDatabase.services.ComputerServices;
 import com.excilys.computerDatabase.validators.ComputerValidator;
 
-@Controller
+@RestController
 public class AddComputerController {
 
 		
@@ -36,6 +44,7 @@ public class AddComputerController {
 			this.computerServices=computerServices;
 		}
 	    
+		//Ne vas plus être utilisée
 		@GetMapping("addComputerPage") 
 		public String doGet(ModelMap dataMap){
 			ArrayList<CompanyDTO> companyDtoList=new ArrayList<CompanyDTO>();
@@ -49,11 +58,12 @@ public class AddComputerController {
 			return "addComputer";
 		}
 		
-		@PostMapping("addComputer")
-		public void addComputer(@ModelAttribute("failedComputer") ComputerDTO computerDTO,ModelMap dataMap)  {
-		
+		@PostMapping(path="addComputer")
+		public ResponseEntity<Map<String, String>> addComputer(@RequestBody ComputerDTO computerDTO)  {
+			Map<String, String> erreurs = new HashMap<String, String>();
 			try {
 				StringBuilder erreur=new StringBuilder();
+				System.out.println(computerDTO);
 				Computer newComputer =ComputerMapper.convertFromComputerDtoToComputer(computerDTO);
 				ComputerValidator computerValidator=new ComputerValidator();
 				
@@ -62,20 +72,17 @@ public class AddComputerController {
 					try {
 						newComputer=computerServices.create(newComputer);
 						computerDTO=ComputerMapper.convertFromComputerToComputerDTO(newComputer);
-						dataMap.put("newComputer",computerDTO );
 					} catch (ParseException e) {
 						Logging.afficherMessage("Cannot convert computer date type: "+newComputer.getDiscontinued());
 						e.printStackTrace();
 					}
 				}catch(ComputerValidatorException.DateValidator dateValidator) {
-					erreur.append("Vérifier que la date discontinued est après introduced");
-					dataMap.put("erreur", erreur);
-					dataMap.put("failedComputer", newComputer);
+					erreurs.put("dateError", "Vérifier que la date discontinued est après introduced");
+					return new ResponseEntity<Map<String, String>>(erreurs, HttpStatus.OK); 
 					
 				}catch(ComputerValidatorException.NameValidator nameValidator) {
-					erreur.append("\n Vérifier que le nom existe et n'est pas vide ");
-					dataMap.put("erreur", erreur);
-					dataMap.put("failedComputer", newComputer);
+					erreurs.put("nameError","\n Vérifier que le nom existe et n'est pas vide ");
+					return new ResponseEntity<Map<String, String>>(erreurs, HttpStatus.OK); 
 				}
 				finally {
 					//doGet(request, response);
@@ -85,6 +92,7 @@ public class AddComputerController {
 				Logging.afficherMessageError("Cannot convert From ComputerDto To Computer");
 				e1.printStackTrace();
 			}
+			return new ResponseEntity<Map<String, String>>(erreurs, HttpStatus.OK); 
 			
 		}
 	}

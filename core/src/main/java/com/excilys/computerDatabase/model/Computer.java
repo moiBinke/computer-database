@@ -35,7 +35,7 @@ public class Computer {
 	@JoinColumn(name = "company_id")
 	private Company company;
 	
-	private Computer() {
+	public Computer() {
 		
 	}
 	private Computer(ComputerBuilder computerBuilder) {
