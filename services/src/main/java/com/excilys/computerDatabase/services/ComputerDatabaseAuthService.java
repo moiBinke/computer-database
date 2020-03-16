@@ -20,17 +20,8 @@ import com.excilys.computerDatabase.model.UserCbd;
 @Service
 public class ComputerDatabaseAuthService  {
 
-	@Autowired
-	private UserCbdDAO userDAO;
+	private ComputerDAO computerDAO;
 
-	public UserCbd getUser(UserCbd user) {
-
-		return userDAO.getUser(user);
-	}
-
-	
-
-	
 	
 	
 }
