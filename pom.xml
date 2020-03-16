@@ -31,6 +31,7 @@
   </properties>
 
   <dependencies>
+  	
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -164,10 +165,29 @@
 	    <version>2.6</version>
 	</dependency>
 	<dependency>
-		<groupId>io.jsonwebtoken</groupId>
-		<artifactId>jjwt</artifactId>
-		<version>0.9.1</version>
+	    <groupId>io.jsonwebtoken</groupId>
+	    <artifactId>jjwt</artifactId>
+	    <version>0.9.0</version>
 	</dependency>
+	
+	<dependency>
+	    <groupId>com.auth0</groupId>
+	    <artifactId>auth0</artifactId>
+	    <version>1.5.0</version>
+	</dependency>
+	 
+	<!-- https://mvnrepository.com/artifact/com.auth0/auth0-spring-security-api -->
+	<dependency>
+	    <groupId>com.auth0</groupId>
+	    <artifactId>auth0-spring-security-api</artifactId>
+	    <version>1.0.0</version>
+	</dependency>
+	 <dependency>
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-test</artifactId>
+         <version>5.3.0.RELEASE</version>
+         <scope>test</scope>
+     </dependency>
   </dependencies>
   <build>
     <pluginManagement>

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.excilys.computerDatabase.dto.UserCbdDTO;
 import com.excilys.computerDatabase.logging.Logging;
 import com.excilys.computerDatabase.model.Computer;
 import com.excilys.computerDatabase.model.UserCbd;
@@ -70,6 +71,19 @@ public class UserCbdDAO {
     		return user.getId()==null?null : user;
     	}
 
+	}
+
+	public UserCbd getUser(UserCbd user) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<UserCbd> criteriaQuery = criteriaBuilder.createQuery(UserCbd.class);
+		
+		Root<UserCbd>root= criteriaQuery.from(UserCbd.class);
+		Predicate byUsername=criteriaBuilder.equal(root.get("username"),user.getUsername());
+		Predicate byPassword= criteriaBuilder.equal(root.get("password"),user.getPassword());
+		criteriaQuery.select(root).where(byUsername,byPassword);
+		TypedQuery<UserCbd> userQuery=entityManager.createQuery(criteriaQuery);
+	    user = userQuery.getSingleResult();
+		return user;
 	}
 	
 	

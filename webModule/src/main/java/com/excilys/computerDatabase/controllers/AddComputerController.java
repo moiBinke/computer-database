@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,7 @@ public class AddComputerController {
 		}
 	    
 		//Ne vas plus être utilisée
+		@CrossOrigin("*")
 		@GetMapping("addComputerPage") 
 		public String doGet(ModelMap dataMap){
 			ArrayList<CompanyDTO> companyDtoList=new ArrayList<CompanyDTO>();
@@ -58,6 +60,7 @@ public class AddComputerController {
 			return "addComputer";
 		}
 		
+		@CrossOrigin("*")
 		@PostMapping(path="addComputer")
 		public ResponseEntity<Map<String, String>> addComputer(@RequestBody ComputerDTO computerDTO)  {
 			Map<String, String> erreurs = new HashMap<String, String>();

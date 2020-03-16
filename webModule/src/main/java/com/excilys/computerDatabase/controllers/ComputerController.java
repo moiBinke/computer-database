@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class ComputerController {
 		this.computerService=computerService;
 	}
 	
-	
+	@CrossOrigin("*")
 	@GetMapping("/computers")
 	public ResponseEntity<ArrayList<ComputerDTO>> getDashbord(@RequestParam(value="search", required = false) String search,@RequestParam(value="orderBy", defaultValue = "any") String orderBy,@RequestParam(value="taillePage", defaultValue="20") int taillePage,@RequestParam(value="pageIterator", defaultValue="0")int pageIterator,ModelMap dataMap) throws ServletException, IOException {
 			
@@ -48,9 +49,10 @@ public class ComputerController {
 			}
 	}
 	
-	@DeleteMapping("/computers")
-	public  ResponseEntity deleteComputer(@RequestBody String listIdComputer) throws ServletException, IOException {
-		String[] computerIdsAsListString=listIdComputer.split(",");
+	@CrossOrigin("*")
+	@PostMapping("/computers")
+	public  ResponseEntity deleteComputer(@RequestBody DeletingObject deletingObject) throws ServletException, IOException {
+		String[] computerIdsAsListString=deletingObject.getSelection().split(",");
 		for(String idString:computerIdsAsListString) {
 			computerService.deleteComputer(Long.parseLong(idString));
 		}

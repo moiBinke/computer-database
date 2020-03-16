@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -46,6 +47,8 @@ public class EditComputerController {
 		this.companyServices=companyServices;
 		this.computerServices=computerServices;
 	}
+	
+	@CrossOrigin("*")
     @GetMapping("computer")
 	public ResponseEntity<ComputerDTO> editComputerPage(@RequestParam(value="id")Long idComputer) {
 	
@@ -53,6 +56,8 @@ public class EditComputerController {
 		computerDto=ComputerMapper.convertFromComputerToComputerDTO(computerToUpdate);		
 		return new ResponseEntity<ComputerDTO>(computerDto , HttpStatus.OK);
 	}
+	
+	@CrossOrigin("*")
     @GetMapping("/companies")
     public ResponseEntity<ArrayList<CompanyDTO> > getCompanies() {
     	ArrayList<CompanyDTO> companyDtoList=new ArrayList<CompanyDTO>();
@@ -67,6 +72,7 @@ public class EditComputerController {
 
 
     @SuppressWarnings("finally")
+    @CrossOrigin("*")
 	@PatchMapping("editComputer")
 	public ResponseEntity<ComputerDTO> editComputer(@RequestBody ComputerDTO computerToUpdateDTO)  {
     	
