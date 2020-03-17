@@ -36,6 +36,7 @@ import com.excilys.computerDatabase.services.ComputerDatabaseAuthService;
 @RestController
 public class HomeController {
 
+
 	private ComputerDatabaseAuthService serviceUser;
 
 	
@@ -60,7 +61,7 @@ public class HomeController {
 	@CrossOrigin("*")
 	@PostMapping(value = "/login")
     public  ResponseEntity<UserCbd> loginPage(@RequestBody UserCbd user ) throws IOException {
-		user=serviceUser.getUser(user);
+		user=this.serviceUser.getUser(user);
 		return new ResponseEntity<UserCbd>(user,HttpStatus.OK);
     }
 //	@PostMapping("/ggg")
