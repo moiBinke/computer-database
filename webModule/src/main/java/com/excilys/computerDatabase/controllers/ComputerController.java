@@ -25,6 +25,8 @@ import com.excilys.computerDatabase.services.ComputerServices;
 @RestController
 public class ComputerController {
 
+	private static final int Object = 0;
+
 	private int maxPage;
 
 	private ComputerServices computerService;
@@ -60,7 +62,15 @@ public class ComputerController {
 		
 	}
 
-	
+
+	@CrossOrigin("*")
+	@GetMapping("/computers/size")
+	public  ResponseEntity size() {
+		Integer size=new Integer(computerService.size());
+		return  ResponseEntity.ok(size);
+		
+	}
+
 	
 	
 	
@@ -77,12 +87,10 @@ public class ComputerController {
 		computerList=computerService.getPage(pageIterator*taillePage,taillePage,orderBy); 
 		computerList.stream()
 					.forEach(computer->computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer)));
-		
-		dataMap.put("sizeComputer", sizeComputer);
-		dataMap.put("computerList", computerDTOList);
-		dataMap.put("pageIterator", pageIterator);
 		return computerDTOList;
 	}
+	
+	
 	
 	private ArrayList<ComputerDTO> search( String search,ModelMap dataMap,int taillePage){
 		int sizeComputer=computerService.size();
