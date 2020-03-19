@@ -37,18 +37,10 @@ public class ComputerController {
 	
 	@CrossOrigin("*")
 	@GetMapping("/computers")
-	public ResponseEntity<ArrayList<ComputerDTO>> getDashbord(@RequestParam(value="search", required = false) String search,@RequestParam(value="orderBy", defaultValue = "any") String orderBy,@RequestParam(value="taillePage", defaultValue="20") int taillePage,@RequestParam(value="pageIterator", defaultValue="0")int pageIterator,ModelMap dataMap) throws ServletException, IOException {
-			
-			if(search!=null && !search.equals("")) {
-				
-				return new ResponseEntity<ArrayList<ComputerDTO>>(search(search, dataMap,taillePage), HttpStatus.OK); 
-			}
-			else {
-				
-				return new ResponseEntity<ArrayList<ComputerDTO>>(traitementDashboardWithOrderBy(orderBy,taillePage,pageIterator,dataMap), HttpStatus.OK); 
+	public ResponseEntity<ArrayList<ComputerDTO>> getDashbord(@RequestParam(value="search", defaultValue = "") String search,@RequestParam(value="orderBy", defaultValue = "any") String orderBy,@RequestParam(value="taillePage", defaultValue="20") int taillePage,@RequestParam(value="pageIterator", defaultValue="1")int pageIterator,ModelMap dataMap) throws ServletException, IOException {
+		pageIterator--;		
+		return new ResponseEntity<ArrayList<ComputerDTO>>(traitementDashboardWithOrderBy(orderBy,taillePage,pageIterator,dataMap,search), HttpStatus.OK); 
  
-				
-			}
 	}
 	
 	@CrossOrigin("*")
@@ -70,21 +62,24 @@ public class ComputerController {
 		return  ResponseEntity.ok(size);
 		
 	}
+	
+	@CrossOrigin("*")
+	@GetMapping("/computers/sizeSearch")
+	public  ResponseEntity sizeSearch(@RequestParam(value="search", defaultValue = "") String search) {
+		Integer size=search(search).size();
+		return  ResponseEntity.ok(size);
+		
+	}
 
 	
 	
-	
-	
-	
-	
-	
-	public ArrayList<ComputerDTO> traitementDashboardWithOrderBy( String orderBy, int taillePage,int pageIterator,ModelMap dataMap) throws ServletException, IOException {
+	public ArrayList<ComputerDTO> traitementDashboardWithOrderBy( String orderBy, int taillePage,int pageIterator,ModelMap dataMap, String search) throws ServletException, IOException {
 		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
 		ArrayList<Computer>computerList=new ArrayList<Computer>();
 		int sizeComputer=computerService.size();
 		this.maxPage=sizeComputer/taillePage;
 		dataMap.put("maxPage", this.maxPage);
-		computerList=computerService.getPage(pageIterator*taillePage,taillePage,orderBy); 
+		computerList=computerService.getPage(pageIterator*taillePage,taillePage,orderBy,search); 
 		computerList.stream()
 					.forEach(computer->computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer)));
 		return computerDTOList;
@@ -92,18 +87,14 @@ public class ComputerController {
 	
 	
 	
-	private ArrayList<ComputerDTO> search( String search,ModelMap dataMap,int taillePage){
-		int sizeComputer=computerService.size();
-		maxPage=sizeComputer/taillePage;
-		dataMap.put("maxPage", maxPage);
+	private ArrayList<ComputerDTO> search( String search){
+		
 		ArrayList<ComputerDTO>computerDTOList=new ArrayList<ComputerDTO>();
 		ArrayList<Computer>computerList=new ArrayList<Computer>();
 		System.out.println(search);
 		computerList=computerService.search(search);
 		computerList.stream()
 					.forEach(computer->computerDTOList.add(ComputerMapper.convertFromComputerToComputerDTO(computer)));
-		dataMap.put("sizeComputer", sizeComputer);
-		dataMap.put("computerList", computerDTOList);
 		return computerDTOList;
 			}
 }

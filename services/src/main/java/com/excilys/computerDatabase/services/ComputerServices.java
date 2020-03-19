@@ -28,9 +28,9 @@ public class ComputerServices {
 	
 	}
 
-	public ArrayList<Computer> getPage(int taillePage, int pageIterator, String orderBy) {
+	public ArrayList<Computer> getPage(int taillePage, int pageIterator, String orderBy, String search) {
 		Pages page =new Pages(computerDAO);
-		return page.getPage(taillePage, pageIterator,orderBy);
+		return page.getPage(taillePage, pageIterator,orderBy,search);
 		
 	}
 	

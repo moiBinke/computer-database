@@ -48,26 +48,26 @@ public class Pages {
 	public void setTaillePage(int taillePage) {
 		this.taillePage = taillePage;
 	}
-	public ArrayList<Computer> getPage(int taillePage, int ligneDebut, String orderBy){
+	public ArrayList<Computer> getPage(int taillePage, int ligneDebut, String orderBy, String search){
 		 ArrayList<Computer> page=new  ArrayList<Computer>();
-		 page=computerDAO.getComputerListPage(taillePage,ligneDebut,orderBy);
+		 page=computerDAO.getComputerListPage(taillePage,ligneDebut,orderBy,search);
 		 return page;
 		 
 	}
 	/**
 	 * @param paginer qui est soit '<' pour dire previous ou '>' pour dire suivant
 	 */
-	public ArrayList<Computer> pagination(String paginer,String orderBy) {
+	public ArrayList<Computer> pagination(String paginer,String orderBy,String search) {
 		 ArrayList<Computer> page=new  ArrayList<Computer>();
 		if(!stop) {
 			if(paginer.equals("<") && this.iteration>0) {
 				--iteration;
-				page=getPage( taillePage,  iteration*this.taillePage,orderBy);
+				page=getPage( taillePage,  iteration*this.taillePage,orderBy, search);
 				System.out.println("----");
 			}
 			if(paginer.equals(">")) {
 				iteration++;
-				page=getPage( taillePage,  iteration*this.taillePage,orderBy);
+				page=getPage( taillePage,  iteration*this.taillePage,orderBy,search);
 				System.out.println(iteration);
 				
 			}

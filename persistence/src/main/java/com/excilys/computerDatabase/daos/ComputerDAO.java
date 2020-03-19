@@ -194,12 +194,21 @@ public class ComputerDAO {
 	}
 	
 	
-	public ArrayList<Computer> getComputerListPage(int ligneDebut, int  taillePage, String orderBy ) {
-//		SqlParameterSource namedParameters=new MapSqlParameterSource().addValue("ligneDebut",ligneDebut)
-//																	  .addValue("taillePage", taillePage);
-		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Computer> criteriaQuery = criteriaBuilder.createQuery(Computer.class);
-		Root<Computer> root = criteriaQuery.from(Computer.class); 
+	public ArrayList<Computer> getComputerListPage(int ligneDebut, int  taillePage, String orderBy, String search ) {
+
+		CriteriaBuilder criteriaBuilder=entityManager.getCriteriaBuilder();
+		CriteriaQuery criteriaQuery=criteriaBuilder.createQuery();
+		Root<Computer>root=criteriaQuery.from(Computer.class); 
+		criteriaQuery.select(root);
+		Join<Company,Computer> companyParty=root.join("company",JoinType.LEFT);
+		if(!search.equals("")) {
+			search="%"+search.toLowerCase()+"%";
+			Predicate byComputerName=criteriaBuilder.like(root.get("name"), search);
+			Predicate byCompanyName=criteriaBuilder.like(companyParty.get("name"), search);
+			Predicate orSearch=criteriaBuilder.or(byComputerName,byCompanyName);
+			criteriaQuery.where(orSearch);
+		}
+
 		
 		TypedQuery<Computer> computers=null;
 		if(orderBy.startsWith("any")) {
