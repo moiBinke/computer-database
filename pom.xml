@@ -24,7 +24,7 @@
     <jstl-version>1.2</jstl-version>
     <commonLogg>1.2</commonLogg>
     <springVersion>5.2.3.RELEASE</springVersion>
-    <springSecurityVersion>5.2.2.RELEASE</springSecurityVersion>
+    <springSecurityVersion>5.3.3.RELEASE</springSecurityVersion>
     <springJWT>1.1.0.RELEASE</springJWT>
     <jackson.version>2.10.1</jackson.version>
     <swagger-version>2.9.2</swagger-version>
