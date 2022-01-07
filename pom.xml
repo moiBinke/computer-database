@@ -17,7 +17,7 @@
      <hikariCP-version>2.6.1</hikariCP-version>
     <junit-version>4.12</junit-version>
     <mysql-version>8.0.19</mysql-version>
-    <h2database-version>1.4.192</h2database-version>
+    <h2database-version>2.0.206</h2database-version>
     <slf4j-api-version>1.7.5</slf4j-api-version>
     <slf4j-version>1.7.5</slf4j-version>
     <servlet-version>4.0.0-b06</servlet-version>
