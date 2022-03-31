@@ -23,7 +23,7 @@
     <servlet-version>4.0.0-b06</servlet-version>
     <jstl-version>1.2</jstl-version>
     <commonLogg>1.2</commonLogg>
-    <springVersion>5.2.3.RELEASE</springVersion>
+    <springVersion>5.3.18</springVersion>
     <springSecurityVersion>5.2.2.RELEASE</springSecurityVersion>
     <springJWT>1.1.0.RELEASE</springJWT>
     <jackson.version>2.10.1</jackson.version>
